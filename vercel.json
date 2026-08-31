@@ -1,15 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "redirects": [
+  "rewrites": [
     {
       "source": "/",
-      "destination": "https://biblioteca-buenas-practicas.gonzalez2049.chatgpt.site",
-      "permanent": false
+      "destination": "https://biblioteca-buenas-practicas.gonzalez2049.chatgpt.site"
     },
     {
       "source": "/:path*",
-      "destination": "https://biblioteca-buenas-practicas.gonzalez2049.chatgpt.site/:path*",
-      "permanent": false
+      "destination": "https://biblioteca-buenas-practicas.gonzalez2049.chatgpt.site/:path*"
     }
   ]
 }
