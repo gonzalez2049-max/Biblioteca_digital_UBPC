@@ -2,6 +2,11 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     {
+      "source": "/",
+      "destination": "https://biblioteca-buenas-practicas.gonzalez2049.chatgpt.site",
+      "permanent": false
+    },
+    {
       "source": "/:path*",
       "destination": "https://biblioteca-buenas-practicas.gonzalez2049.chatgpt.site/:path*",
       "permanent": false
