@@ -1,0 +1,1109 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Centro de Transferencia del Conocimiento - Unidad de Buenas Practicas Clinicas HUAP. Seguridad, Evidencia y Cuidado.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%8F%A5%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<title>Centro de Transferencia del Conocimiento</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+:root{
+  --bg:#eef2f7;
+  --surface:#ffffff;
+  --surface-2:#f6f9fc;
+  --ink:#0f2233;
+  --ink-2:#3a5165;
+  --ink-3:#5f7488;
+  --line:#d9e2ec;
+  --brand:#0e4e8a;
+  --brand-ink:#0a3a68;
+  --shadow:0 1px 2px rgba(15,34,51,.06),0 10px 30px rgba(15,34,51,.08);
+  --shadow-lg:0 20px 55px rgba(10,58,104,.20);
+  --radius:18px;
+
+  --azul:#2563eb;      --azul-soft:#dbeafe;   --azul-ink:#1a45b0;
+  --turquesa:#0d9488;  --turquesa-soft:#cbf5ee;--turquesa-ink:#0a6d64;
+  --coral:#e64b5c;     --coral-soft:#ffe0e2;  --coral-ink:#b23140;
+  --violeta:#7c5cfc;   --violeta-soft:#e8e2ff;--violeta-ink:#5a3fd6;
+  --ambar:#d98514;     --ambar-soft:#fce6c6;  --ambar-ink:#a8630a;
+
+  --ok:#0d9488; --warn:#d98514; --crit:#e64b5c;
+  --font-d:'Bricolage Grotesque',system-ui,sans-serif;
+  --font-b:'Public Sans',system-ui,sans-serif;
+}
+:root:not([data-theme="light"]){
+@media (prefers-color-scheme: dark){
+  :root{}
+}
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b141d;
+    --surface:#111e2b;
+    --surface-2:#0e1a26;
+    --ink:#eaf2fa;
+    --ink-2:#a9bccd;
+    --ink-3:#7b91a5;
+    --line:#22384a;
+    --brand:#4a94d6;
+    --brand-ink:#8fc0ea;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 34px rgba(0,0,0,.45);
+    --shadow-lg:0 22px 60px rgba(0,0,0,.55);
+    --azul-soft:#16294d; --turquesa-soft:#0c342f; --coral-soft:#3d1d22;
+    --violeta-soft:#241d47; --ambar-soft:#3a2a10;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b141d;--surface:#111e2b;--surface-2:#0e1a26;--ink:#eaf2fa;--ink-2:#a9bccd;--ink-3:#7b91a5;
+  --line:#22384a;--brand:#4a94d6;--brand-ink:#8fc0ea;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 34px rgba(0,0,0,.45);--shadow-lg:0 22px 60px rgba(0,0,0,.55);
+  --azul-soft:#16294d;--turquesa-soft:#0c342f;--coral-soft:#3d1d22;--violeta-soft:#241d47;--ambar-soft:#3a2a10;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-b);
+  font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4{font-family:var(--font-d);margin:0;line-height:1.08;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+a{color:inherit}
+button{font-family:inherit;cursor:pointer}
+img,svg{max-width:100%;display:block}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--brand)}
+.muted{color:var(--ink-2)}
+.section{padding:clamp(38px,5vw,64px) 0}
+.section-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:26px}
+.section-head h2{font-size:clamp(1.5rem,3vw,2.15rem);font-weight:700}
+.section-head p{color:var(--ink-2);max-width:56ch;margin-top:6px}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--surface) 88%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.brand-mark{display:flex;align-items:center;gap:12px;font-family:var(--font-d);font-weight:700;color:var(--ink);text-decoration:none}
+.brand-badge{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--brand),#12b5a6);
+  display:grid;place-items:center;color:#fff;box-shadow:0 6px 16px rgba(14,78,138,.35);flex:none}
+.brand-badge svg{width:22px;height:22px}
+.brand-text small{display:block;font-family:var(--font-b);font-weight:600;font-size:.72rem;color:var(--ink-3);letter-spacing:.02em}
+.brand-text b{font-size:1.02rem;letter-spacing:-.01em}
+.topnav{margin-left:auto;display:flex;align-items:center;gap:8px}
+.tn-link{display:none}
+@media(min-width:900px){.tn-link{display:inline-flex;padding:9px 12px;border-radius:10px;font-weight:600;
+  font-size:.9rem;color:var(--ink-2);text-decoration:none}
+  .tn-link:hover{color:var(--ink);background:var(--surface-2)}}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:11px;padding:11px 16px;
+  font-weight:700;font-size:.92rem;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease,background .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--brand);color:#fff;box-shadow:0 8px 20px rgba(14,78,138,.30)}
+.btn-ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+.btn-admin{background:linear-gradient(135deg,var(--brand-ink),var(--brand));color:#fff}
+.icon-btn{width:42px;height:42px;border-radius:11px;border:1px solid var(--line);background:var(--surface-2);
+  display:grid;place-items:center;color:var(--ink-2)}
+.icon-btn:hover{color:var(--ink)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;isolation:isolate;overflow:hidden;color:#fff}
+.hero-bg{position:absolute;inset:0;z-index:-2}
+.hero-bg svg{width:100%;height:100%;object-fit:cover}
+.hero-overlay{position:absolute;inset:0;z-index:-1;
+  background:
+   linear-gradient(105deg,rgba(9,42,74,.93) 0%,rgba(11,58,104,.86) 42%,rgba(13,92,120,.74) 100%),
+   radial-gradient(120% 90% at 80% 10%,rgba(18,181,166,.35),transparent 60%)}
+.hero .wrap{padding-top:clamp(46px,7vw,86px);padding-bottom:clamp(40px,6vw,74px)}
+.hero-tag{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.32);padding:7px 14px;border-radius:999px;font-weight:700;
+  font-size:.8rem;letter-spacing:.04em}
+.hero-tag .dot{width:8px;height:8px;border-radius:50%;background:#5ff3d6;box-shadow:0 0 0 4px rgba(95,243,214,.25)}
+.hero h1{font-size:clamp(2.3rem,5.4vw,4rem);font-weight:800;margin:20px 0 0;max-width:16ch;color:#fff}
+.hero .subtitle{font-size:clamp(1.05rem,2vw,1.4rem);font-weight:600;margin-top:14px;color:#eaf6ff;max-width:40ch}
+.hero .institutional{margin-top:16px;display:inline-flex;align-items:center;gap:10px;font-weight:700;
+  font-size:clamp(.95rem,1.6vw,1.1rem);color:#bff0ff;letter-spacing:.02em}
+.hero .institutional span{width:6px;height:6px;border-radius:50%;background:#bff0ff}
+
+.searchbar{margin-top:30px;max-width:720px;background:var(--surface);border-radius:16px;
+  box-shadow:var(--shadow-lg);padding:8px 8px 8px 18px;display:flex;align-items:center;gap:12px}
+.searchbar svg{width:24px;height:24px;color:var(--brand);flex:none}
+.searchbar input{flex:1;border:0;background:transparent;font-family:var(--font-b);font-size:1.06rem;
+  font-weight:500;color:var(--ink);padding:14px 0;min-width:0}
+.searchbar input::placeholder{color:var(--ink-3)}
+.searchbar input:focus{outline:none}
+.searchbar .btn-primary{padding:13px 20px;flex:none}
+.searchbar .btn-primary span{display:none}
+@media(min-width:560px){.searchbar .btn-primary span{display:inline}}
+.hero-stats{margin-top:22px;display:flex;flex-wrap:wrap;gap:26px}
+.hero-stats div{display:flex;flex-direction:column}
+.hero-stats b{font-family:var(--font-d);font-size:1.5rem;font-weight:700;color:#fff}
+.hero-stats small{font-size:.82rem;color:#cfe6f5;font-weight:600}
+
+/* ---------- quick access ---------- */
+.quick{margin-top:-38px;position:relative;z-index:5}
+.quick-grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:720px){.quick-grid{grid-template-columns:repeat(3,1fr)}}
+.qcard{display:flex;align-items:center;gap:16px;text-align:left;background:var(--surface);border:1px solid var(--line);
+  border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s;width:100%}
+.qcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.qcard .qi{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;flex:none;color:#fff}
+.qcard .qi svg{width:26px;height:26px}
+.qcard h3{font-size:1.15rem;font-weight:700}
+.qcard p{font-size:.86rem;color:var(--ink-2);margin-top:2px}
+.qcard .arrow{margin-left:auto;color:var(--ink-3);transition:transform .18s}
+.qcard:hover .arrow{transform:translateX(4px);color:var(--brand)}
+.qi-saber{background:linear-gradient(135deg,var(--azul),#4f83f4)}
+.qi-hacer{background:linear-gradient(135deg,var(--turquesa),#22c1ad)}
+.qi-ensenar{background:linear-gradient(135deg,var(--coral),#ff7b88)}
+
+/* ---------- route cards ---------- */
+.routes{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:640px){.routes{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1040px){.routes{grid-template-columns:repeat(5,1fr)}}
+.route{position:relative;text-align:left;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  background:var(--surface);box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column;width:100%}
+.route:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+.route .rimg{height:104px;position:relative;overflow:hidden}
+.route .rimg svg{position:absolute;inset:0;width:100%;height:100%}
+.route .rbody{padding:16px 16px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.route .rk{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:800;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--accent-ink)}
+.route h3{font-size:1.12rem;font-weight:700}
+.route p{font-size:.83rem;color:var(--ink-2);flex:1}
+.route .rgo{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:.85rem;color:var(--accent-ink);margin-top:2px}
+.route .rgo svg{width:16px;height:16px;transition:transform .18s}
+.route:hover .rgo svg{transform:translateX(4px)}
+.r-aprender{--accent:var(--azul);--accent-soft:var(--azul-soft);--accent-ink:var(--azul-ink)}
+.r-aplicar{--accent:var(--turquesa);--accent-soft:var(--turquesa-soft);--accent-ink:var(--turquesa-ink)}
+.r-ensenar{--accent:var(--coral);--accent-soft:var(--coral-soft);--accent-ink:var(--coral-ink)}
+.r-implementar{--accent:var(--violeta);--accent-soft:var(--violeta-soft);--accent-ink:var(--violeta-ink)}
+.r-evaluar{--accent:var(--ambar);--accent-soft:var(--ambar-soft);--accent-ink:var(--ambar-ink)}
+
+/* ---------- journey ---------- */
+.journey{background:linear-gradient(135deg,var(--brand-ink),var(--brand) 60%,#12857f);color:#fff;border-radius:24px;
+  padding:clamp(26px,4vw,44px);box-shadow:var(--shadow-lg)}
+.journey .eyebrow{color:#9fe9ff}
+.journey h2{color:#fff;font-size:clamp(1.5rem,3vw,2.1rem);margin-top:8px}
+.journey>.wrap-p{color:#dff1ff;max-width:60ch;margin-top:8px}
+.jsteps{margin-top:26px;display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:860px){.jsteps{grid-template-columns:repeat(4,1fr);align-items:stretch}}
+.jstep{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:16px;padding:18px;position:relative}
+.jstep .num{width:34px;height:34px;border-radius:10px;background:#fff;color:var(--brand-ink);font-family:var(--font-d);
+  font-weight:800;display:grid;place-items:center;font-size:1rem}
+.jstep h4{margin-top:12px;font-size:1.05rem;color:#fff}
+.jstep p{margin-top:6px;font-size:.85rem;color:#dbeeff}
+.jstep .jarrow{display:none}
+@media(min-width:860px){.jstep .jarrow{display:grid;place-items:center;position:absolute;right:-19px;top:50%;
+  transform:translateY(-50%);width:30px;height:30px;border-radius:50%;background:#fff;color:var(--brand);z-index:2}
+  .jstep:last-child .jarrow{display:none}}
+
+/* ---------- explorer / grid ---------- */
+.chiprow{display:flex;flex-wrap:wrap;gap:10px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;
+  padding:9px 15px;font-weight:600;font-size:.88rem;display:inline-flex;align-items:center;gap:8px;transition:.15s}
+.chip:hover{color:var(--ink);border-color:var(--brand)}
+.chip .cdot{width:9px;height:9px;border-radius:50%;background:var(--cdot,var(--ink-3))}
+.chip[aria-pressed="true"]{background:var(--brand);color:#fff;border-color:var(--brand)}
+.chip[aria-pressed="true"] .cdot{background:#fff}
+
+.filterbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:22px;box-shadow:var(--shadow)}
+.filterbar .fb-left{display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-width:0}
+.mini-search{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:11px;padding:8px 12px;background:var(--surface-2);min-width:220px;flex:1}
+.mini-search svg{width:18px;height:18px;color:var(--ink-3);flex:none}
+.mini-search input{border:0;background:transparent;font-family:var(--font-b);font-size:.95rem;color:var(--ink);width:100%}
+.mini-search input:focus{outline:none}
+.activetag{display:inline-flex;align-items:center;gap:7px;background:var(--brand);color:#fff;border-radius:999px;
+  padding:6px 8px 6px 13px;font-weight:700;font-size:.82rem}
+.activetag button{border:0;background:rgba(255,255,255,.25);color:#fff;width:20px;height:20px;border-radius:50%;
+  display:grid;place-items:center;font-size:.9rem;line-height:1}
+.results-count{font-weight:700;color:var(--ink-2);font-size:.9rem;white-space:nowrap}
+
+.grid{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:600px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:980px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s;width:100%}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.card .cimg{height:132px;position:relative;overflow:hidden}
+.card .cimg svg{position:absolute;inset:0;width:100%;height:100%}
+.card .ctype{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);color:var(--accent-ink);
+  border-radius:999px;padding:5px 11px;font-weight:800;font-size:.72rem;letter-spacing:.02em;backdrop-filter:blur(4px)}
+.card .cbody{padding:15px 16px 17px;display:flex;flex-direction:column;gap:9px;flex:1}
+.card .ctopic{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-ink)}
+.card h3{font-size:1.05rem;font-weight:700;line-height:1.2}
+.card .cdesc{font-size:.86rem;color:var(--ink-2);flex:1}
+.card .cmeta{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.tagpill{font-size:.72rem;font-weight:600;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--line);
+  border-radius:8px;padding:3px 8px}
+.card .cbtn{margin-top:6px;display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  background:var(--accent-soft);color:var(--accent-ink);border:0;border-radius:11px;padding:11px 14px;font-weight:700;font-size:.88rem}
+.card .cbtn svg{width:16px;height:16px;transition:transform .18s}
+.card:hover .cbtn svg{transform:translateX(3px)}
+.card.r-aprender .ctype{color:var(--azul-ink)}
+.empty{grid-column:1/-1;text-align:center;padding:48px 20px;border:2px dashed var(--line);border-radius:18px;color:var(--ink-2)}
+.empty svg{width:44px;height:44px;margin:0 auto 12px;color:var(--ink-3)}
+
+/* featured */
+.featured{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:900px){.featured{grid-template-columns:1.35fr 1fr}}
+.feat-main{position:relative;border-radius:22px;overflow:hidden;color:#fff;box-shadow:var(--shadow-lg);min-height:300px;
+  display:flex;flex-direction:column;justify-content:flex-end;text-align:left;border:0;width:100%}
+.feat-main .fimg{position:absolute;inset:0;z-index:-2}
+.feat-main .fimg svg{width:100%;height:100%}
+.feat-main .fover{position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(9,30,55,.92),rgba(9,30,55,.15) 70%)}
+.feat-main .fbody{padding:clamp(20px,3vw,32px)}
+.feat-main .fbadge{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--azul-ink);font-weight:800;
+  font-size:.74rem;padding:6px 12px;border-radius:999px;text-transform:uppercase;letter-spacing:.05em}
+.feat-main h3{color:#fff;font-size:clamp(1.4rem,2.6vw,2rem);margin-top:14px;max-width:20ch}
+.feat-main p{color:#e4f0fb;margin-top:10px;max-width:52ch;font-size:.98rem}
+.feat-main .fgo{margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.4);color:#fff;padding:10px 16px;border-radius:11px;font-weight:700;font-size:.9rem}
+.feat-side{display:flex;flex-direction:column;gap:14px}
+.side-card{display:flex;gap:14px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:14px;box-shadow:var(--shadow);transition:.18s;width:100%;flex:1}
+.side-card:hover{transform:translateX(3px);box-shadow:var(--shadow-lg)}
+.side-card .si{width:52px;height:52px;border-radius:13px;flex:none;position:relative;overflow:hidden}
+.side-card .si svg{width:100%;height:100%}
+.side-card .sc-t{font-weight:700;font-size:.98rem;color:var(--ink)}
+.side-card .sc-d{font-size:.82rem;color:var(--ink-2);margin-top:2px}
+.side-card .sc-m{font-size:.72rem;font-weight:700;color:var(--accent-ink);margin-top:6px;text-transform:uppercase;letter-spacing:.05em}
+
+/* shift / turno strip */
+.shift-scroll{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,300px);gap:16px;overflow-x:auto;
+  padding:6px 4px 16px;scroll-snap-type:x mandatory;scrollbar-width:thin}
+.shift-scroll .card{scroll-snap-align:start}
+.shift-scroll .card .cimg{height:96px}
+
+/* roles */
+.roles-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(min-width:720px){.roles-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1040px){.roles-grid{grid-template-columns:repeat(6,1fr)}}
+.role{text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 12px;
+  box-shadow:var(--shadow);transition:.18s;width:100%}
+.role:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--brand)}
+.role .ri{width:56px;height:56px;border-radius:16px;margin:0 auto 12px;display:grid;place-items:center;color:#fff;
+  background:linear-gradient(135deg,var(--brand),#12b5a6)}
+.role .ri svg{width:28px;height:28px}
+.role h4{font-size:.98rem;font-weight:700;line-height:1.15}
+.role small{display:block;color:var(--ink-3);font-size:.76rem;margin-top:5px;font-weight:600}
+
+/* gaps / opportunities */
+.gaps-grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:720px){.gaps-grid{grid-template-columns:repeat(3,1fr)}}
+.gap{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--gc,var(--warn));border-radius:14px;
+  padding:18px;box-shadow:var(--shadow)}
+.gap .gtop{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.gap .glevel{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--gc,var(--warn));
+  background:color-mix(in srgb,var(--gc,var(--warn)) 14%,transparent);padding:4px 10px;border-radius:999px}
+.gap h4{font-size:1.02rem;margin-top:12px}
+.gap p{font-size:.85rem;color:var(--ink-2);margin-top:6px}
+.gap .gbar{height:8px;border-radius:6px;background:var(--surface-2);margin-top:14px;overflow:hidden}
+.gap .gbar i{display:block;height:100%;border-radius:6px;background:var(--gc,var(--warn))}
+.gap .gfoot{display:flex;justify-content:space-between;font-size:.76rem;font-weight:700;color:var(--ink-2);margin-top:8px}
+
+/* updates */
+.updates{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.upd{display:flex;gap:14px;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line);text-align:left;width:100%;background:transparent;transition:.15s}
+.upd:last-child{border-bottom:0}
+.upd:hover{background:var(--surface-2)}
+.upd .ud{font-family:var(--font-d);font-weight:700;color:var(--accent-ink);font-size:.82rem;width:64px;flex:none;text-align:center;
+  background:var(--accent-soft);border-radius:10px;padding:8px 4px;line-height:1.15}
+.upd .ut{font-weight:700;font-size:.97rem}
+.upd .um{font-size:.8rem;color:var(--ink-2)}
+.upd .ugo{margin-left:auto;color:var(--ink-3);flex:none}
+.upd:hover .ugo{color:var(--brand)}
+
+/* EVI banner */
+.evi-banner{display:grid;grid-template-columns:1fr;gap:24px;align-items:center;background:linear-gradient(135deg,#101f36,#123a63 55%,#0f6d67);
+  border-radius:24px;padding:clamp(26px,4vw,44px);color:#fff;box-shadow:var(--shadow-lg);overflow:hidden;position:relative}
+@media(min-width:860px){.evi-banner{grid-template-columns:1.3fr .9fr}}
+.evi-banner .eyebrow{color:#7fe9ff}
+.evi-banner h2{color:#fff;font-size:clamp(1.5rem,3vw,2.1rem);margin-top:8px}
+.evi-banner p{color:#dbeeff;margin-top:10px;max-width:52ch}
+.evi-banner .evi-cta{margin-top:20px;display:flex;flex-wrap:wrap;gap:12px}
+.evi-banner .btn-white{background:#fff;color:var(--brand-ink)}
+.evi-avatar{justify-self:center;width:min(280px,80%);aspect-ratio:1;border-radius:24px;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;position:relative}
+.evi-avatar .eblob{width:120px;height:120px;border-radius:36px;background:linear-gradient(135deg,#38e0c8,#4f9bff);
+  display:grid;place-items:center;box-shadow:0 20px 50px rgba(0,0,0,.35);animation:bob 4s ease-in-out infinite}
+.evi-avatar .eblob svg{width:64px;height:64px;color:#fff}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.evi-avatar .epulse{position:absolute;inset:0;border-radius:24px;border:2px solid rgba(95,243,214,.4);animation:pulse 3s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.85);opacity:.7}100%{transform:scale(1.05);opacity:0}}
+
+/* footer */
+.foot{background:var(--surface);border-top:1px solid var(--line);margin-top:20px}
+.foot .wrap{padding:38px 0 30px;display:grid;grid-template-columns:1fr;gap:24px}
+@media(min-width:760px){.foot .wrap{grid-template-columns:2fr 1fr 1fr}}
+.foot h5{font-family:var(--font-d);font-size:1rem;margin-bottom:12px}
+.foot a{display:block;color:var(--ink-2);text-decoration:none;font-size:.9rem;padding:5px 0}
+.foot a:hover{color:var(--brand)}
+.foot .fbottom{border-top:1px solid var(--line);padding:18px 0;text-align:center;color:var(--ink-3);font-size:.82rem}
+
+/* ---------- modal ---------- */
+.overlay{position:fixed;inset:0;z-index:80;background:rgba(9,20,32,.55);backdrop-filter:blur(4px);
+  display:grid;place-items:center;padding:16px}
+.overlay[hidden]{display:none!important}
+.modal{background:var(--surface);border-radius:20px;max-width:640px;width:100%;max-height:90vh;overflow:auto;
+  box-shadow:var(--shadow-lg);animation:pop .22s ease}
+@keyframes pop{from{transform:translateY(14px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+.modal .mhead{position:relative;height:150px;overflow:hidden}
+.modal .mhead svg{position:absolute;inset:0;width:100%;height:100%}
+.modal .mclose{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:0;
+  background:rgba(255,255,255,.92);color:var(--ink);display:grid;place-items:center;font-size:1.2rem;box-shadow:var(--shadow)}
+.modal .mbody{padding:22px 24px 26px}
+.modal .mtype{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:.74rem;text-transform:uppercase;
+  letter-spacing:.06em;color:var(--accent-ink);background:var(--accent-soft);padding:5px 12px;border-radius:999px}
+.modal h3{font-size:1.5rem;margin-top:14px}
+.modal .mdesc{color:var(--ink-2);margin-top:10px}
+.modal .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.modal .mcell{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.modal .mcell small{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3)}
+.modal .mcell b{display:block;font-size:.95rem;margin-top:3px;color:var(--ink)}
+.modal .mlist{margin-top:18px}
+.modal .mlist h4{font-size:1rem;margin-bottom:10px}
+.modal .mlist ul{margin:0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+.modal .mlist li{display:flex;gap:10px;font-size:.92rem;color:var(--ink-2)}
+.modal .mlist li svg{width:20px;height:20px;color:var(--accent-ink);flex:none;margin-top:1px}
+.modal .mactions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.modal .mactions .btn-primary{background:var(--accent,var(--brand))}
+
+/* ---------- EVI panel ---------- */
+.evipanel{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);z-index:90;background:var(--surface);
+  box-shadow:-20px 0 60px rgba(9,20,32,.3);display:flex;flex-direction:column;animation:slidein .28s ease;transform:translateX(0)}
+.evipanel[hidden]{display:none!important}
+@keyframes slidein{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.evi-top{background:linear-gradient(135deg,#123a63,#0f6d67);color:#fff;padding:18px 20px;display:flex;align-items:center;gap:12px}
+.evi-top .eav{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,#38e0c8,#4f9bff);display:grid;place-items:center;flex:none}
+.evi-top .eav svg{width:24px;height:24px;color:#fff}
+.evi-top b{font-family:var(--font-d);font-size:1.1rem;display:block}
+.evi-top small{font-size:.78rem;color:#cfeeff}
+.evi-top .eclose{margin-left:auto;width:36px;height:36px;border-radius:10px;border:0;background:rgba(255,255,255,.16);color:#fff;font-size:1.1rem}
+.evi-log{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px;background:var(--surface-2)}
+.msg{max-width:88%;padding:12px 15px;border-radius:16px;font-size:.92rem;line-height:1.5}
+.msg.bot{background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:5px;color:var(--ink);box-shadow:var(--shadow)}
+.msg.user{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:5px}
+.msg.bot b{color:var(--brand-ink)}
+.evi-recs{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.evi-rec{text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;
+  display:flex;gap:10px;align-items:center;box-shadow:var(--shadow);transition:.15s;width:100%}
+.evi-rec:hover{border-color:var(--brand);transform:translateX(2px)}
+.evi-rec .er-dot{width:34px;height:34px;border-radius:9px;flex:none;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-weight:800;font-size:.72rem}
+.evi-rec .er-t{font-weight:700;font-size:.86rem;color:var(--ink)}
+.evi-rec .er-m{font-size:.74rem;color:var(--ink-2)}
+.evi-choices{padding:14px;border-top:1px solid var(--line);background:var(--surface);display:flex;flex-wrap:wrap;gap:8px}
+.evi-choices .clabel{width:100%;font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3)}
+.echip{border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:999px;padding:8px 13px;font-weight:600;font-size:.84rem;transition:.15s}
+.echip:hover{border-color:var(--brand);color:var(--brand)}
+.echip.sel{background:var(--brand);color:#fff;border-color:var(--brand)}
+.evi-reset{margin-left:auto;font-size:.8rem;font-weight:700;color:var(--ink-2);background:transparent;border:0;text-decoration:underline}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
+</style>
+
+<!-- ============ TOP BAR ============ -->
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand-mark" href="#top">
+      <span class="brand-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 8v6M9 11h6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </span>
+      <span class="brand-text"><b>Centro de Transferencia del Conocimiento</b><small>Unidad de Buenas Prácticas Clínicas – HUAP</small></span>
+    </a>
+    <nav class="topnav">
+      <a class="tn-link" href="#rutas">Rutas</a>
+      <a class="tn-link" href="#explorar">Recursos</a>
+      <a class="tn-link" href="#roles">Roles</a>
+      <button class="icon-btn" id="themeToggle" title="Cambiar tema" aria-label="Cambiar tema">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="btn btn-admin" id="adminBtn">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 13a7.8 7.8 0 000-2l2-1.5-2-3.4L17 7a7.8 7.8 0 00-1.7-1l-.3-2.5h-4L10.7 6a7.8 7.8 0 00-1.7 1L6.6 6.1l-2 3.4L6.6 11a7.8 7.8 0 000 2l-2 1.5 2 3.4L9 16.9a7.8 7.8 0 001.7 1l.3 2.5h4l.3-2.5a7.8 7.8 0 001.7-1l2.4 1 2-3.4-2-1.5z" stroke-linejoin="round"/></svg>
+        Administración
+      </button>
+    </nav>
+  </div>
+</header>
+
+<a id="top"></a>
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <svg viewBox="0 0 1440 620" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b7d7ea"/><stop offset="1" stop-color="#e7f0f5"/></linearGradient>
+        <linearGradient id="concrete" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8f9aa2"/><stop offset="1" stop-color="#69747c"/></linearGradient>
+        <linearGradient id="canopy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#aab3ba"/><stop offset="1" stop-color="#7d878e"/></linearGradient>
+      </defs>
+      <rect width="1440" height="620" fill="url(#sky)"/>
+      <rect x="0" y="150" width="1440" height="470" fill="url(#concrete)"/>
+      <!-- canopy -->
+      <rect x="120" y="250" width="1200" height="120" fill="url(#canopy)"/>
+      <rect x="120" y="250" width="1200" height="18" fill="#5f6970"/>
+      <!-- columns -->
+      <rect x="250" y="368" width="26" height="252" fill="#7b858c"/>
+      <rect x="1160" y="368" width="26" height="252" fill="#7b858c"/>
+      <rect x="700" y="368" width="20" height="252" fill="#828c93"/>
+      <!-- URGENCIA sign -->
+      <rect x="470" y="280" width="500" height="60" rx="4" fill="#5c666d"/>
+      <text x="720" y="324" font-family="Arial, sans-serif" font-weight="700" font-size="46" letter-spacing="10" fill="#eef3f6" text-anchor="middle">URGENCIA</text>
+      <!-- red cross -->
+      <g transform="translate(1015,285)"><rect x="0" y="0" width="52" height="52" rx="8" fill="#fff"/><rect x="20" y="8" width="12" height="36" fill="#d33b3b"/><rect x="8" y="20" width="36" height="12" fill="#d33b3b"/></g>
+      <!-- building body / windows -->
+      <rect x="120" y="388" width="1200" height="232" fill="#727c83"/>
+      <g fill="#93a6b0" opacity=".85">
+        <rect x="150" y="410" width="120" height="150"/><rect x="300" y="410" width="120" height="150"/>
+        <rect x="900" y="410" width="120" height="150"/><rect x="1050" y="410" width="120" height="150"/>
+        <rect x="1200" y="410" width="90" height="150"/>
+      </g>
+      <!-- entrance doors -->
+      <rect x="560" y="452" width="320" height="168" fill="#3f4a52"/>
+      <rect x="600" y="470" width="110" height="150" fill="#5c7d8c" opacity=".7"/>
+      <rect x="730" y="470" width="110" height="150" fill="#5c7d8c" opacity=".7"/>
+      <!-- ground people silhouettes -->
+      <g fill="#3c464d" opacity=".55"><circle cx="470" cy="585" r="9"/><rect x="462" y="592" width="16" height="28" rx="5"/>
+        <circle cx="520" cy="588" r="8"/><rect x="513" y="595" width="14" height="25" rx="5"/>
+        <circle cx="960" cy="586" r="9"/><rect x="952" y="593" width="16" height="27" rx="5"/></g>
+      <!-- lamp post -->
+      <rect x="1250" y="300" width="7" height="320" fill="#4c565d"/><rect x="1210" y="300" width="90" height="7" fill="#4c565d"/>
+    </svg>
+  </div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="hero-tag"><span class="dot"></span> Hospital de Urgencia Asistencia Pública · Edificio Monseñor Valech</span>
+    <h1>Centro de Transferencia del Conocimiento</h1>
+    <p class="subtitle">Unidad de Buenas Prácticas Clínicas – HUAP</p>
+    <div class="institutional"><span></span> Seguridad · Evidencia y Cuidado</div>
+
+    <form class="searchbar" id="heroSearch" role="search" onsubmit="return false;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+      <input id="heroSearchInput" type="search" placeholder="¿Qué necesitas resolver hoy?" aria-label="¿Qué necesitas resolver hoy?" autocomplete="off">
+      <button class="btn btn-primary" id="heroSearchBtn" type="submit">Buscar<span> recurso</span></button>
+    </form>
+
+    <div class="hero-stats">
+      <div><b>+40</b><small>recursos clínicos aplicables</small></div>
+      <div><b>5</b><small>rutas: aprender → evaluar</small></div>
+      <div><b>6</b><small>temáticas de buenas prácticas</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUICK ACCESS ============ -->
+<div class="wrap quick">
+  <div class="quick-grid" id="quickGrid">
+    <button class="qcard" data-quick="aprender">
+      <span class="qi qi-saber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5.5A2.5 2.5 0 016.5 3H12v16H6.5A2.5 2.5 0 004 21V5.5z"/><path d="M20 5.5A2.5 2.5 0 0017.5 3H12v16h5.5A2.5 2.5 0 0120 21V5.5z"/></svg></span>
+      <span><h3>Necesito saber</h3><p>Encontrar evidencia y respuestas confiables.</p></span>
+      <span class="arrow"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </button>
+    <button class="qcard" data-quick="aplicar">
+      <span class="qi qi-hacer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke-linecap="round"/></svg></span>
+      <span><h3>Necesito hacer</h3><p>Aplicar procedimientos y listas de verificación.</p></span>
+      <span class="arrow"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </button>
+    <button class="qcard" data-quick="ensenar">
+      <span class="qi qi-ensenar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M7 9.5V15c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5V9.5" stroke-linecap="round"/></svg></span>
+      <span><h3>Necesito enseñar</h3><p>Capacitar al equipo con material listo para usar.</p></span>
+      <span class="arrow"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </button>
+  </div>
+</div>
+
+<!-- ============ RUTAS ============ -->
+<section class="section" id="rutas">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Cinco rutas principales</span>
+        <h2>Elige tu ruta según lo que necesitas resolver</h2>
+        <p>Cada ruta te lleva del conocimiento a la acción: aprender, aplicar, enseñar, implementar y evaluar.</p>
+      </div>
+    </div>
+    <div class="routes" id="routesGrid"></div>
+  </div>
+</section>
+
+<!-- ============ EVIDENCIA DESTACADA ============ -->
+<section class="section" id="destacada" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Evidencia destacada de la semana</span>
+        <h2>Lo más relevante para tu práctica ahora</h2>
+      </div>
+      <span class="tagpill" style="font-size:.8rem">Actualizado · Semana 36 / 2026</span>
+    </div>
+    <div class="featured" id="featuredWrap"></div>
+  </div>
+</section>
+
+<!-- ============ TURNO ============ -->
+<section class="section" id="turno" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Lo necesito para el turno</span>
+        <h2>Acción rápida junto a la cama del paciente</h2>
+        <p>Recursos breves para resolver en segundos durante el turno.</p>
+      </div>
+    </div>
+    <div class="shift-scroll" id="shiftScroll"></div>
+  </div>
+</section>
+
+<!-- ============ EXPLORAR / TEMÁTICAS ============ -->
+<section class="section" id="explorar" style="background:var(--surface-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Recursos permanentes por temática</span>
+        <h2>Explora y filtra el conocimiento clínico</h2>
+        <p>Filtra por temática, ruta o rol. Usa el buscador para encontrar exactamente lo que necesitas.</p>
+      </div>
+    </div>
+
+    <div class="chiprow" id="topicChips" style="margin-bottom:18px"></div>
+
+    <div class="filterbar">
+      <div class="fb-left">
+        <label class="mini-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+          <input id="gridSearch" type="search" placeholder="Buscar recurso…" aria-label="Buscar recurso" autocomplete="off">
+        </label>
+        <div id="activeTags" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+      </div>
+      <span class="results-count" id="resultsCount"></span>
+    </div>
+
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- ============ ROLES ============ -->
+<section class="section" id="roles">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Recursos según rol</span>
+        <h2>Contenido pensado para tu función clínica</h2>
+        <p>Selecciona tu rol para ver los recursos priorizados para tu labor diaria.</p>
+      </div>
+    </div>
+    <div class="roles-grid" id="rolesGrid"></div>
+  </div>
+</section>
+
+<!-- ============ DE LA EVIDENCIA A LA PRÁCTICA ============ -->
+<section class="section" id="journey" style="padding-top:0">
+  <div class="wrap">
+    <div class="journey">
+      <span class="eyebrow">De la evidencia a la práctica</span>
+      <h2>Un recorrido claro, de la necesidad al resultado</h2>
+      <p class="wrap-p">Cada recurso del Centro sigue el mismo camino, para que el conocimiento se transforme en cuidado seguro y medible.</p>
+      <div class="jsteps">
+        <div class="jstep"><div class="num">1</div><h4>Necesidad clínica</h4><p>Identifica el problema real del paciente o del equipo en el turno.</p>
+          <div class="jarrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="jstep"><div class="num">2</div><h4>Recurso</h4><p>Accede a la evidencia, guía o herramienta que responde a esa necesidad.</p>
+          <div class="jarrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="jstep"><div class="num">3</div><h4>Aplicación práctica</h4><p>Lleva la recomendación a la acción con procedimientos y checklists.</p>
+          <div class="jarrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="jstep"><div class="num">4</div><h4>Evaluación</h4><p>Mide el resultado con auditorías e indicadores y cierra la brecha.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OPORTUNIDADES DE MEJORA ============ -->
+<section class="section" id="mejora" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Oportunidades de mejora</span>
+        <h2>Brechas detectadas que podemos cerrar juntos</h2>
+        <p>Del monitoreo de indicadores a la acción concreta por unidad y rol.</p>
+      </div>
+    </div>
+    <div class="gaps-grid" id="gapsGrid"></div>
+  </div>
+</section>
+
+<!-- ============ ÚLTIMAS ACTUALIZACIONES ============ -->
+<section class="section" id="updates" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Últimas actualizaciones</span>
+        <h2>Novedades del Centro</h2>
+      </div>
+    </div>
+    <div class="updates" id="updatesList"></div>
+  </div>
+</section>
+
+<!-- ============ EVI ============ -->
+<section class="section" id="evi-section" style="padding-top:0">
+  <div class="wrap">
+    <div class="evi-banner">
+      <div>
+        <span class="eyebrow">Asistente EVI</span>
+        <h2>EVI te orienta según tu necesidad, rol y propósito</h2>
+        <p>Evidencia · Vínculo · Implementación. Cuéntale a EVI qué necesitas resolver y te lleva directo al recurso correcto y a su aplicación práctica.</p>
+        <div class="evi-cta">
+          <button class="btn btn-white" id="eviOpen">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Conversar con EVI
+          </button>
+          <a class="btn btn-ghost" href="#explorar" style="background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.35)">Explorar recursos</a>
+        </div>
+      </div>
+      <div class="evi-avatar" aria-hidden="true">
+        <div class="epulse"></div>
+        <div class="eblob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r="1.3" fill="currentColor" stroke="none"/><path d="M8.5 14.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8" stroke-linecap="round"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="wrap">
+    <div>
+      <a class="brand-mark" href="#top" style="margin-bottom:12px">
+        <span class="brand-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 8v6M9 11h6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-text"><b>Centro de Transferencia del Conocimiento</b><small>Unidad de Buenas Prácticas Clínicas – HUAP</small></span>
+      </a>
+      <p class="muted" style="max-width:44ch;font-size:.9rem">Seguridad · Evidencia y Cuidado. Convertimos el conocimiento clínico en acciones concretas para un cuidado más seguro.</p>
+    </div>
+    <div>
+      <h5>Rutas</h5>
+      <a href="#rutas">Necesito aprender</a><a href="#rutas">Necesito aplicar</a>
+      <a href="#rutas">Necesito enseñar</a><a href="#rutas">Necesito implementar</a><a href="#rutas">Necesito evaluar</a>
+    </div>
+    <div>
+      <h5>Centro</h5>
+      <a href="#explorar">Recursos por temática</a><a href="#roles">Recursos por rol</a>
+      <a href="#mejora">Oportunidades de mejora</a><a href="#evi-section">Asistente EVI</a>
+      <a href="#" id="adminFoot">Administración</a>
+    </div>
+  </div>
+  <div class="fbottom">© 2026 Centro de Transferencia del Conocimiento · Unidad de Buenas Prácticas Clínicas · Hospital de Urgencia Asistencia Pública (HUAP)</div>
+</footer>
+
+<!-- ============ MODAL ============ -->
+<div class="overlay" id="modal" hidden>
+  <div class="modal" id="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle"></div>
+</div>
+
+<!-- ============ EVI PANEL ============ -->
+<aside class="evipanel" id="eviPanel" hidden aria-label="Asistente EVI">
+  <div class="evi-top">
+    <span class="eav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r="1.3" fill="currentColor" stroke="none"/><path d="M8.5 14.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8" stroke-linecap="round"/></svg></span>
+    <div><b>EVI</b><small>Evidencia · Vínculo · Implementación</small></div>
+    <button class="eclose" id="eviClose" aria-label="Cerrar asistente">✕</button>
+  </div>
+  <div class="evi-log" id="eviLog"></div>
+  <div class="evi-choices" id="eviChoices"></div>
+</aside>
+
+<script>
+/* ============ DATA ============ */
+const RUTAS = [
+  {key:'aprender',   label:'Necesito aprender',   short:'Aprender',  desc:'Evidencia, guías, normas y recomendaciones.', cls:'r-aprender'},
+  {key:'aplicar',    label:'Necesito aplicar',    short:'Aplicar',   desc:'Procedimientos, algoritmos, checklists y herramientas clínicas.', cls:'r-aplicar'},
+  {key:'ensenar',    label:'Necesito enseñar',    short:'Enseñar',   desc:'Cápsulas, infografías, presentaciones, videos y actividades.', cls:'r-ensenar'},
+  {key:'implementar',label:'Necesito implementar',short:'Implementar',desc:'Recursos por guía RNAO, unidad, rol y brecha.', cls:'r-implementar'},
+  {key:'evaluar',    label:'Necesito evaluar',    short:'Evaluar',   desc:'Auditorías, indicadores, pautas y seguimiento.', cls:'r-evaluar'},
+];
+const RUTA_MAP = Object.fromEntries(RUTAS.map(r=>[r.key,r]));
+
+const TEMAS = [
+  {key:'lesiones',  label:'Lesiones por presión', dot:'var(--violeta)'},
+  {key:'accesos',   label:'Accesos vasculares',   dot:'var(--turquesa)'},
+  {key:'dolor',     label:'Dolor',                dot:'var(--coral)'},
+  {key:'iaas',      label:'IAAS',                 dot:'var(--azul)'},
+  {key:'seguridad', label:'Seguridad del paciente',dot:'var(--ambar)'},
+  {key:'otras',     label:'Otras buenas prácticas',dot:'var(--ink-3)'},
+];
+const TEMA_MAP = Object.fromEntries(TEMAS.map(t=>[t.key,t]));
+
+const ROLES = [
+  {key:'enfermeria', label:'Enfermería',            note:'Cuidado directo'},
+  {key:'tens',       label:'TENS',                  note:'Apoyo asistencial'},
+  {key:'kine',       label:'Kinesiología',          note:'Rehabilitación'},
+  {key:'auxiliares', label:'Auxiliares',            note:'Apoyo clínico'},
+  {key:'jefaturas',  label:'Jefaturas y supervisión',note:'Gestión del cuidado'},
+  {key:'champions',  label:'Champions Clínicos',    note:'Referentes de práctica'},
+];
+const ROLE_MAP = Object.fromEntries(ROLES.map(r=>[r.key,r]));
+
+/* icon paths by tema */
+const TEMA_ICON = {
+  lesiones:'<path d="M4 15c3-4 6-6 8-6s3 1 3 3-2 3-4 3-3-1-3-3c0-3 3-6 8-8" stroke-linecap="round"/><path d="M3 19h18" stroke-linecap="round"/>',
+  accesos:'<path d="M12 3v5m0 0l-2.5 2.5M12 8l2.5 2.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="9" y="10" width="6" height="9" rx="2"/><path d="M12 19v2" stroke-linecap="round"/>',
+  dolor:'<path d="M3 12h4l2-5 3 9 2-4h5" stroke-linecap="round" stroke-linejoin="round"/>',
+  iaas:'<path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>',
+  seguridad:'<circle cx="12" cy="8" r="3.2"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke-linecap="round"/>',
+  otras:'<path d="M12 3l2.4 5 5.6.5-4.2 3.8 1.3 5.5L12 15l-5.1 2.8 1.3-5.5L4 8.5 9.6 8 12 3z" stroke-linejoin="round"/>',
+};
+const TIPO_ICON = {
+  guia:'📘', algoritmo:'🔀', checklist:'✓', norma:'§', capsula:'▶', video:'▶',
+  infografia:'▦', presentacion:'▤', auditoria:'✎', indicador:'📊', pauta:'▤', herramienta:'⚙'
+};
+
+/* RESOURCES */
+const R = [
+  {id:'r1', ruta:'aprender', tema:'lesiones', tipo:'Guía', titulo:'Guía RNAO: Valoración y prevención de lesiones por presión', desc:'Recomendaciones basadas en evidencia para valorar el riesgo y prevenir LPP en pacientes hospitalizados.', roles:['enfermeria','tens','champions'], nivel:'Evidencia A', tiempo:'20 min', turno:false, dest:true, fecha:'02 Sep', fuente:'RNAO 2016 · Adaptación HUAP'},
+  {id:'r2', ruta:'aplicar', tema:'lesiones', tipo:'Checklist', titulo:'Checklist de cambios de posición cada 2 horas', desc:'Lista de verificación para asegurar la reposición y el alivio de presión en pacientes de riesgo.', roles:['enfermeria','tens','auxiliares'], nivel:'Herramienta', tiempo:'2 min', turno:true, dest:false, fecha:'01 Sep', fuente:'Protocolo LPP HUAP'},
+  {id:'r3', ruta:'aplicar', tema:'lesiones', tipo:'Escala', titulo:'Escala de Braden: aplicación paso a paso', desc:'Cómo puntuar el riesgo de lesión por presión y qué medidas activar según el resultado.', roles:['enfermeria','tens'], nivel:'Herramienta', tiempo:'5 min', turno:true, dest:false, fecha:'28 Ago', fuente:'Braden & Bergstrom'},
+  {id:'r4', ruta:'ensenar', tema:'lesiones', tipo:'Infografía', titulo:'Infografía: los 5 puntos clave para prevenir LPP', desc:'Material visual listo para imprimir y usar en la inducción del equipo.', roles:['champions','jefaturas','tens'], nivel:'Capacitación', tiempo:'Descarga', turno:false, dest:false, fecha:'25 Ago', fuente:'UBPC HUAP'},
+
+  {id:'r5', ruta:'aprender', tema:'accesos', tipo:'Guía', titulo:'Mantención segura de accesos vasculares periféricos', desc:'Evidencia sobre inserción, mantención y retiro oportuno de vías venosas periféricas.', roles:['enfermeria','tens'], nivel:'Evidencia A', tiempo:'15 min', turno:false, dest:true, fecha:'31 Ago', fuente:'INS 2021 · Adaptación HUAP'},
+  {id:'r6', ruta:'aplicar', tema:'accesos', tipo:'Algoritmo', titulo:'Algoritmo de decisión: ¿retirar o mantener la vía venosa?', desc:'Diagrama de flujo para decidir el retiro de un acceso periférico según signos de flebitis.', roles:['enfermeria','tens','champions'], nivel:'Algoritmo', tiempo:'3 min', turno:true, dest:false, fecha:'27 Ago', fuente:'Escala de Flebitis VIP'},
+  {id:'r7', ruta:'aplicar', tema:'accesos', tipo:'Checklist', titulo:'Checklist de instalación de catéter venoso periférico', desc:'Pasos de asepsia y verificación para una instalación segura junto a la cama.', roles:['enfermeria','tens'], nivel:'Herramienta', tiempo:'2 min', turno:true, dest:false, fecha:'24 Ago', fuente:'Bundle accesos HUAP'},
+  {id:'r8', ruta:'evaluar', tema:'accesos', tipo:'Indicador', titulo:'Indicador: tasa de flebitis por 1.000 días-catéter', desc:'Ficha del indicador, fórmula de cálculo y meta institucional para seguimiento mensual.', roles:['jefaturas','champions'], nivel:'Indicador', tiempo:'Ficha', turno:false, dest:false, fecha:'20 Ago', fuente:'Programa IAAS HUAP'},
+
+  {id:'r9', ruta:'aprender', tema:'dolor', tipo:'Recomendación', titulo:'Manejo del dolor agudo en el servicio de urgencia', desc:'Recomendaciones para la valoración y tratamiento oportuno del dolor en adultos.', roles:['enfermeria','kine','tens'], nivel:'Evidencia B', tiempo:'12 min', turno:false, dest:false, fecha:'30 Ago', fuente:'MINSAL · Adaptación HUAP'},
+  {id:'r10', ruta:'aplicar', tema:'dolor', tipo:'Escala', titulo:'Escala EVA y ESCID: cuál usar y cuándo', desc:'Guía práctica para valorar dolor en pacientes comunicantes y no comunicantes.', roles:['enfermeria','tens','kine'], nivel:'Herramienta', tiempo:'4 min', turno:true, dest:false, fecha:'22 Ago', fuente:'UBPC HUAP'},
+  {id:'r11', ruta:'ensenar', tema:'dolor', tipo:'Cápsula', titulo:'Cápsula en video: valoración del dolor en 3 minutos', desc:'Microaprendizaje audiovisual para reforzar la valoración sistemática del dolor.', roles:['enfermeria','tens','champions'], nivel:'Video', tiempo:'3 min', turno:false, dest:false, fecha:'18 Ago', fuente:'UBPC HUAP'},
+
+  {id:'r12', ruta:'aprender', tema:'iaas', tipo:'Norma', titulo:'Norma de higiene de manos: los 5 momentos de la OMS', desc:'Fundamento y aplicación de los cinco momentos clave para la higiene de manos.', roles:['enfermeria','tens','auxiliares','kine'], nivel:'Norma', tiempo:'10 min', turno:false, dest:true, fecha:'29 Ago', fuente:'OMS · IAAS HUAP'},
+  {id:'r13', ruta:'aplicar', tema:'iaas', tipo:'Checklist', titulo:'Bundle de prevención de neumonía asociada a VM', desc:'Paquete de medidas verificables para prevenir NAV en pacientes ventilados.', roles:['enfermeria','kine','champions'], nivel:'Bundle', tiempo:'3 min', turno:true, dest:false, fecha:'21 Ago', fuente:'Programa IAAS HUAP'},
+  {id:'r14', ruta:'evaluar', tema:'iaas', tipo:'Auditoría', titulo:'Pauta de auditoría de higiene de manos', desc:'Instrumento de observación directa para medir adherencia por unidad y turno.', roles:['jefaturas','champions'], nivel:'Auditoría', tiempo:'Pauta', turno:false, dest:false, fecha:'17 Ago', fuente:'IAAS HUAP'},
+
+  {id:'r15', ruta:'aprender', tema:'seguridad', tipo:'Guía', titulo:'Identificación segura del paciente', desc:'Prácticas para verificar la identidad con dos identificadores antes de cada procedimiento.', roles:['enfermeria','tens','auxiliares'], nivel:'Meta 1 OMS', tiempo:'8 min', turno:false, dest:false, fecha:'26 Ago', fuente:'Metas Internacionales de Seguridad'},
+  {id:'r16', ruta:'aplicar', tema:'seguridad', tipo:'Checklist', titulo:'Checklist de traspaso de turno SBAR', desc:'Estructura Situación-Antecedentes-Evaluación-Recomendación para un traspaso seguro.', roles:['enfermeria','tens','kine','jefaturas'], nivel:'Herramienta', tiempo:'4 min', turno:true, dest:false, fecha:'23 Ago', fuente:'SBAR · UBPC HUAP'},
+  {id:'r17', ruta:'implementar', tema:'seguridad', tipo:'Herramienta', titulo:'Plan de implementación por unidad, rol y brecha', desc:'Plantilla para bajar una guía RNAO a la realidad de tu unidad y asignar responsables.', roles:['jefaturas','champions'], nivel:'RNAO', tiempo:'Plantilla', turno:false, dest:false, fecha:'19 Ago', fuente:'Modelo BPSO · RNAO'},
+  {id:'r18', ruta:'evaluar', tema:'seguridad', tipo:'Indicador', titulo:'Tablero de indicadores de seguridad del paciente', desc:'Panel con eventos adversos, caídas y adherencia a metas para seguimiento por unidad.', roles:['jefaturas','champions'], nivel:'Indicador', tiempo:'Panel', turno:false, dest:false, fecha:'15 Ago', fuente:'Calidad y Seguridad HUAP'},
+
+  {id:'r19', ruta:'ensenar', tema:'seguridad', tipo:'Presentación', titulo:'Presentación: cultura de seguridad y notificación de eventos', desc:'Set de diapositivas para sensibilizar al equipo sobre la notificación sin culpa.', roles:['champions','jefaturas'], nivel:'Capacitación', tiempo:'Descarga', turno:false, dest:false, fecha:'14 Ago', fuente:'UBPC HUAP'},
+  {id:'r20', ruta:'implementar', tema:'lesiones', tipo:'Herramienta', titulo:'Ruta de implementación de la guía LPP en tu unidad', desc:'Pasos, recursos y roles para instalar la prevención de LPP como práctica estándar.', roles:['jefaturas','champions','enfermeria'], nivel:'RNAO', tiempo:'Plantilla', turno:false, dest:false, fecha:'13 Ago', fuente:'Modelo BPSO · RNAO'},
+  {id:'r21', ruta:'ensenar', tema:'otras', tipo:'Actividad', titulo:'Actividad práctica: taller de movilización segura', desc:'Guion de taller con estaciones para entrenar la movilización y el traslado seguro.', roles:['kine','tens','auxiliares'], nivel:'Taller', tiempo:'45 min', turno:false, dest:false, fecha:'12 Ago', fuente:'Kinesiología HUAP'},
+  {id:'r22', ruta:'evaluar', tema:'dolor', tipo:'Pauta', titulo:'Pauta de seguimiento de la reevaluación del dolor', desc:'Instrumento para verificar que el dolor se reevalúe tras cada intervención.', roles:['enfermeria','champions','jefaturas'], nivel:'Pauta', tiempo:'Pauta', turno:false, dest:false, fecha:'10 Ago', fuente:'UBPC HUAP'},
+];
+
+const GAPS = [
+  {tema:'iaas', level:'Prioritaria', color:'var(--crit)', titulo:'Adherencia a higiene de manos bajo la meta', desc:'La observación del último mes muestra 68% de adherencia en el turno de noche.', val:68, meta:'Meta 85%', ruta:'aplicar'},
+  {tema:'lesiones', level:'En seguimiento', color:'var(--warn)', titulo:'Registro incompleto de la escala de Braden', desc:'Falta valoración de riesgo al ingreso en un tercio de los pacientes de riesgo.', val:74, meta:'Meta 95%', ruta:'aplicar'},
+  {tema:'dolor', level:'Oportunidad', color:'var(--turquesa)', titulo:'Reevaluación del dolor tras analgesia', desc:'Buena valoración inicial, pero la reevaluación sistemática aún es baja.', val:59, meta:'Meta 90%', ruta:'evaluar'},
+];
+
+/* ============ HELPERS ============ */
+const $ = s=>document.querySelector(s);
+const $$ = s=>[...document.querySelectorAll(s)];
+function cardImage(tema, cls, h){
+  const accent = {'r-aprender':'#2563eb','r-aplicar':'#0d9488','r-ensenar':'#e64b5c','r-implementar':'#7c5cfc','r-evaluar':'#d98514'}[cls] || '#0e4e8a';
+  const accent2 = {'r-aprender':'#5f92f6','r-aplicar':'#3fd0bd','r-ensenar':'#ff8a95','r-implementar':'#a48cff','r-evaluar':'#eba94b'}[cls] || '#12b5a6';
+  const gid = 'g'+Math.random().toString(36).slice(2,8);
+  return `<svg viewBox="0 0 400 ${h}" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${accent}"/><stop offset="1" stop-color="${accent2}"/></linearGradient></defs>
+    <rect width="400" height="${h}" fill="url(#${gid})"/>
+    <circle cx="330" cy="${h*0.28}" r="${h*0.55}" fill="rgba(255,255,255,.12)"/>
+    <circle cx="60" cy="${h*0.9}" r="${h*0.4}" fill="rgba(255,255,255,.08)"/>
+    <g transform="translate(${400/2-30},${h/2-30}) scale(2.5)" stroke="#fff" stroke-width="1.4" fill="none" opacity=".95">${TEMA_ICON[tema]||TEMA_ICON.otras}</g>
+  </svg>`;
+}
+function tipoBadge(tipo){return tipo;}
+
+/* ============ STATE + FILTERS ============ */
+const state = {q:'', ruta:'', rol:'', tema:''};
+
+function matches(r){
+  if(state.ruta && r.ruta!==state.ruta) return false;
+  if(state.rol && !r.roles.includes(state.rol)) return false;
+  if(state.tema && r.tema!==state.tema) return false;
+  if(state.q){
+    const q = state.q.toLowerCase();
+    const hay = (r.titulo+' '+r.desc+' '+r.tipo+' '+r.fuente+' '+RUTA_MAP[r.ruta].label+' '+TEMA_MAP[r.tema].label).toLowerCase();
+    if(!hay.includes(q)) return false;
+  }
+  return true;
+}
+
+function renderGrid(){
+  const list = R.filter(matches);
+  const grid = $('#grid');
+  $('#resultsCount').textContent = `${list.length} recurso${list.length===1?'':'s'}`;
+  if(!list.length){
+    grid.innerHTML = `<div class="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+      <b>Sin resultados para tu búsqueda.</b><br>Prueba con otra temática, ruta o palabra clave.</div>`;
+    return;
+  }
+  grid.innerHTML = list.map(cardHTML).join('');
+}
+function cardHTML(r){
+  const rt = RUTA_MAP[r.ruta];
+  return `<article class="card ${rt.cls}">
+    <button class="cimg" onclick="openResource('${r.id}')" aria-label="Abrir ${r.titulo.replace(/"/g,'')}" style="border:0;padding:0;cursor:pointer">
+      ${cardImage(r.tema, rt.cls, 132)}
+      <span class="ctype">${r.tipo}</span>
+    </button>
+    <div class="cbody">
+      <span class="ctopic">${TEMA_MAP[r.tema].label} · ${rt.short}</span>
+      <h3>${r.titulo}</h3>
+      <p class="cdesc">${r.desc}</p>
+      <div class="cmeta"><span class="tagpill">${r.nivel}</span><span class="tagpill">${r.tiempo}</span></div>
+      <button class="cbtn" onclick="openResource('${r.id}')">Abrir recurso
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </article>`;
+}
+
+function renderActiveTags(){
+  const box = $('#activeTags'); const tags=[];
+  if(state.ruta) tags.push(['ruta', RUTA_MAP[state.ruta].label]);
+  if(state.rol)  tags.push(['rol', ROLE_MAP[state.rol].label]);
+  if(state.tema) tags.push(['tema', TEMA_MAP[state.tema].label]);
+  box.innerHTML = tags.map(([k,v])=>`<span class="activetag">${v}<button onclick="clearFilter('${k}')" aria-label="Quitar filtro">✕</button></span>`).join('');
+  // reflect on chips / routes
+  $$('#topicChips .chip').forEach(c=>c.setAttribute('aria-pressed', c.dataset.tema===state.tema));
+}
+window.clearFilter = function(k){ state[k]=''; sync(); };
+
+function sync(){ renderGrid(); renderActiveTags(); }
+function applyFilter(patch, scroll=true){
+  Object.assign(state, patch);
+  sync();
+  if(scroll){ document.getElementById('explorar').scrollIntoView({behavior:'smooth',block:'start'}); }
+}
+
+/* ============ RENDER STATIC SECTIONS ============ */
+function renderRoutes(){
+  $('#routesGrid').innerHTML = RUTAS.map(rt=>`
+    <button class="route ${rt.cls}" onclick="applyFilter({ruta:'${rt.key}'})">
+      <span class="rimg">${cardImage(temaForRuta(rt.key), rt.cls, 104)}</span>
+      <span class="rbody">
+        <span class="rk"><span class="cdot" style="width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block"></span>${rt.short}</span>
+        <h3>${rt.label}</h3>
+        <p>${rt.desc}</p>
+        <span class="rgo">Ver recursos <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </span>
+    </button>`).join('');
+}
+function temaForRuta(k){return {aprender:'iaas',aplicar:'accesos',ensenar:'dolor',implementar:'seguridad',evaluar:'lesiones'}[k];}
+
+function renderTopics(){
+  $('#topicChips').innerHTML = TEMAS.map(t=>`
+    <button class="chip" data-tema="${t.key}" style="--cdot:${t.dot}" aria-pressed="false"
+      onclick="toggleTema('${t.key}')"><span class="cdot"></span>${t.label}</button>`).join('');
+}
+window.toggleTema = function(k){ applyFilter({tema: state.tema===k?'':k}); };
+
+function renderRoles(){
+  const icons={enfermeria:'<path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z" stroke-linejoin="round"/><path d="M12 8v6M9 11h6" stroke-linecap="round"/>',
+    tens:'<circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" stroke-linecap="round"/>',
+    kine:'<circle cx="12" cy="5" r="2"/><path d="M12 7v6m0 0l-3 5m3-5l3 5M7 10h10" stroke-linecap="round" stroke-linejoin="round"/>',
+    auxiliares:'<path d="M6 21V9l6-4 6 4v12" stroke-linejoin="round"/><path d="M10 21v-5h4v5" stroke-linecap="round"/>',
+    jefaturas:'<path d="M4 20h16M6 20V9l6-5 6 5v11" stroke-linejoin="round"/><path d="M12 4v3" stroke-linecap="round"/>',
+    champions:'<path d="M8 4h8v3a4 4 0 01-8 0V4z"/><path d="M12 11v4m-3 4h6l-1-4H10l-1 4z" stroke-linecap="round" stroke-linejoin="round"/>'};
+  $('#rolesGrid').innerHTML = ROLES.map(r=>{
+    const n = R.filter(x=>x.roles.includes(r.key)).length;
+    return `<button class="role" onclick="applyFilter({rol:'${r.key}'})">
+      <span class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">${icons[r.key]}</svg></span>
+      <h4>${r.label}</h4><small>${n} recursos · ${r.note}</small></button>`;
+  }).join('');
+}
+
+function renderFeatured(){
+  const dest = R.filter(x=>x.dest);
+  const main = dest[0], side = dest.slice(1,3);
+  $('#featuredWrap').innerHTML = `
+    <button class="feat-main ${RUTA_MAP[main.ruta].cls}" onclick="openResource('${main.id}')">
+      <span class="fimg" aria-hidden="true">${cardImage(main.tema, RUTA_MAP[main.ruta].cls, 340)}</span>
+      <span class="fover" aria-hidden="true"></span>
+      <span class="fbody">
+        <span class="fbadge">★ Evidencia de la semana</span>
+        <h3>${main.titulo}</h3>
+        <p>${main.desc}</p>
+        <span class="fgo">Abrir recurso <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </span>
+    </button>
+    <div class="feat-side">
+      ${side.map(s=>`<button class="side-card ${RUTA_MAP[s.ruta].cls}" onclick="openResource('${s.id}')">
+        <span class="si">${cardImage(s.tema, RUTA_MAP[s.ruta].cls, 60)}</span>
+        <span><span class="sc-t">${s.titulo}</span><span class="sc-d">${s.desc}</span><span class="sc-m">${TEMA_MAP[s.tema].label} · ${s.tipo}</span></span>
+      </button>`).join('')}
+    </div>`;
+}
+
+function renderShift(){
+  $('#shiftScroll').innerHTML = R.filter(x=>x.turno).map(r=>{
+    const rt=RUTA_MAP[r.ruta];
+    return `<article class="card ${rt.cls}">
+      <button class="cimg" onclick="openResource('${r.id}')" style="border:0;padding:0;cursor:pointer" aria-label="Abrir ${r.titulo.replace(/"/g,'')}">
+        ${cardImage(r.tema, rt.cls, 96)}<span class="ctype">${r.tipo}</span></button>
+      <div class="cbody"><span class="ctopic">${r.tiempo} · ${TEMA_MAP[r.tema].label}</span><h3>${r.titulo}</h3>
+      <button class="cbtn" onclick="openResource('${r.id}')">Usar ahora
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    </article>`;
+  }).join('');
+}
+
+function renderGaps(){
+  $('#gapsGrid').innerHTML = GAPS.map(g=>`
+    <div class="gap ${RUTA_MAP[g.ruta].cls}" style="--gc:${g.color}">
+      <div class="gtop"><span class="glevel">${g.level}</span><span class="tagpill">${TEMA_MAP[g.tema].label}</span></div>
+      <h4>${g.titulo}</h4><p>${g.desc}</p>
+      <div class="gbar"><i style="width:${g.val}%"></i></div>
+      <div class="gfoot"><span>Actual ${g.val}%</span><span>${g.meta}</span></div>
+      <button class="cbtn" style="margin-top:14px;width:100%;background:var(--accent-soft);color:var(--accent-ink)" onclick="applyFilter({tema:'${g.tema}',ruta:'${g.ruta}'})">Ver recursos para cerrar la brecha
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>`).join('');
+}
+
+function renderUpdates(){
+  const recent = R.slice().sort((a,b)=>0).slice(0,6);
+  $('#updatesList').innerHTML = recent.map(r=>{
+    const rt=RUTA_MAP[r.ruta];
+    const [d,m]=r.fecha.split(' ');
+    return `<button class="upd ${rt.cls}" onclick="openResource('${r.id}')">
+      <span class="ud">${d}<br>${m}</span>
+      <span><span class="ut">${r.titulo}</span><span class="um">${rt.label} · ${TEMA_MAP[r.tema].label} · ${r.tipo}</span></span>
+      <span class="ugo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </button>`;
+  }).join('');
+}
+
+/* ============ MODAL ============ */
+window.openResource = function(id){
+  const r = R.find(x=>x.id===id); if(!r) return;
+  const rt = RUTA_MAP[r.ruta];
+  const steps = {
+    aprender:['Lee la recomendación y su nivel de evidencia','Identifica qué cambia en tu práctica','Comparte el punto clave con tu equipo'],
+    aplicar:['Ten el recurso a mano en el punto de atención','Sigue cada paso de verificación','Registra la aplicación en la ficha'],
+    ensenar:['Descarga el material','Adáptalo a tu unidad y turno','Realiza la actividad y refuerza el mensaje clave'],
+    implementar:['Analiza la brecha en tu unidad','Asigna responsables y plazos','Instala la práctica como estándar'],
+    evaluar:['Aplica el instrumento de medición','Compara el resultado con la meta','Define la acción de mejora']
+  }[r.ruta];
+  const card = $('#modalCard');
+  card.className = 'modal '+rt.cls;
+  card.innerHTML = `
+    <div class="mhead">${cardImage(r.tema, rt.cls, 150)}
+      <button class="mclose" onclick="closeModal()" aria-label="Cerrar">✕</button></div>
+    <div class="mbody">
+      <span class="mtype">${r.tipo} · ${rt.short}</span>
+      <h3 id="modalTitle">${r.titulo}</h3>
+      <p class="mdesc">${r.desc}</p>
+      <div class="mgrid">
+        <div class="mcell"><small>Temática</small><b>${TEMA_MAP[r.tema].label}</b></div>
+        <div class="mcell"><small>Nivel</small><b>${r.nivel}</b></div>
+        <div class="mcell"><small>Tiempo</small><b>${r.tiempo}</b></div>
+        <div class="mcell"><small>Fuente</small><b>${r.fuente}</b></div>
+      </div>
+      <div class="mlist"><h4>Cómo llevarlo a la práctica</h4><ul>
+        ${steps.map(s=>`<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9"/></svg>${s}</li>`).join('')}
+      </ul></div>
+      <div class="mlist"><h4>Dirigido a</h4><div class="cmeta">${r.roles.map(x=>`<span class="tagpill">${ROLE_MAP[x].label}</span>`).join('')}</div></div>
+      <div class="mactions">
+        <button class="btn btn-primary" onclick="closeModal()">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z" stroke-linejoin="round"/></svg>
+          Aplicar en mi turno</button>
+        <button class="btn btn-ghost" onclick="closeModal(); applyFilter({tema:'${r.tema}'})">Ver más de ${TEMA_MAP[r.tema].label}</button>
+      </div>
+    </div>`;
+  $('#modal').hidden = false;
+  document.body.style.overflow='hidden';
+  card.querySelector('.mclose').focus();
+};
+window.closeModal = function(){ $('#modal').hidden=true; document.body.style.overflow=''; };
+$('#modal').addEventListener('click', e=>{ if(e.target.id==='modal') closeModal(); });
+
+/* ============ EVI ASSISTANT ============ */
+const evi = {necesidad:null, rol:null, proposito:null};
+const eviLog = $('#eviLog'), eviChoices = $('#eviChoices');
+function eviMsg(html, who='bot'){
+  const d=document.createElement('div'); d.className='msg '+who; d.innerHTML=html;
+  eviLog.appendChild(d); eviLog.scrollTop=eviLog.scrollHeight;
+}
+function openEvi(){
+  $('#eviPanel').hidden=false;
+  if(!eviLog.childElementCount) eviStart();
+}
+function eviStart(){
+  eviLog.innerHTML=''; evi.necesidad=evi.rol=evi.proposito=null;
+  eviMsg(`Hola 👋 soy <b>EVI</b>. Te ayudo a pasar de la <b>necesidad clínica</b> al recurso y su aplicación. Cuéntame: <b>¿qué necesitas resolver hoy?</b>`);
+  eviStep();
+}
+function eviStep(){
+  if(!evi.necesidad){
+    eviChoices.innerHTML = `<span class="clabel">¿Cuál es tu necesidad?</span>` +
+      RUTAS.map(r=>`<button class="echip" onclick="eviPick('necesidad','${r.key}')">${r.label}</button>`).join('');
+  } else if(!evi.rol){
+    eviChoices.innerHTML = `<span class="clabel">¿Cuál es tu rol?</span>` +
+      ROLES.map(r=>`<button class="echip" onclick="eviPick('rol','${r.key}')">${r.label}</button>`).join('') +
+      `<button class="evi-reset" onclick="eviStart()">Reiniciar</button>`;
+  } else if(!evi.proposito){
+    eviChoices.innerHTML = `<span class="clabel">¿Sobre qué temática?</span>` +
+      TEMAS.map(t=>`<button class="echip" onclick="eviPick('proposito','${t.key}')">${t.label}</button>`).join('') +
+      `<button class="evi-reset" onclick="eviStart()">Reiniciar</button>`;
+  } else {
+    eviChoices.innerHTML = `<button class="echip sel" onclick="eviApply()">Ver estos recursos en la página</button><button class="evi-reset" onclick="eviStart()">Nueva consulta</button>`;
+  }
+}
+window.eviPick = function(kind, val){
+  evi[kind]=val;
+  const label = kind==='necesidad'?RUTA_MAP[val].label : kind==='rol'?ROLE_MAP[val].label : TEMA_MAP[val].label;
+  eviMsg(label,'user');
+  if(kind==='necesidad') eviMsg(`Perfecto. Para <b>${RUTA_MAP[val].label.toLowerCase()}</b> tengo buen material. ¿Cuál es tu rol?`);
+  else if(kind==='rol') eviMsg(`Anotado, <b>${ROLE_MAP[val].label}</b>. ¿Sobre qué temática necesitas resolver?`);
+  else eviRecommend();
+  eviStep();
+};
+function eviRecommend(){
+  const list = R.filter(x=>x.ruta===evi.necesidad && x.tema===evi.proposito && x.roles.includes(evi.rol));
+  let pool = list;
+  if(!pool.length) pool = R.filter(x=>x.tema===evi.proposito && x.roles.includes(evi.rol));
+  if(!pool.length) pool = R.filter(x=>x.ruta===evi.necesidad && x.tema===evi.proposito);
+  if(!pool.length) pool = R.filter(x=>x.tema===evi.proposito);
+  pool = pool.slice(0,3);
+  const intro = `Según tu necesidad de <b>${RUTA_MAP[evi.necesidad].short.toLowerCase()}</b>, como <b>${ROLE_MAP[evi.rol].label}</b>, en <b>${TEMA_MAP[evi.proposito].label}</b>, te recomiendo:`;
+  eviMsg(intro + `<div class="evi-recs">` + pool.map(r=>`
+    <button class="evi-rec ${RUTA_MAP[r.ruta].cls}" onclick="closeEviTo('${r.id}')">
+      <span class="er-dot">${RUTA_MAP[r.ruta].short.slice(0,3).toUpperCase()}</span>
+      <span><span class="er-t">${r.titulo}</span><span class="er-m">${r.tipo} · ${r.tiempo}</span></span>
+    </button>`).join('') + `</div>`);
+  eviMsg(`Recuerda el recorrido: <b>necesidad → recurso → aplicación → evaluación</b>. Cuando lo apliques, vuelve a la ruta <b>Necesito evaluar</b> para medir el resultado.`);
+}
+window.eviApply = function(){
+  $('#eviPanel').hidden=true;
+  applyFilter({ruta:evi.necesidad, rol:evi.rol, tema:evi.proposito});
+};
+window.closeEviTo = function(id){ $('#eviPanel').hidden=true; openResource(id); };
+
+$('#eviOpen').addEventListener('click', openEvi);
+$('#eviClose').addEventListener('click', ()=>{ $('#eviPanel').hidden=true; });
+
+/* ============ SEARCH WIRING ============ */
+$('#heroSearchInput').addEventListener('input', e=>{ state.q=e.target.value; $('#gridSearch').value=e.target.value; renderGrid(); });
+$('#heroSearch').addEventListener('submit', ()=>{ document.getElementById('explorar').scrollIntoView({behavior:'smooth'}); });
+$('#gridSearch').addEventListener('input', e=>{ state.q=e.target.value; $('#heroSearchInput').value=e.target.value; renderGrid(); });
+
+/* quick access */
+$$('#quickGrid .qcard').forEach(b=>b.addEventListener('click', ()=>applyFilter({ruta:b.dataset.quick})));
+
+/* admin (not built yet) */
+function adminNotice(){ alert('El panel de Administración estará disponible en una próxima etapa.'); }
+$('#adminBtn').addEventListener('click', adminNotice);
+$('#adminFoot').addEventListener('click', e=>{e.preventDefault();adminNotice();});
+
+/* theme toggle */
+const rootEl = document.documentElement;
+$('#themeToggle').addEventListener('click', ()=>{
+  const cur = rootEl.getAttribute('data-theme');
+  const isDark = cur ? cur==='dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  rootEl.setAttribute('data-theme', isDark?'light':'dark');
+});
+
+/* esc closes overlays */
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeModal(); $('#eviPanel').hidden=true; } });
+
+/* ============ INIT ============ */
+renderRoutes(); renderTopics(); renderRoles(); renderFeatured(); renderShift(); renderGaps(); renderUpdates(); sync();
+</script>
+</body>
+</html>
