@@ -1,0 +1,1076 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Centro de Control de Transferencia - Panel privado de administracion. Unidad de Buenas Practicas Clinicas HUAP.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%9B%A1%EF%B8%8F%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<title>Centro de Control de Transferencia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+:root{
+  --bg:#eef2f7;--surface:#ffffff;--surface-2:#f6f9fc;--surface-3:#eef3f8;
+  --ink:#0f2233;--ink-2:#3a5165;--ink-3:#5f7488;--line:#d9e2ec;
+  --brand:#0e4e8a;--brand-ink:#0a3a68;--brand-2:#12b5a6;
+  --shadow:0 1px 2px rgba(15,34,51,.06),0 10px 30px rgba(15,34,51,.08);
+  --shadow-lg:0 20px 55px rgba(10,58,104,.20);--radius:16px;
+  --azul:#2563eb;--azul-soft:#dbeafe;--azul-ink:#1a45b0;
+  --turquesa:#0d9488;--turquesa-soft:#cbf5ee;--turquesa-ink:#0a6d64;
+  --coral:#e64b5c;--coral-soft:#ffe0e2;--coral-ink:#b23140;
+  --violeta:#7c5cfc;--violeta-soft:#e8e2ff;--violeta-ink:#5a3fd6;
+  --ambar:#d98514;--ambar-soft:#fce6c6;--ambar-ink:#a8630a;
+  --ok:#0d9488;--ok-soft:#cbf5ee;--warn:#d98514;--warn-soft:#fce6c6;--crit:#e64b5c;--crit-soft:#ffe0e2;
+  --font-d:'Bricolage Grotesque',system-ui,sans-serif;--font-b:'Public Sans',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0b141d;--surface:#111e2b;--surface-2:#0e1a26;--surface-3:#16283a;--ink:#eaf2fa;--ink-2:#a9bccd;--ink-3:#7b91a5;
+  --line:#22384a;--brand:#4a94d6;--brand-ink:#8fc0ea;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 34px rgba(0,0,0,.45);
+  --shadow-lg:0 22px 60px rgba(0,0,0,.55);--azul-soft:#16294d;--turquesa-soft:#0c342f;--coral-soft:#3d1d22;
+  --violeta-soft:#241d47;--ambar-soft:#3a2a10;--ok-soft:#0c342f;--warn-soft:#3a2a10;--crit-soft:#3d1d22;
+}}
+:root[data-theme="dark"]{--bg:#0b141d;--surface:#111e2b;--surface-2:#0e1a26;--surface-3:#16283a;--ink:#eaf2fa;--ink-2:#a9bccd;
+  --ink-3:#7b91a5;--line:#22384a;--brand:#4a94d6;--brand-ink:#8fc0ea;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 34px rgba(0,0,0,.45);
+  --shadow-lg:0 22px 60px rgba(0,0,0,.55);--azul-soft:#16294d;--turquesa-soft:#0c342f;--coral-soft:#3d1d22;--violeta-soft:#241d47;
+  --ambar-soft:#3a2a10;--ok-soft:#0c342f;--warn-soft:#3a2a10;--crit-soft:#3d1d22;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-b);font-size:15.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--font-d);margin:0;line-height:1.12;letter-spacing:-.01em}
+p{margin:0}button{font-family:inherit;cursor:pointer}input,select,textarea{font-family:inherit}
+img,svg{display:block;max-width:100%}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:6px}
+.r-aprender{--accent:var(--azul);--accent-soft:var(--azul-soft);--accent-ink:var(--azul-ink)}
+.r-aplicar{--accent:var(--turquesa);--accent-soft:var(--turquesa-soft);--accent-ink:var(--turquesa-ink)}
+.r-ensenar{--accent:var(--coral);--accent-soft:var(--coral-soft);--accent-ink:var(--coral-ink)}
+.r-implementar{--accent:var(--violeta);--accent-soft:var(--violeta-soft);--accent-ink:var(--violeta-ink)}
+.r-evaluar{--accent:var(--ambar);--accent-soft:var(--ambar-soft);--accent-ink:var(--ambar-ink)}
+
+/* ---------- LOGIN ---------- */
+.login{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;
+  background:linear-gradient(135deg,#0a2540,#0e4e8a 55%,#0f6d67)}
+.login[hidden]{display:none!important}
+.login-card{background:var(--surface);border-radius:22px;box-shadow:var(--shadow-lg);max-width:440px;width:100%;padding:34px;text-align:center}
+.login-card .lbadge{width:64px;height:64px;border-radius:18px;margin:0 auto 16px;background:linear-gradient(135deg,var(--brand),var(--brand-2));
+  display:grid;place-items:center;box-shadow:0 12px 30px rgba(14,78,138,.4)}
+.login-card .lbadge svg{width:34px;height:34px}
+.login-card h1{font-size:1.5rem;font-weight:800}
+.login-card .lsub{color:var(--ink-2);font-size:.92rem;margin-top:6px}
+.login-users{display:flex;flex-direction:column;gap:10px;margin:22px 0}
+.luser{display:flex;align-items:center;gap:13px;text-align:left;border:2px solid var(--line);background:var(--surface-2);
+  border-radius:14px;padding:13px 15px;transition:.15s;width:100%}
+.luser:hover{border-color:var(--brand)}
+.luser.sel{border-color:var(--brand);background:var(--azul-soft)}
+.luser .lav{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;color:#fff;font-family:var(--font-d);font-weight:800;font-size:1.05rem}
+.luser b{display:block;font-size:.98rem}
+.luser small{color:var(--ink-2);font-size:.82rem}
+.luser .lrole{margin-left:auto;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.login-pin{display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:18px}
+.login-pin input{width:150px;text-align:center;letter-spacing:.3em;font-size:1.1rem;font-weight:700;padding:12px;border:2px solid var(--line);border-radius:12px;background:var(--surface-2);color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:12px 18px;
+  font-weight:700;font-size:.92rem;text-decoration:none;transition:transform .15s,box-shadow .15s,background .15s;color:var(--ink)}
+.btn:hover{transform:translateY(-1px)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-primary{background:var(--brand);color:#fff;box-shadow:0 8px 20px rgba(14,78,138,.28)}
+.btn-accent{background:var(--accent,var(--brand));color:#fff}
+.btn-ok{background:var(--ok);color:#fff}
+.btn-warn{background:var(--warn);color:#fff}
+.btn-crit{background:var(--crit);color:#fff}
+.btn-ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+.btn-lg{padding:14px 22px;font-size:1rem;border-radius:14px}
+.btn-block{width:100%}
+.btn-sm{padding:8px 12px;font-size:.84rem;border-radius:10px}
+
+/* ---------- APP SHELL ---------- */
+.app[hidden]{display:none!important}
+.app{min-height:100vh;display:grid;grid-template-columns:264px 1fr}
+@media(max-width:920px){.app{grid-template-columns:1fr}}
+.sidebar{background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;
+  position:sticky;top:0;height:100vh;z-index:30}
+@media(max-width:920px){.sidebar{position:fixed;inset:0 auto 0 0;width:280px;transform:translateX(-100%);transition:transform .25s;box-shadow:var(--shadow-lg)}
+  .sidebar.open{transform:translateX(0)}}
+.side-brand{display:flex;align-items:center;gap:11px;padding:18px 18px;border-bottom:1px solid var(--line)}
+.side-brand .sb{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:grid;place-items:center;flex:none}
+.side-brand .sb svg{width:22px;height:22px}
+.side-brand b{font-family:var(--font-d);font-size:.98rem;line-height:1.05;display:block}
+.side-brand small{font-size:.72rem;color:var(--ink-3);font-weight:600}
+.side-nav{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:4px}
+.side-nav .navlabel{font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding:12px 12px 6px}
+.navitem{display:flex;align-items:center;gap:12px;padding:12px 13px;border:0;background:transparent;border-radius:11px;
+  font-weight:600;font-size:.94rem;color:var(--ink-2);width:100%;text-align:left;transition:.14s}
+.navitem svg{width:21px;height:21px;flex:none;color:var(--ink-3)}
+.navitem:hover{background:var(--surface-2);color:var(--ink)}
+.navitem.active{background:var(--brand);color:#fff;box-shadow:0 8px 18px rgba(14,78,138,.28)}
+.navitem.active svg{color:#fff}
+.navitem .badge{margin-left:auto;background:var(--surface-3);color:var(--ink-2);font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:999px}
+.navitem.active .badge{background:rgba(255,255,255,.25);color:#fff}
+.side-foot{padding:14px;border-top:1px solid var(--line)}
+
+.main{min-width:0;display:flex;flex-direction:column}
+/* header */
+.ahead{position:relative;overflow:hidden;color:#fff;isolation:isolate}
+.ahead .hbg{position:absolute;inset:0;z-index:-2}
+.ahead .hbg svg{width:100%;height:100%}
+.ahead .hover{position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,rgba(9,42,74,.95),rgba(11,58,104,.88) 55%,rgba(13,92,120,.8))}
+.ahead-inner{padding:20px clamp(18px,3vw,34px)}
+.ahead-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hamburger{display:none;width:42px;height:42px;border-radius:11px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;place-items:center}
+@media(max-width:920px){.hamburger{display:grid}}
+.ahead h1{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;color:#fff}
+.ahead .heyebrow{font-size:.76rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#9fe9ff}
+.ahead-actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.hbtn{display:inline-flex;align-items:center;gap:7px;border-radius:11px;padding:10px 14px;font-weight:700;font-size:.86rem;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:#fff;transition:.15s}
+.hbtn:hover{background:rgba(255,255,255,.24)}
+.hbtn.solid{background:#fff;color:var(--brand-ink);border-color:#fff}
+.hbtn.danger{background:rgba(230,75,92,.9);border-color:transparent}
+.ahead-user{display:flex;align-items:center;gap:14px;margin-top:16px;flex-wrap:wrap}
+.ahead-user .uav{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--brand-2),#4f9bff);display:grid;place-items:center;font-family:var(--font-d);font-weight:800;font-size:1.2rem;color:#fff;border:2px solid rgba(255,255,255,.5)}
+.ahead-user .uname{font-family:var(--font-d);font-weight:700;font-size:1.12rem;color:#fff}
+.ahead-user .urole{display:inline-flex;align-items:center;gap:7px;font-size:.84rem;font-weight:700;color:#fff;background:rgba(255,255,255,.18);padding:4px 11px;border-radius:999px;margin-top:3px}
+.ahead-user .urole .rdot{width:8px;height:8px;border-radius:50%;background:#5ff3d6}
+.ahead-idle{display:inline-flex;align-items:center;gap:8px;margin-left:auto;font-size:.82rem;font-weight:700;color:#eaf6ff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);padding:8px 13px;border-radius:11px}
+.ahead-idle svg{width:16px;height:16px}
+.ahead-idle b{color:#fff}
+
+.content{padding:clamp(18px,3vw,30px);flex:1}
+.view[hidden]{display:none!important}
+.view-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:22px}
+.view-head h2{font-size:clamp(1.35rem,2.4vw,1.8rem);font-weight:700}
+.view-head p{color:var(--ink-2);margin-top:5px;max-width:64ch}
+.eyebrow{font-size:.74rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--brand)}
+
+/* stat cards */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.stat .si{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:#fff;margin-bottom:12px}
+.stat .si svg{width:23px;height:23px}
+.stat .snum{font-family:var(--font-d);font-size:2.1rem;font-weight:800;line-height:1}
+.stat .slabel{font-size:.86rem;color:var(--ink-2);font-weight:600;margin-top:4px}
+.stat .strend{position:absolute;top:16px;right:16px;font-size:.74rem;font-weight:800;padding:3px 9px;border-radius:999px}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:clamp(16px,2.4vw,24px)}
+.panel + .panel{margin-top:20px}
+.panel-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.panel-head h3{font-size:1.15rem;font-weight:700}
+.panel-head p{font-size:.85rem;color:var(--ink-2);margin-top:2px}
+
+/* route distribution bars */
+.rdist{display:flex;flex-direction:column;gap:12px}
+.rdist-row{display:grid;grid-template-columns:130px 1fr 46px;align-items:center;gap:12px}
+@media(max-width:560px){.rdist-row{grid-template-columns:110px 1fr 40px}}
+.rdist-row .rl{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.88rem}
+.rdist-row .rl .d{width:11px;height:11px;border-radius:50%;background:var(--accent)}
+.rdist-bar{height:12px;border-radius:7px;background:var(--surface-3);overflow:hidden}
+.rdist-bar i{display:block;height:100%;border-radius:7px;background:var(--accent);transition:width .5s}
+.rdist-row .rv{font-family:var(--font-d);font-weight:800;text-align:right}
+
+/* forms */
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+@media(max-width:680px){.form-grid{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.col-2{grid-column:1/-1}
+.field label{font-weight:700;font-size:.88rem;color:var(--ink)}
+.field label .req{color:var(--crit)}
+.field .hint{font-size:.78rem;color:var(--ink-3)}
+.input,.select,.textarea{border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:11px;
+  padding:11px 13px;font-size:.94rem;width:100%;transition:.15s}
+.input:focus,.select:focus,.textarea:focus{outline:none;border-color:var(--brand);background:var(--surface)}
+.textarea{resize:vertical;min-height:92px}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink-2);border-radius:10px;padding:9px 13px;font-weight:700;font-size:.85rem;transition:.14s}
+.seg button:hover{border-color:var(--brand);color:var(--ink)}
+.seg button.on{background:var(--accent,var(--brand));color:#fff;border-color:transparent}
+.seg.routes button.on{background:var(--accent);border-color:transparent}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.check{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:var(--surface-2);border-radius:10px;padding:8px 12px;font-weight:600;font-size:.85rem;cursor:pointer;transition:.14s}
+.check:hover{border-color:var(--brand)}
+.check.on{background:var(--brand);color:#fff;border-color:transparent}
+.check input{display:none}
+
+/* upload zones */
+.uploads{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:680px){.uploads{grid-template-columns:1fr}}
+.drop{border:2px dashed var(--line);border-radius:13px;padding:16px;text-align:center;background:var(--surface-2);transition:.15s;position:relative}
+.drop:hover{border-color:var(--brand)}
+.drop .dico{width:40px;height:40px;border-radius:11px;margin:0 auto 8px;display:grid;place-items:center;color:#fff}
+.drop .dico svg{width:21px;height:21px}
+.drop b{font-size:.9rem}
+.drop small{display:block;color:var(--ink-3);font-size:.76rem;margin-top:3px}
+.drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.filechip{display:flex;align-items:center;gap:10px;margin-top:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 11px;text-align:left}
+.filechip .fx{width:32px;height:32px;border-radius:8px;background:var(--accent-soft,var(--azul-soft));color:var(--accent-ink,var(--azul-ink));display:grid;place-items:center;font-weight:800;font-size:.7rem;flex:none}
+.filechip b{font-size:.84rem;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.filechip small{color:var(--ink-3);font-size:.74rem}
+.filechip .rm{margin-left:auto;border:0;background:var(--crit-soft);color:var(--crit);width:26px;height:26px;border-radius:7px;font-weight:800}
+.cover-prev{margin-top:10px;border-radius:11px;overflow:hidden;border:1px solid var(--line);max-height:150px}
+.cover-prev img{width:100%;height:150px;object-fit:cover}
+
+/* destino preview */
+.destino{background:linear-gradient(135deg,var(--surface-3),var(--surface-2));border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-top:6px}
+.destino h4{font-size:.95rem;display:flex;align-items:center;gap:8px}
+.destino .drow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.dpill{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:700;font-size:.82rem}
+.dpill .dd{width:9px;height:9px;border-radius:50%}
+
+.form-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.form-actions .spacer{flex:1}
+
+/* table / published */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+.search-in{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:11px;padding:9px 13px;background:var(--surface-2);flex:1;min-width:200px}
+.search-in svg{width:18px;height:18px;color:var(--ink-3);flex:none}
+.search-in input{border:0;background:transparent;color:var(--ink);width:100%;font-size:.92rem}
+.search-in input:focus{outline:none}
+.filter-sel{border:1.5px solid var(--line);border-radius:11px;padding:9px 12px;background:var(--surface-2);color:var(--ink);font-weight:600;font-size:.88rem}
+
+.rtable{width:100%;border-collapse:separate;border-spacing:0}
+.rtable-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+.rtable th{text-align:left;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:800;padding:13px 14px;background:var(--surface-2);white-space:nowrap;border-bottom:1px solid var(--line)}
+.rtable td{padding:13px 14px;border-bottom:1px solid var(--line);font-size:.9rem;vertical-align:middle}
+.rtable tr:last-child td{border-bottom:0}
+.rtable tr:hover td{background:var(--surface-2)}
+.rt-title{font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+.rt-thumb{width:40px;height:40px;border-radius:9px;flex:none;overflow:hidden;background:var(--accent-soft)}
+.rt-thumb svg,.rt-thumb img{width:100%;height:100%;object-fit:cover}
+.rt-sub{font-size:.78rem;color:var(--ink-3);font-weight:500}
+.rpill{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.rpill .pd{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.rpill.route{background:var(--accent-soft);color:var(--accent-ink)}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:800;padding:4px 10px;border-radius:999px}
+.st .sdot{width:7px;height:7px;border-radius:50%}
+.st.publicado{background:var(--ok-soft);color:var(--ok)} .st.publicado .sdot{background:var(--ok)}
+.st.borrador{background:var(--warn-soft);color:var(--warn)} .st.borrador .sdot{background:var(--warn)}
+.st.oculto{background:var(--surface-3);color:var(--ink-3)} .st.oculto .sdot{background:var(--ink-3)}
+.rowacts{display:flex;flex-wrap:wrap;gap:5px}
+.iact{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);display:grid;place-items:center;transition:.14s}
+.iact:hover{color:var(--ink);border-color:var(--brand)}
+.iact svg{width:16px;height:16px}
+.iact.danger:hover{color:var(--crit);border-color:var(--crit)}
+
+/* experiencia bloques */
+.exp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.exp-card{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--brand);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+.exp-card h4{font-size:1rem}
+.exp-card .exp-txt{font-size:.86rem;color:var(--ink-2);margin-top:8px;background:var(--surface-2);border-radius:9px;padding:10px 12px;max-height:120px;overflow:auto}
+.exp-card .exp-acts{display:flex;gap:8px;margin-top:12px}
+
+/* analytics */
+.mini-list{display:flex;flex-direction:column;gap:8px}
+.mini-row{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--surface-2);border-radius:11px;font-size:.9rem}
+.mini-row .mrank{width:26px;height:26px;border-radius:8px;background:var(--brand);color:#fff;display:grid;place-items:center;font-family:var(--font-d);font-weight:800;font-size:.8rem;flex:none}
+.mini-row b{font-weight:700}
+.mini-row .mval{margin-left:auto;font-family:var(--font-d);font-weight:800;color:var(--brand-ink)}
+.mini-row.empty-q{color:var(--crit)}
+.mini-row.empty-q .mrank{background:var(--crit)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:820px){.two-col{grid-template-columns:1fr}}
+.timeline{display:flex;flex-direction:column;gap:2px;max-height:340px;overflow:auto}
+.tl{display:flex;gap:12px;padding:11px 8px;border-bottom:1px dashed var(--line);font-size:.86rem}
+.tl:last-child{border-bottom:0}
+.tl .tt{font-family:var(--font-d);font-weight:700;color:var(--ink-3);font-size:.78rem;white-space:nowrap;flex:none;width:104px}
+.tl .ta{font-weight:600}
+
+/* toast */
+.toasts{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:120;display:flex;flex-direction:column;gap:10px;align-items:center;pointer-events:none}
+.toast{background:var(--ink);color:#fff;padding:13px 20px;border-radius:12px;font-weight:700;font-size:.9rem;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:10px;animation:tin .3s ease}
+.toast.ok{background:var(--ok)}.toast.warn{background:var(--warn)}.toast.crit{background:var(--crit)}
+.toast svg{width:19px;height:19px}
+@keyframes tin{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+
+/* modal */
+.overlay{position:fixed;inset:0;z-index:110;background:rgba(9,20,32,.58);backdrop-filter:blur(4px);display:grid;place-items:center;padding:16px}
+.overlay[hidden]{display:none!important}
+.modal{background:var(--surface);border-radius:20px;max-width:560px;width:100%;max-height:90vh;overflow:auto;box-shadow:var(--shadow-lg);animation:pop .22s ease}
+.modal.wide{max-width:720px}
+@keyframes pop{from{transform:translateY(14px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+.modal-head{padding:20px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
+.modal-head h3{font-size:1.2rem}
+.modal-head .mclose{margin-left:auto;width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);font-size:1.1rem}
+.modal-body{padding:22px 24px}
+.modal-foot{padding:16px 24px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;background:var(--surface-2);border-radius:0 0 20px 20px}
+.confirm-ico{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;margin-bottom:14px}
+.confirm-ico svg{width:30px;height:30px}
+
+/* preview card (portada style) */
+.pvcard{border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);max-width:340px;margin:0 auto}
+.pvcard .pvimg{height:140px;position:relative}
+.pvcard .pvimg svg{position:absolute;inset:0;width:100%;height:100%}
+.pvcard .pvtype{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);color:var(--accent-ink);border-radius:999px;padding:5px 11px;font-weight:800;font-size:.72rem}
+.pvcard .pvbody{padding:15px 16px}
+.pvcard .pvtopic{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-ink)}
+.pvcard h3{font-size:1.05rem;margin-top:6px}
+.pvcard .pvd{font-size:.85rem;color:var(--ink-2);margin-top:6px}
+.pvcard .pvbtn{margin-top:12px;width:100%;background:var(--accent-soft);color:var(--accent-ink);border:0;border-radius:11px;padding:11px;font-weight:700}
+
+.user-card{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);margin-bottom:10px}
+.user-card .uc-av{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;color:#fff;font-family:var(--font-d);font-weight:800;flex:none}
+.user-card .uc-i{min-width:0}
+.user-card .uc-i b{display:block}
+.user-card .uc-i small{color:var(--ink-2);font-size:.82rem;word-break:break-all}
+.user-card .uc-role{font-size:.74rem;font-weight:800;padding:4px 11px;border-radius:999px;white-space:nowrap}
+.role-principal{background:var(--violeta-soft);color:var(--violeta-ink)}
+.role-biblioteca{background:var(--azul-soft);color:var(--azul-ink)}
+.role-editor{background:var(--turquesa-soft);color:var(--turquesa-ink)}
+.uc-acts{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.switch{position:relative;width:44px;height:25px;flex:none}
+.switch input{display:none}
+.switch .track{position:absolute;inset:0;background:var(--ink-3);border-radius:999px;transition:.2s}
+.switch .knob{position:absolute;top:3px;left:3px;width:19px;height:19px;background:#fff;border-radius:50%;transition:.2s}
+.switch input:checked + .track{background:var(--ok)}
+.switch input:checked + .track + .knob{transform:translateX(19px)}
+.empty-state{text-align:center;padding:40px 20px;color:var(--ink-2)}
+.empty-state svg{width:46px;height:46px;color:var(--ink-3);margin:0 auto 12px}
+.note{display:flex;gap:10px;align-items:flex-start;background:var(--azul-soft);color:var(--azul-ink);border-radius:12px;padding:12px 14px;font-size:.85rem;font-weight:600}
+.note svg{width:19px;height:19px;flex:none;margin-top:1px}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+</style>
+
+<!-- ============ LOGIN ============ -->
+<div class="login" id="login">
+  <div class="login-card">
+    <div class="lbadge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 8v6M9 11h6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+    <h1>Centro de Control de Transferencia</h1>
+    <p class="lsub">Unidad de Buenas Prácticas Clínicas – HUAP · Acceso privado de administración</p>
+    <div class="login-users" id="loginUsers"></div>
+    <div class="login-pin">
+      <input id="loginPin" type="password" inputmode="numeric" maxlength="6" placeholder="PIN" aria-label="PIN de acceso" value="1234">
+    </div>
+    <button class="btn btn-primary btn-lg btn-block" id="loginBtn">Ingresar al Centro de Control</button>
+    <p class="lsub" style="margin-top:14px">Demostración: selecciona un usuario · PIN <b>1234</b></p>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div class="app" id="app" hidden>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="side-brand">
+      <span class="sb"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 8v6M9 11h6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+      <span><b>Centro de Control</b><small>Transferencia · HUAP</small></span>
+    </div>
+    <nav class="side-nav" id="sideNav">
+      <span class="navlabel">Administración</span>
+    </nav>
+    <div class="side-foot">
+      <button class="btn btn-ghost btn-block btn-sm" id="verCentroSide">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        Ver Centro público
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="ahead">
+      <div class="hbg" aria-hidden="true">
+        <svg viewBox="0 0 1440 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="ah" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#123a63"/><stop offset="1" stop-color="#0f6d67"/></linearGradient></defs>
+          <rect width="1440" height="300" fill="url(#ah)"/>
+          <g stroke="#ffffff" stroke-opacity=".12" stroke-width="2" fill="none">
+            <path d="M0 210h300l30-60 40 120 34-150 40 210 30-90h260"/>
+          </g>
+          <g fill="#ffffff" fill-opacity=".06"><circle cx="1240" cy="70" r="120"/><circle cx="1120" cy="240" r="70"/></g>
+          <g transform="translate(1180,90)" fill="#fff" fill-opacity=".14"><rect x="18" y="0" width="14" height="50" rx="3"/><rect x="0" y="18" width="50" height="14" rx="3"/></g>
+        </svg>
+      </div>
+      <div class="hover" aria-hidden="true"></div>
+      <div class="ahead-inner">
+        <div class="ahead-top">
+          <button class="hamburger" id="hamburger" aria-label="Abrir menú"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/></svg></button>
+          <div>
+            <div class="heyebrow">Panel privado · Unidad de Buenas Prácticas Clínicas – HUAP</div>
+            <h1>Centro de Control de Transferencia</h1>
+          </div>
+          <div class="ahead-actions">
+            <button class="hbtn solid" id="verCentro"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> Ver Centro</button>
+            <button class="hbtn" id="switchUser"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 11l-3-3m0 0l-3 3m3-3v8" stroke-linecap="round" stroke-linejoin="round"/></svg> Cambiar usuario</button>
+            <button class="hbtn danger" id="logout"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke-linecap="round" stroke-linejoin="round"/></svg> Cerrar sesión</button>
+          </div>
+        </div>
+        <div class="ahead-user">
+          <div class="uav" id="userAv">A</div>
+          <div>
+            <div class="uname" id="userName">—</div>
+            <div class="urole"><span class="rdot"></span><span id="userRole">—</span></div>
+          </div>
+          <div class="ahead-idle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg> Cierre automático en <b id="idleClock">30:00</b> por inactividad</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="content" id="adminMain"></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+<div class="overlay" id="overlay" hidden><div class="modal" id="modal" role="dialog" aria-modal="true"></div></div>
+
+<script>
+/* ================= STORE ================= */
+const DB={
+  get(k,d){try{const v=localStorage.getItem('nex_'+k);return v?JSON.parse(v):d;}catch(e){return d;}},
+  set(k,v){try{localStorage.setItem('nex_'+k,JSON.stringify(v));return true;}catch(e){toast('No se pudo guardar (almacenamiento lleno)','crit');return false;}}
+};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const uid=()=>'r'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+function now(){const d=new Date();return d.toLocaleDateString('es-CL',{day:'2-digit',month:'short'})+' · '+d.toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'});}
+
+/* ================= REFERENCE ================= */
+const RUTAS=[
+  {key:'aprender',label:'Aprender',full:'Necesito aprender',cls:'r-aprender',sec:'Recursos permanentes por temática'},
+  {key:'aplicar',label:'Aplicar',full:'Necesito aplicar',cls:'r-aplicar',sec:'Recursos permanentes por temática'},
+  {key:'ensenar',label:'Enseñar',full:'Necesito enseñar',cls:'r-ensenar',sec:'Recursos permanentes por temática'},
+  {key:'implementar',label:'Implementar',full:'Necesito implementar',cls:'r-implementar',sec:'Recursos permanentes por temática'},
+  {key:'evaluar',label:'Evaluar',full:'Necesito evaluar',cls:'r-evaluar',sec:'Recursos permanentes por temática'},
+];
+const RM=Object.fromEntries(RUTAS.map(r=>[r.key,r]));
+const TEMAS=[{key:'lesiones',label:'Lesiones por presión'},{key:'accesos',label:'Accesos vasculares'},{key:'dolor',label:'Dolor'},
+  {key:'iaas',label:'IAAS'},{key:'seguridad',label:'Seguridad del paciente'},{key:'otras',label:'Otras buenas prácticas'}];
+const TM=Object.fromEntries(TEMAS.map(t=>[t.key,t]));
+const ROLES=[{key:'enfermeria',label:'Enfermería'},{key:'tens',label:'TENS'},{key:'kine',label:'Kinesiología'},
+  {key:'auxiliares',label:'Auxiliares'},{key:'jefaturas',label:'Jefaturas y supervisión'},{key:'champions',label:'Champions Clínicos'}];
+const ROLM=Object.fromEntries(ROLES.map(r=>[r.key,r]));
+const TIPOS=['Guía','Algoritmo','Checklist','Norma','Cápsula','Video','Infografía','Presentación','Auditoría','Indicador','Pauta','Herramienta','Escala','Actividad','Recomendación'];
+const APREND=[{key:'leer',label:'Leer',ico:'📖'},{key:'ver',label:'Ver',ico:'👁'},{key:'escuchar',label:'Escuchar',ico:'🎧'},{key:'practicar',label:'Practicar',ico:'✋'}];
+const APM=Object.fromEntries(APREND.map(a=>[a.key,a]));
+const ADMIN_ROLES={principal:{label:'Administrador principal',desc:'Control completo',cls:'role-principal'},
+  biblioteca:{label:'Administrador de biblioteca',desc:'Gestión general de contenidos',cls:'role-biblioteca'},
+  editor:{label:'Editor de contenidos',desc:'Crea y modifica contenidos autorizados',cls:'role-editor'}};
+const TEMA_ICON={lesiones:'<path d="M4 15c3-4 6-6 8-6s3 1 3 3-2 3-4 3-3-1-3-3c0-3 3-6 8-8" stroke-linecap="round"/><path d="M3 19h18" stroke-linecap="round"/>',
+  accesos:'<path d="M12 3v5m0 0l-2.5 2.5M12 8l2.5 2.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="9" y="10" width="6" height="9" rx="2"/>',
+  dolor:'<path d="M3 12h4l2-5 3 9 2-4h5" stroke-linecap="round" stroke-linejoin="round"/>',
+  iaas:'<path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>',
+  seguridad:'<circle cx="12" cy="8" r="3.2"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke-linecap="round"/>',
+  otras:'<path d="M12 3l2.4 5 5.6.5-4.2 3.8 1.3 5.5L12 15l-5.1 2.8 1.3-5.5L4 8.5 9.6 8 12 3z" stroke-linejoin="round"/>'};
+const RCOL={'r-aprender':['#2563eb','#5f92f6'],'r-aplicar':['#0d9488','#3fd0bd'],'r-ensenar':['#e64b5c','#ff8a95'],'r-implementar':['#7c5cfc','#a48cff'],'r-evaluar':['#d98514','#eba94b']};
+function svgImg(tema,cls,h){const[c1,c2]=RCOL[cls]||['#0e4e8a','#12b5a6'];const g='g'+Math.random().toString(36).slice(2,7);
+  return `<svg viewBox="0 0 400 ${h}" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs><rect width="400" height="${h}" fill="url(#${g})"/><circle cx="330" cy="${h*.28}" r="${h*.55}" fill="rgba(255,255,255,.12)"/><g transform="translate(${200-26},${h/2-26}) scale(2.2)" stroke="#fff" stroke-width="1.4" fill="none">${TEMA_ICON[tema]||TEMA_ICON.otras}</g></svg>`;}
+
+/* ================= SEED ================= */
+function seed(){
+  if(!DB.get('resources')){
+    const base=[
+     ['Guía RNAO: Valoración y prevención de lesiones por presión','Recomendaciones basadas en evidencia para valorar el riesgo y prevenir LPP en pacientes hospitalizados.','aprender','lesiones',['enfermeria','tens','champions'],'leer','Guía','RNAO','2016','LPP, Braden, prevención','20 min','publicado'],
+     ['Checklist de cambios de posición cada 2 horas','Lista de verificación para asegurar la reposición y el alivio de presión en pacientes de riesgo.','aplicar','lesiones',['enfermeria','tens','auxiliares'],'practicar','Checklist','UBPC HUAP','2024','posición, alivio de presión','2 min','publicado'],
+     ['Escala de Braden: aplicación paso a paso','Cómo puntuar el riesgo de lesión por presión y qué medidas activar según el resultado.','aplicar','lesiones',['enfermeria','tens'],'practicar','Escala','Braden & Bergstrom','2023','Braden, riesgo','5 min','publicado'],
+     ['Infografía: los 5 puntos clave para prevenir LPP','Material visual listo para imprimir y usar en la inducción del equipo.','ensenar','lesiones',['champions','jefaturas','tens'],'ver','Infografía','UBPC HUAP','2025','infografía, inducción','Descarga','publicado'],
+     ['Mantención segura de accesos vasculares periféricos','Evidencia sobre inserción, mantención y retiro oportuno de vías venosas periféricas.','aprender','accesos',['enfermeria','tens'],'leer','Guía','INS','2021','vía venosa, flebitis','15 min','publicado'],
+     ['Algoritmo: ¿retirar o mantener la vía venosa?','Diagrama de flujo para decidir el retiro de un acceso periférico según signos de flebitis.','aplicar','accesos',['enfermeria','tens','champions'],'ver','Algoritmo','Escala VIP','2022','flebitis, retiro','3 min','publicado'],
+     ['Checklist de instalación de catéter venoso periférico','Pasos de asepsia y verificación para una instalación segura junto a la cama.','aplicar','accesos',['enfermeria','tens'],'practicar','Checklist','Bundle HUAP','2024','asepsia, catéter','2 min','publicado'],
+     ['Indicador: tasa de flebitis por 1.000 días-catéter','Ficha del indicador, fórmula de cálculo y meta institucional para seguimiento mensual.','evaluar','accesos',['jefaturas','champions'],'leer','Indicador','Programa IAAS HUAP','2025','indicador, flebitis','Ficha','publicado'],
+     ['Manejo del dolor agudo en el servicio de urgencia','Recomendaciones para la valoración y tratamiento oportuno del dolor en adultos.','aprender','dolor',['enfermeria','kine','tens'],'leer','Recomendación','MINSAL','2023','dolor agudo, EVA','12 min','publicado'],
+     ['Escala EVA y ESCID: cuál usar y cuándo','Guía práctica para valorar dolor en pacientes comunicantes y no comunicantes.','aplicar','dolor',['enfermeria','tens','kine'],'practicar','Escala','UBPC HUAP','2024','EVA, ESCID','4 min','publicado'],
+     ['Cápsula en video: valoración del dolor en 3 minutos','Microaprendizaje audiovisual para reforzar la valoración sistemática del dolor.','ensenar','dolor',['enfermeria','tens','champions'],'ver','Cápsula','UBPC HUAP','2025','video, dolor','3 min','publicado'],
+     ['Norma de higiene de manos: los 5 momentos de la OMS','Fundamento y aplicación de los cinco momentos clave para la higiene de manos.','aprender','iaas',['enfermeria','tens','auxiliares','kine'],'leer','Norma','OMS','2009','higiene de manos, IAAS','10 min','publicado'],
+     ['Bundle de prevención de neumonía asociada a VM','Paquete de medidas verificables para prevenir NAV en pacientes ventilados.','aplicar','iaas',['enfermeria','kine','champions'],'practicar','Checklist','Programa IAAS HUAP','2024','NAV, bundle','3 min','publicado'],
+     ['Pauta de auditoría de higiene de manos','Instrumento de observación directa para medir adherencia por unidad y turno.','evaluar','iaas',['jefaturas','champions'],'practicar','Auditoría','IAAS HUAP','2025','auditoría, adherencia','Pauta','publicado'],
+     ['Identificación segura del paciente','Prácticas para verificar la identidad con dos identificadores antes de cada procedimiento.','aprender','seguridad',['enfermeria','tens','auxiliares'],'leer','Guía','Metas OMS','2022','identificación, seguridad','8 min','publicado'],
+     ['Checklist de traspaso de turno SBAR','Estructura Situación-Antecedentes-Evaluación-Recomendación para un traspaso seguro.','aplicar','seguridad',['enfermeria','tens','kine','jefaturas'],'practicar','Checklist','SBAR','2024','SBAR, traspaso','4 min','publicado'],
+     ['Plan de implementación por unidad, rol y brecha','Plantilla para bajar una guía RNAO a la realidad de tu unidad y asignar responsables.','implementar','seguridad',['jefaturas','champions'],'practicar','Herramienta','Modelo BPSO · RNAO','2025','implementación, brecha','Plantilla','publicado'],
+     ['Tablero de indicadores de seguridad del paciente','Panel con eventos adversos, caídas y adherencia a metas para seguimiento por unidad.','evaluar','seguridad',['jefaturas','champions'],'ver','Indicador','Calidad HUAP','2025','indicadores, eventos','Panel','publicado'],
+     ['Presentación: cultura de seguridad y notificación de eventos','Set de diapositivas para sensibilizar al equipo sobre la notificación sin culpa.','ensenar','seguridad',['champions','jefaturas'],'ver','Presentación','UBPC HUAP','2025','cultura, notificación','Descarga','publicado'],
+     ['Ruta de implementación de la guía LPP en tu unidad','Pasos, recursos y roles para instalar la prevención de LPP como práctica estándar.','implementar','lesiones',['jefaturas','champions','enfermeria'],'practicar','Herramienta','Modelo BPSO · RNAO','2025','implementación, LPP','Plantilla','publicado'],
+     ['Actividad práctica: taller de movilización segura','Guion de taller con estaciones para entrenar la movilización y el traslado seguro.','ensenar','otras',['kine','tens','auxiliares'],'practicar','Actividad','Kinesiología HUAP','2024','taller, movilización','45 min','borrador'],
+     ['Pauta de seguimiento de la reevaluación del dolor','Instrumento para verificar que el dolor se reevalúe tras cada intervención.','evaluar','dolor',['enfermeria','champions','jefaturas'],'leer','Pauta','UBPC HUAP','2025','reevaluación, dolor','Pauta','oculto'],
+    ];
+    const res=base.map((b,i)=>({id:'seed'+i,titulo:b[0],descripcion:b[1],ruta:b[2],tema:b[3],roles:b[4],aprendizaje:b[5],tipo:b[6],
+      autor:b[7],anio:b[8],keywords:b[9],tiempo:b[10],estado:b[11],imagen:null,archivo:null,enlace:'',youtube:'',
+      creadoPor:'Administrador principal',modificadoPor:'Administrador principal',fecha:now()}));
+    DB.set('resources',res);
+  }
+  if(!DB.get('weekly')) DB.set('weekly',{ref:'seed0',titulo:'',resumen:'',autor:'',anio:'',tipo:'Guía',tema:'lesiones',enlace:'',fecha:now()});
+  if(!DB.get('experience')) DB.set('experience',{
+    hero:{label:'Textos principales de la portada',value:'Centro de Transferencia del Conocimiento · Seguridad, Evidencia y Cuidado. ¿Qué necesitas resolver hoy?'},
+    turno:{label:'Lo necesito para el turno',value:'Acción rápida junto a la cama del paciente. Recursos breves para resolver en segundos durante el turno.'},
+    tematica:{label:'Recursos permanentes por temática',value:'Explora y filtra el conocimiento clínico por temática, ruta o rol.'},
+    roles:{label:'Recursos según rol',value:'Contenido pensado para tu función clínica: Enfermería, TENS, Kinesiología, Auxiliares, Jefaturas y Champions.'},
+    practica:{label:'De la evidencia a la práctica',value:'Un recorrido claro: necesidad clínica → recurso → aplicación práctica → evaluación.'},
+    mejora:{label:'Oportunidades de mejora',value:'Brechas detectadas que podemos cerrar juntos, del monitoreo de indicadores a la acción concreta.'},
+    updates:{label:'Últimas actualizaciones',value:'Novedades del Centro: nuevos recursos, evidencias y herramientas publicadas cada semana.'}
+  });
+  if(!DB.get('analytics')) DB.set('analytics',{
+    visitas:1284,descargas:212,eviAperturas:96,
+    aperturas:{seed0:142,seed4:118,seed11:205,seed15:88,seed8:76,seed2:64,seed1:59,seed14:47},
+    busquedas:[['higiene de manos',48],['braden',37],['dolor',33],['flebitis',24],['sbar',19],['caídas',12]],
+    sinResultado:[['sedación',8],['delirium',6],['nutrición enteral',4]],
+    usoTema:{iaas:342,lesiones:298,seguridad:256,dolor:188,accesos:164,otras:52},
+    usoRol:{enfermeria:520,tens:284,jefaturas:190,champions:150,kine:110,auxiliares:60},
+    interacciones:[]
+  });
+  if(!DB.get('users')) DB.set('users',[
+    {id:'u1',nombre:'Dra. Camila Rojas',correo:'camila.rojas@huap.cl',rol:'principal',activo:true,color:'#7c5cfc'},
+    {id:'u2',nombre:'EU Marcela Díaz',correo:'marcela.diaz@huap.cl',rol:'biblioteca',activo:true,color:'#2563eb'},
+    {id:'u3',nombre:'TENS Jorge Soto',correo:'jorge.soto@huap.cl',rol:'editor',activo:true,color:'#0d9488'},
+    {id:'u4',nombre:'EU Paula Fuentes',correo:'paula.fuentes@huap.cl',rol:'editor',activo:false,color:'#d98514'}
+  ]);
+  if(!DB.get('audit')) DB.set('audit',[
+    {t:now(),who:'Administrador principal',what:'Inicializó el Centro de Control con 22 recursos base'},
+    {t:now(),who:'Administrador de biblioteca',what:'Publicó “Norma de higiene de manos: los 5 momentos de la OMS”'}
+  ]);
+}
+function logAudit(what){const a=DB.get('audit',[]);a.unshift({t:now(),who:ADMIN_ROLES[session.rol].label,what});DB.set('audit',a.slice(0,80));}
+
+/* ================= SESSION ================= */
+let session=null;
+const SESSION_USERS=()=>DB.get('users',[]).filter(u=>u.activo);
+function renderLoginUsers(){
+  const sel=DB.get('_loginSel',null);
+  $('#loginUsers').innerHTML=SESSION_USERS().map(u=>`
+    <button class="luser ${sel===u.id?'sel':''}" data-u="${u.id}">
+      <span class="lav" style="background:${u.color}">${esc(u.nombre.split(' ').slice(-1)[0][0])}</span>
+      <span><b>${esc(u.nombre)}</b><small>${esc(u.correo)}</small></span>
+      <span class="lrole ${ADMIN_ROLES[u.rol].cls}">${ADMIN_ROLES[u.rol].label.replace('Administrador','Admin.')}</span>
+    </button>`).join('');
+  $$('#loginUsers .luser').forEach(b=>b.onclick=()=>{DB.set('_loginSel',b.dataset.u);renderLoginUsers();});
+  if(!sel && SESSION_USERS()[0]){DB.set('_loginSel',SESSION_USERS()[0].id);renderLoginUsers();}
+}
+function doLogin(){
+  const sel=DB.get('_loginSel',null);const u=DB.get('users',[]).find(x=>x.id===sel);
+  if(!u){toast('Selecciona un usuario','warn');return;}
+  if($('#loginPin').value!=='1234'){toast('PIN incorrecto (usa 1234)','crit');return;}
+  session={id:u.id,nombre:u.nombre,rol:u.rol,color:u.color};
+  DB.set('_session',session);
+  $('#login').hidden=true;$('#app').hidden=false;
+  paintUser();resetIdle();startIdle();navigate('overview');
+  toast('Sesión iniciada: '+u.nombre,'ok');
+}
+function paintUser(){
+  $('#userName').textContent=session.nombre;
+  $('#userRole').textContent=ADMIN_ROLES[session.rol].label;
+  $('#userAv').textContent=session.nombre.split(' ').slice(-1)[0][0];
+  $('#userAv').style.background=session.color;
+}
+function logout(){DB.set('_session',null);session=null;$('#app').hidden=true;$('#login').hidden=false;$('#loginPin').value='1234';renderLoginUsers();clearInterval(idleTimer);}
+
+/* idle 30 min */
+let idleTimer=null,idleLeft=30*60;
+function resetIdle(){idleLeft=30*60;}
+function tickIdle(){idleLeft--;const m=Math.floor(idleLeft/60),s=idleLeft%60;
+  const c=$('#idleClock');if(c)c.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  if(idleLeft<=0){clearInterval(idleTimer);toast('Sesión cerrada por 30 min de inactividad','warn');logout();}}
+['mousemove','keydown','click','scroll','touchstart'].forEach(ev=>document.addEventListener(ev,()=>{if(session)resetIdle();},{passive:true}));
+function startIdle(){clearInterval(idleTimer);idleTimer=setInterval(tickIdle,1000);}
+
+/* ================= NAV ================= */
+const NAV=[
+  {key:'overview',label:'Visión general',ico:'<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>'},
+  {key:'create',label:'Crear contenido',ico:'<path d="M12 5v14M5 12h14" stroke-linecap="round"/>'},
+  {key:'published',label:'Contenido publicado',ico:'<path d="M4 5h16M4 12h16M4 19h10" stroke-linecap="round"/>'},
+  {key:'weekly',label:'Evidencia semanal',ico:'<path d="M12 3l2.4 5 5.6.5-4.2 3.8 1.3 5.5L12 15l-5.1 2.8 1.3-5.5L4 8.5 9.6 8 12 3z" stroke-linejoin="round"/>'},
+  {key:'experience',label:'Experiencia pública',ico:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>'},
+  {key:'usage',label:'Uso del Centro',ico:'<path d="M4 19V5M4 19h16M8 16v-5M12 16V8M16 16v-3" stroke-linecap="round"/>'},
+  {key:'users',label:'Usuarios y permisos',ico:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16 4.5a3.2 3.2 0 010 7M21 20c0-2.6-1.5-4.4-3.8-5.1" stroke-linecap="round"/>'},
+];
+let currentView='overview';
+function renderNav(){
+  const res=DB.get('resources',[]);const counts={published:res.filter(r=>r.estado==='publicado').length};
+  const nav=$('#sideNav');
+  nav.innerHTML='<span class="navlabel">Administración</span>'+NAV.map(n=>`
+    <button class="navitem ${n.key===currentView?'active':''}" data-nav="${n.key}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">${n.ico}</svg>
+      <span>${n.label}</span>${n.key==='published'?`<span class="badge">${counts.published}</span>`:''}
+    </button>`).join('');
+  $$('#sideNav .navitem').forEach(b=>b.onclick=()=>{navigate(b.dataset.nav);$('#sidebar').classList.remove('open');});
+}
+function navigate(key){currentView=key;renderNav();resetIdle();
+  ({overview:viewOverview,create:viewCreate,published:viewPublished,weekly:viewWeekly,experience:viewExperience,usage:viewUsage,users:viewUsers}[key])();
+  $('#adminMain').scrollTop=0;window.scrollTo({top:0,behavior:'smooth'});}
+
+/* ================= VIEW: OVERVIEW ================= */
+function viewOverview(){
+  const res=DB.get('resources',[]);
+  const total=res.length,pub=res.filter(r=>r.estado==='publicado').length,ocultos=res.filter(r=>r.estado==='oculto').length;
+  const weekly=DB.get('weekly',{});const evidencias=res.filter(r=>r.dest).length + (weekly.ref||weekly.titulo?1:0);
+  const byRuta=Object.fromEntries(RUTAS.map(r=>[r.key,res.filter(x=>x.ruta===r.key).length]));
+  const maxR=Math.max(1,...Object.values(byRuta));
+  const st=(ico,color,num,label,trend)=>`<div class="stat"><div class="si" style="background:${color}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">${ico}</svg></div>
+    ${trend?`<span class="strend" style="background:var(--ok-soft);color:var(--ok)">${trend}</span>`:''}
+    <div class="snum">${num}</div><div class="slabel">${label}</div></div>`;
+  $('#adminMain').innerHTML=`
+  <div class="view">
+    <div class="view-head">
+      <div><span class="eyebrow">Visión general</span><h2>Estado del Centro de Transferencia</h2>
+        <p>Resumen del conocimiento clínico gestionado y su distribución por ruta.</p></div>
+      <button class="btn btn-primary btn-lg" onclick="navigate('create')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+        Crear nuevo recurso</button>
+    </div>
+    <div class="stats">
+      ${st('<path d="M4 5h16M4 12h16M4 19h16" stroke-linecap="round"/>','#0e4e8a',total,'Total de recursos')}
+      ${st('<path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/>','#0d9488',pub,'Recursos publicados','En línea')}
+      ${st('<path d="M12 3l2.4 5 5.6.5-4.2 3.8 1.3 5.5L12 15l-5.1 2.8 1.3-5.5L4 8.5 9.6 8 12 3z" stroke-linejoin="round"/>','#d98514',evidencias,'Evidencias semanales')}
+      ${st('<path d="M17.94 17.94A10 10 0 016.06 6.06M1 1l22 22M9.9 4.24A9.1 9.1 0 0112 4c7 0 10 8 10 8a18 18 0 01-2.16 3.19" stroke-linecap="round"/>','#5f7488',ocultos,'Recursos ocultos')}
+    </div>
+    <div class="panel" style="margin-top:20px">
+      <div class="panel-head"><div><h3>Contenidos por ruta</h3><p>Distribución del recorrido de aprender a evaluar.</p></div></div>
+      <div class="rdist">
+        ${RUTAS.map(r=>`<div class="rdist-row ${r.cls}"><div class="rl"><span class="d"></span>${r.full}</div>
+          <div class="rdist-bar"><i style="width:${byRuta[r.key]/maxR*100}%"></i></div><div class="rv">${byRuta[r.key]}</div></div>`).join('')}
+      </div>
+    </div>
+    <div class="two-col" style="margin-top:20px">
+      <div class="panel"><div class="panel-head"><h3>Por estado</h3></div>
+        <div class="mini-list">
+          <div class="mini-row"><span class="mrank" style="background:var(--ok)">✓</span><b>Publicados</b><span class="mval">${pub}</span></div>
+          <div class="mini-row"><span class="mrank" style="background:var(--warn)">✎</span><b>Borradores</b><span class="mval">${res.filter(r=>r.estado==='borrador').length}</span></div>
+          <div class="mini-row"><span class="mrank" style="background:var(--ink-3)">◇</span><b>Ocultos</b><span class="mval">${ocultos}</span></div>
+        </div>
+      </div>
+      <div class="panel"><div class="panel-head"><h3>Por temática</h3></div>
+        <div class="mini-list">
+          ${TEMAS.map(t=>`<div class="mini-row"><span class="mrank">${res.filter(r=>r.tema===t.key).length}</span><b>${t.label}</b></div>`).join('')}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ================= VIEW: CREATE ================= */
+let draft=blankDraft();
+function blankDraft(){return{id:null,titulo:'',descripcion:'',ruta:'',tema:'',roles:[],aprendizaje:'',tipo:'',autor:'',anio:new Date().getFullYear(),keywords:'',tiempo:'',imagen:null,archivo:null,enlace:'',youtube:'',estado:'borrador'};}
+function viewCreate(editId){
+  if(editId){const r=DB.get('resources',[]).find(x=>x.id===editId);if(r)draft=JSON.parse(JSON.stringify(r));}
+  else if(!draft) draft=blankDraft();
+  const d=draft;
+  $('#adminMain').innerHTML=`
+  <div class="view ${d.ruta?RM[d.ruta].cls:''}" id="createView">
+    <div class="view-head"><div><span class="eyebrow">${d.id?'Editar contenido':'Crear contenido'}</span>
+      <h2>${d.id?'Editar recurso':'Formulario guiado de recurso'}</h2>
+      <p>Completa los datos del recurso. Antes de publicar verás en qué ruta y sección de la portada aparecerá.</p></div></div>
+    <div class="panel">
+      <div class="form-grid">
+        <div class="field col-2"><label>Título <span class="req">*</span></label>
+          <input class="input" id="f-titulo" placeholder="Ej: Guía de prevención de lesiones por presión" value="${esc(d.titulo)}"></div>
+        <div class="field col-2"><label>Descripción <span class="req">*</span></label>
+          <textarea class="textarea" id="f-desc" placeholder="Describe el recurso y para qué sirve en la práctica clínica…">${esc(d.descripcion)}</textarea></div>
+
+        <div class="field col-2"><label>Ruta <span class="req">*</span></label>
+          <div class="seg routes" id="f-ruta">${RUTAS.map(r=>`<button type="button" class="${d.ruta===r.key?'on':''} ${r.cls}" data-v="${r.key}" style="${d.ruta===r.key?`--accent:${RCOL[r.cls][0]}`:''}">${r.full}</button>`).join('')}</div></div>
+
+        <div class="field"><label>Temática <span class="req">*</span></label>
+          <select class="select" id="f-tema"><option value="">Selecciona…</option>${TEMAS.map(t=>`<option value="${t.key}" ${d.tema===t.key?'selected':''}>${t.label}</option>`).join('')}</select></div>
+        <div class="field"><label>Tipo de recurso <span class="req">*</span></label>
+          <select class="select" id="f-tipo"><option value="">Selecciona…</option>${TIPOS.map(t=>`<option ${d.tipo===t?'selected':''}>${t}</option>`).join('')}</select></div>
+
+        <div class="field col-2"><label>Rol destinatario</label><span class="hint">Puedes seleccionar más de uno.</span>
+          <div class="checks" id="f-roles">${ROLES.map(r=>`<label class="check ${d.roles.includes(r.key)?'on':''}"><input type="checkbox" value="${r.key}" ${d.roles.includes(r.key)?'checked':''}>${r.label}</label>`).join('')}</div></div>
+
+        <div class="field"><label>Tipo de aprendizaje</label>
+          <div class="seg" id="f-aprend">${APREND.map(a=>`<button type="button" class="${d.aprendizaje===a.key?'on':''}" data-v="${a.key}" style="--accent:var(--brand)">${a.ico} ${a.label}</button>`).join('')}</div></div>
+        <div class="field"><label>Tiempo estimado de revisión</label>
+          <input class="input" id="f-tiempo" placeholder="Ej: 10 min · Descarga · Ficha" value="${esc(d.tiempo)}"></div>
+
+        <div class="field"><label>Autor o institución</label>
+          <input class="input" id="f-autor" placeholder="Ej: RNAO · MINSAL · UBPC HUAP" value="${esc(d.autor)}"></div>
+        <div class="field"><label>Año</label>
+          <input class="input" id="f-anio" type="number" min="1990" max="2100" value="${esc(d.anio)}"></div>
+
+        <div class="field col-2"><label>Palabras clave</label>
+          <input class="input" id="f-keys" placeholder="Separadas por coma: LPP, Braden, prevención" value="${esc(d.keywords)}"></div>
+      </div>
+
+      <h3 style="margin:24px 0 4px;font-size:1.05rem">Portada, archivo y enlace</h3>
+      <p class="hint" style="margin-bottom:14px">Puedes usar imagen, archivo y enlace al mismo tiempo. Formatos: PDF, Word, PowerPoint, Imagen, Audio, Video, Enlace web y YouTube.</p>
+      <div class="uploads">
+        <div class="field"><label>Imagen de portada</label>
+          <div class="drop"><div class="dico" style="background:var(--azul)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5L5 20" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <b>Subir imagen</b><small>JPG, PNG · se muestra en la tarjeta</small>
+            <input type="file" accept="image/*" id="f-imagen"></div>
+          <div id="imagenPrev"></div></div>
+        <div class="field"><label>Archivo</label>
+          <div class="drop"><div class="dico" style="background:var(--coral)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v5h5"/><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V8l-6-5z" stroke-linejoin="round"/></svg></div>
+            <b>Subir archivo</b><small>PDF, Word, PowerPoint, Audio, Video</small>
+            <input type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,audio/*,video/*" id="f-archivo"></div>
+          <div id="archivoPrev"></div></div>
+        <div class="field"><label>Enlace web</label>
+          <input class="input" id="f-enlace" placeholder="https://…" value="${esc(d.enlace)}"></div>
+        <div class="field"><label>Video de YouTube</label>
+          <input class="input" id="f-youtube" placeholder="https://youtube.com/watch?v=…" value="${esc(d.youtube)}"></div>
+      </div>
+
+      <h3 style="margin:24px 0 10px;font-size:1.05rem">Estado de publicación</h3>
+      <div class="seg" id="f-estado">
+        <button type="button" class="${d.estado==='borrador'?'on':''}" data-v="borrador" style="--accent:var(--warn)">✎ Borrador</button>
+        <button type="button" class="${d.estado==='publicado'?'on':''}" data-v="publicado" style="--accent:var(--ok)">✓ Publicado</button>
+        <button type="button" class="${d.estado==='oculto'?'on':''}" data-v="oculto" style="--accent:var(--ink-3)">◇ Oculto</button>
+      </div>
+
+      <div class="destino" id="destino"></div>
+
+      <div class="form-actions">
+        <button class="btn btn-ghost" onclick="cancelCreate()">Cancelar</button>
+        <div class="spacer"></div>
+        <button class="btn btn-warn" onclick="saveDraft('borrador')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8" stroke-linecap="round"/></svg> Guardar borrador</button>
+        <button class="btn btn-ghost" onclick="previewDraft()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> Previsualizar</button>
+        <button class="btn btn-ok" onclick="publishDraft()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linejoin="round"/></svg> Publicar</button>
+      </div>
+    </div>
+  </div>`;
+  wireCreate();updateDestino();
+}
+function collectDraft(){
+  draft.titulo=$('#f-titulo').value.trim();draft.descripcion=$('#f-desc').value.trim();
+  draft.tema=$('#f-tema').value;draft.tipo=$('#f-tipo').value;draft.tiempo=$('#f-tiempo').value.trim();
+  draft.autor=$('#f-autor').value.trim();draft.anio=$('#f-anio').value;draft.keywords=$('#f-keys').value.trim();
+  draft.enlace=$('#f-enlace').value.trim();draft.youtube=$('#f-youtube').value.trim();
+  draft.roles=$$('#f-roles input:checked').map(c=>c.value);
+}
+function wireCreate(){
+  const cv=$('#createView');
+  $$('#f-ruta button').forEach(b=>b.onclick=()=>{draft.ruta=b.dataset.v;$$('#f-ruta button').forEach(x=>{x.classList.remove('on');x.style.removeProperty('--accent');});
+    b.classList.add('on');b.style.setProperty('--accent',RCOL[RM[draft.ruta].cls][0]);cv.className='view '+RM[draft.ruta].cls;updateDestino();});
+  $$('#f-aprend button').forEach(b=>b.onclick=()=>{draft.aprendizaje=b.dataset.v;$$('#f-aprend button').forEach(x=>x.classList.remove('on'));b.classList.add('on');});
+  $$('#f-estado button').forEach(b=>b.onclick=()=>{draft.estado=b.dataset.v;$$('#f-estado button').forEach(x=>x.classList.remove('on'));b.classList.add('on');updateDestino();});
+  $$('#f-roles input').forEach(c=>c.onchange=()=>{c.closest('.check').classList.toggle('on',c.checked);updateDestino();});
+  ['f-tema','f-tipo'].forEach(id=>$('#'+id).onchange=updateDestino);
+  $('#f-titulo').oninput=updateDestino;
+  // image
+  $('#f-imagen').onchange=e=>{const f=e.target.files[0];if(!f)return;
+    if(f.size>2*1024*1024){toast('Imagen muy pesada (máx 2 MB para vista previa)','warn');return;}
+    const rd=new FileReader();rd.onload=()=>{draft.imagen=rd.result;renderImagenPrev();};rd.readAsDataURL(f);};
+  // archivo
+  $('#f-archivo').onchange=e=>{const f=e.target.files[0];if(!f)return;
+    const meta={name:f.name,type:f.type||f.name.split('.').pop(),size:f.size};
+    if(f.size<600*1024){const rd=new FileReader();rd.onload=()=>{meta.data=rd.result;draft.archivo=meta;renderArchivoPrev();};rd.readAsDataURL(f);}
+    else{draft.archivo=meta;renderArchivoPrev();toast('Archivo grande: se guarda su referencia (nombre, tipo, tamaño)','warn');}};
+  renderImagenPrev();renderArchivoPrev();
+}
+function renderImagenPrev(){const el=$('#imagenPrev');if(!el)return;
+  el.innerHTML=draft.imagen?`<div class="cover-prev"><img src="${draft.imagen}" alt="Portada"></div><button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="draft.imagen=null;renderImagenPrev()">Quitar imagen</button>`:'';}
+function fileExt(t){t=(t||'').toLowerCase();if(t.includes('pdf'))return'PDF';if(t.includes('word')||t.includes('doc'))return'DOC';if(t.includes('presentation')||t.includes('ppt'))return'PPT';if(t.includes('audio'))return'MP3';if(t.includes('video'))return'VID';return'FILE';}
+function renderArchivoPrev(){const el=$('#archivoPrev');if(!el)return;const a=draft.archivo;
+  el.innerHTML=a?`<div class="filechip"><span class="fx">${fileExt(a.type)}</span><span style="min-width:0"><b>${esc(a.name)}</b><small>${(a.size/1024).toFixed(0)} KB${a.data?' · cargado':' · referencia'}</small></span><button class="rm" onclick="draft.archivo=null;renderArchivoPrev()">✕</button></div>`:'';}
+function updateDestino(){collectDraft();const el=$('#destino');if(!el)return;
+  const r=draft.ruta?RM[draft.ruta]:null;
+  if(!r){el.innerHTML=`<h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4m0 4h.01" stroke-linecap="round"/></svg> Selecciona una ruta para ver dónde aparecerá en la portada</h4>`;return;}
+  el.className='destino '+r.cls;
+  const secExtra=[];
+  if(draft.estado==='publicado'){
+    secExtra.push('Recursos permanentes por temática');
+    if(['aplicar','evaluar'].includes(draft.ruta) && /min/.test(draft.tiempo)) secExtra.push('Lo necesito para el turno');
+    if(draft.roles.length) secExtra.push('Recursos según rol');
+    secExtra.push('Últimas actualizaciones');
+  }
+  el.innerHTML=`<h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ink)" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> ${draft.estado==='publicado'?'Al publicar, este recurso aparecerá en:':'Este recurso está en '+draft.estado+' — al publicar aparecerá en:'}</h4>
+    <div class="drow">
+      <span class="dpill"><span class="dd" style="background:${RCOL[r.cls][0]}"></span>Ruta: ${r.full}</span>
+      ${draft.tema?`<span class="dpill"><span class="dd" style="background:var(--accent)"></span>${TM[draft.tema].label}</span>`:''}
+      ${[...new Set(secExtra)].map(s=>`<span class="dpill">Sección · ${s}</span>`).join('')}
+      ${draft.roles.map(x=>`<span class="dpill">Rol · ${ROLM[x].label}</span>`).join('')}
+    </div>`;
+}
+function validateDraft(needFull){collectDraft();
+  if(!draft.titulo){toast('Falta el título','warn');return false;}
+  if(needFull){if(!draft.descripcion){toast('Falta la descripción','warn');return false;}
+    if(!draft.ruta){toast('Selecciona una ruta','warn');return false;}
+    if(!draft.tema){toast('Selecciona una temática','warn');return false;}
+    if(!draft.tipo){toast('Selecciona el tipo de recurso','warn');return false;}}
+  return true;}
+function persistDraft(estado){
+  draft.estado=estado;const res=DB.get('resources',[]);
+  if(draft.id){const i=res.findIndex(r=>r.id===draft.id);draft.modificadoPor=ADMIN_ROLES[session.rol].label;draft.fecha=now();
+    if(i>=0)res[i]=JSON.parse(JSON.stringify(draft));logAudit(`Editó “${draft.titulo}” (${estado})`);}
+  else{draft.id=uid();draft.creadoPor=ADMIN_ROLES[session.rol].label;draft.modificadoPor=ADMIN_ROLES[session.rol].label;draft.fecha=now();
+    res.unshift(JSON.parse(JSON.stringify(draft)));logAudit(`Creó “${draft.titulo}” (${estado})`);}
+  DB.set('resources',res);syncPortal();}
+function saveDraft(){if(!validateDraft(false))return;persistDraft('borrador');toast('Borrador guardado','ok');draft=blankDraft();navigate('published');}
+function publishDraft(){if(!validateDraft(true))return;
+  confirmModal({icon:'ok',color:'var(--ok)',title:'Publicar recurso',
+    body:`<p style="color:var(--ink-2)">“<b>${esc(draft.titulo)}</b>” quedará <b>visible en la portada pública</b> en la ruta <b>${RM[draft.ruta].full}</b> y en <b>Recursos permanentes por temática</b>.</p><div class="note" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg>Los cambios se reflejan de inmediato en el Centro público.</div>`,
+    okLabel:'Publicar ahora',okClass:'btn-ok',onOk:()=>{persistDraft('publicado');toast('Recurso publicado en la portada','ok');draft=blankDraft();navigate('published');}});}
+function previewDraft(){if(!validateDraft(false))return;openPreview(draft);}
+function cancelCreate(){confirmModal({icon:'warn',color:'var(--warn)',title:'Cancelar edición',body:'<p style="color:var(--ink-2)">Se perderán los cambios no guardados de este recurso.</p>',okLabel:'Descartar cambios',okClass:'btn-crit',onOk:()=>{draft=blankDraft();navigate('overview');}});}
+
+/* ================= VIEW: PUBLISHED ================= */
+let pubFilter={q:'',ruta:'',tema:'',estado:''};
+function viewPublished(){
+  $('#adminMain').innerHTML=`
+  <div class="view">
+    <div class="view-head"><div><span class="eyebrow">Contenido publicado</span><h2>Todos los recursos del Centro</h2>
+      <p>Busca, filtra y gestiona cada recurso. Los cambios se reflejan de inmediato en la portada pública.</p></div>
+      <button class="btn btn-primary" onclick="navigate('create')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg> Nuevo recurso</button></div>
+    <div class="panel">
+      <div class="toolbar">
+        <div class="search-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+          <input id="pubSearch" placeholder="Buscar por título, autor, palabra clave…" value="${esc(pubFilter.q)}"></div>
+        <select class="filter-sel" id="pubRuta"><option value="">Todas las rutas</option>${RUTAS.map(r=>`<option value="${r.key}" ${pubFilter.ruta===r.key?'selected':''}>${r.full}</option>`).join('')}</select>
+        <select class="filter-sel" id="pubTema"><option value="">Todas las temáticas</option>${TEMAS.map(t=>`<option value="${t.key}" ${pubFilter.tema===t.key?'selected':''}>${t.label}</option>`).join('')}</select>
+        <select class="filter-sel" id="pubEstado"><option value="">Todos los estados</option><option value="publicado" ${pubFilter.estado==='publicado'?'selected':''}>Publicado</option><option value="borrador" ${pubFilter.estado==='borrador'?'selected':''}>Borrador</option><option value="oculto" ${pubFilter.estado==='oculto'?'selected':''}>Oculto</option></select>
+      </div>
+      <div id="pubTable"></div>
+    </div>
+  </div>`;
+  $('#pubSearch').oninput=e=>{pubFilter.q=e.target.value;renderPubTable();};
+  $('#pubRuta').onchange=e=>{pubFilter.ruta=e.target.value;renderPubTable();};
+  $('#pubTema').onchange=e=>{pubFilter.tema=e.target.value;renderPubTable();};
+  $('#pubEstado').onchange=e=>{pubFilter.estado=e.target.value;renderPubTable();};
+  renderPubTable();
+}
+function renderPubTable(){
+  let res=DB.get('resources',[]);const q=pubFilter.q.toLowerCase();
+  res=res.filter(r=>{
+    if(pubFilter.ruta&&r.ruta!==pubFilter.ruta)return false;
+    if(pubFilter.tema&&r.tema!==pubFilter.tema)return false;
+    if(pubFilter.estado&&r.estado!==pubFilter.estado)return false;
+    if(q&&!(r.titulo+' '+r.autor+' '+r.keywords+' '+(TM[r.tema]?.label||'')).toLowerCase().includes(q))return false;
+    return true;});
+  const wrap=$('#pubTable');
+  if(!res.length){wrap.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg><b>Sin recursos que coincidan.</b></div>`;return;}
+  wrap.innerHTML=`<div class="rtable-wrap"><table class="rtable"><thead><tr>
+    <th>Recurso</th><th>Ruta</th><th>Temática</th><th>Estado</th><th>Actualizado</th><th>Acciones</th></tr></thead><tbody>
+    ${res.map(r=>{const rt=RM[r.ruta];return `<tr class="${rt.cls}">
+      <td><div class="rt-title"><span class="rt-thumb">${r.imagen?`<img src="${r.imagen}" alt="">`:svgImg(r.tema,rt.cls,40)}</span>
+        <span style="min-width:0"><span style="display:block">${esc(r.titulo)}</span><span class="rt-sub">${esc(r.tipo)} · ${esc(r.autor||'—')} · ${esc(r.anio||'')}</span></span></div></td>
+      <td><span class="rpill route ${rt.cls}"><span class="pd"></span>${rt.label}</span></td>
+      <td>${TM[r.tema]?.label||'—'}</td>
+      <td><span class="st ${r.estado}"><span class="sdot"></span>${r.estado.charAt(0).toUpperCase()+r.estado.slice(1)}</span></td>
+      <td class="rt-sub">${esc(r.fecha||'—')}</td>
+      <td><div class="rowacts">
+        <button class="iact" title="Editar" onclick="navigate('create');setTimeout(()=>viewCreate('${r.id}'),0)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z" stroke-linejoin="round"/></svg></button>
+        <button class="iact" title="Reemplazar archivo / imagen / enlace" onclick="openReplace('${r.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 2v6h-6M3 22v-6h6" /><path d="M3.5 9a9 9 0 0114.9-3.4L21 8M20.5 15A9 9 0 015.6 18.4L3 16" stroke-linecap="round"/></svg></button>
+        ${r.estado==='publicado'
+          ?`<button class="iact" title="Ocultar" onclick="setEstado('${r.id}','oculto')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M17.9 17.9A10 10 0 016 6M1 1l22 22M9.9 4.2A9 9 0 0112 4c7 0 10 8 10 8a18 18 0 01-2.2 3.2" stroke-linecap="round"/></svg></button>`
+          :`<button class="iact" title="Volver a publicar" onclick="setEstado('${r.id}','publicado')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>`}
+        <button class="iact" title="Previsualizar" onclick="openPreviewId('${r.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg></button>
+        <button class="iact danger" title="Eliminar" onclick="delResource('${r.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M6 6l1 14a2 2 0 002 2h6a2 2 0 002-2l1-14" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div></td></tr>`;}).join('')}
+  </tbody></table></div>`;
+}
+function setEstado(id,estado){const res=DB.get('resources',[]);const r=res.find(x=>x.id===id);if(!r)return;
+  r.estado=estado;r.fecha=now();r.modificadoPor=ADMIN_ROLES[session.rol].label;DB.set('resources',res);
+  logAudit(`${estado==='publicado'?'Volvió a publicar':'Ocultó'} “${r.titulo}”`);syncPortal();renderPubTable();renderNav();
+  toast(estado==='publicado'?'Recurso publicado en la portada':'Recurso ocultado de la portada',estado==='publicado'?'ok':'warn');}
+function delResource(id){const r=DB.get('resources',[]).find(x=>x.id===id);if(!r)return;
+  confirmModal({icon:'crit',color:'var(--crit)',title:'Eliminar recurso',
+    body:`<p style="color:var(--ink-2)">¿Seguro que deseas eliminar “<b>${esc(r.titulo)}</b>”? Esta acción no se puede deshacer y lo quitará de la portada pública.</p>`,
+    okLabel:'Eliminar definitivamente',okClass:'btn-crit',onOk:()=>{
+      DB.set('resources',DB.get('resources',[]).filter(x=>x.id!==id));logAudit(`Eliminó “${r.titulo}”`);syncPortal();renderPubTable();renderNav();toast('Recurso eliminado','crit');}});}
+function openReplace(id){const r=DB.get('resources',[]).find(x=>x.id===id);if(!r)return;
+  modal({title:'Reemplazar archivo, imagen o enlace',wide:true,body:`
+    <div class="field" style="margin-bottom:16px"><label>Imagen de portada</label>
+      <div class="drop"><div class="dico" style="background:var(--azul)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5L5 20" stroke-linecap="round"/></svg></div><b>Cambiar imagen</b><small>JPG, PNG</small><input type="file" accept="image/*" id="rp-img"></div>
+      <div id="rp-imgPrev">${r.imagen?`<div class="cover-prev"><img src="${r.imagen}"></div>`:''}</div></div>
+    <div class="field" style="margin-bottom:16px"><label>Archivo</label>
+      <div class="drop"><div class="dico" style="background:var(--coral)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v5h5"/><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V8z" stroke-linejoin="round"/></svg></div><b>Reemplazar archivo</b><small>PDF, Word, PowerPoint, Audio, Video</small><input type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,audio/*,video/*" id="rp-file"></div>
+      <div id="rp-filePrev">${r.archivo?`<div class="filechip"><span class="fx">${fileExt(r.archivo.type)}</span><span><b>${esc(r.archivo.name)}</b></span></div>`:''}</div></div>
+    <div class="field"><label>Modificar enlace</label><input class="input" id="rp-link" value="${esc(r.enlace)}" placeholder="https://…"></div>
+    <div class="field" style="margin-top:14px"><label>Modificar YouTube</label><input class="input" id="rp-yt" value="${esc(r.youtube)}" placeholder="https://youtube.com/…"></div>`,
+    foot:`<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn btn-primary" id="rp-save">Guardar cambios</button>`});
+  let img=r.imagen,file=r.archivo;
+  $('#rp-img').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{img=rd.result;$('#rp-imgPrev').innerHTML=`<div class="cover-prev"><img src="${img}"></div>`;};rd.readAsDataURL(f);};
+  $('#rp-file').onchange=e=>{const f=e.target.files[0];if(!f)return;const meta={name:f.name,type:f.type||f.name.split('.').pop(),size:f.size};
+    const done=()=>{file=meta;$('#rp-filePrev').innerHTML=`<div class="filechip"><span class="fx">${fileExt(meta.type)}</span><span><b>${esc(meta.name)}</b></span></div>`;};
+    if(f.size<600*1024){const rd=new FileReader();rd.onload=()=>{meta.data=rd.result;done();};rd.readAsDataURL(f);}else done();};
+  $('#rp-save').onclick=()=>{const res=DB.get('resources',[]);const rr=res.find(x=>x.id===id);
+    rr.imagen=img;rr.archivo=file;rr.enlace=$('#rp-link').value.trim();rr.youtube=$('#rp-yt').value.trim();rr.fecha=now();rr.modificadoPor=ADMIN_ROLES[session.rol].label;
+    DB.set('resources',res);logAudit(`Reemplazó archivos/enlace de “${rr.titulo}”`);syncPortal();closeModal();renderPubTable();toast('Cambios guardados','ok');};
+}
+window.openPreviewId=id=>{const r=DB.get('resources',[]).find(x=>x.id===id);if(r)openPreview(r);};
+function openPreview(r){const rt=RM[r.ruta]||RM.aprender;
+  modal({title:'Vista previa en la portada',body:`
+    <p class="hint" style="margin-bottom:14px">Así se verá la tarjeta en el Centro público:</p>
+    <div class="pvcard ${rt.cls}"><div class="pvimg">${r.imagen?`<img src="${r.imagen}" style="width:100%;height:140px;object-fit:cover">`:svgImg(r.tema,rt.cls,140)}<span class="pvtype">${esc(r.tipo||'Recurso')}</span></div>
+      <div class="pvbody"><span class="pvtopic">${TM[r.tema]?.label||''} · ${rt.label}</span><h3>${esc(r.titulo||'Sin título')}</h3>
+      <p class="pvd">${esc(r.descripcion||'')}</p><button class="pvbtn">Abrir recurso →</button></div></div>
+    <div class="drow" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+      ${r.enlace?`<span class="dpill">🔗 Enlace web</span>`:''}${r.youtube?`<span class="dpill">▶ YouTube</span>`:''}${r.archivo?`<span class="dpill">📎 ${esc(r.archivo.name)}</span>`:''}
+      ${r.aprendizaje?`<span class="dpill">${APM[r.aprendizaje].ico} ${APM[r.aprendizaje].label}</span>`:''}</div>`,
+    foot:`<button class="btn btn-primary" onclick="closeModal()">Cerrar</button>`});}
+
+/* ================= VIEW: WEEKLY ================= */
+function viewWeekly(){
+  const w=DB.get('weekly',{});const res=DB.get('resources',[]).filter(r=>r.estado==='publicado');
+  $('#adminMain').innerHTML=`
+  <div class="view">
+    <div class="view-head"><div><span class="eyebrow">Evidencia semanal</span><h2>Evidencia destacada de la semana</h2>
+      <p>Selecciona un recurso ya publicado o crea una evidencia nueva para destacar en la portada.</p></div></div>
+    <div class="two-col">
+      <div class="panel"><div class="panel-head"><h3>1 · Seleccionar recurso publicado</h3></div>
+        <select class="select" id="w-ref"><option value="">— Crear evidencia nueva (abajo) —</option>
+          ${res.map(r=>`<option value="${r.id}" ${w.ref===r.id?'selected':''}>${esc(r.titulo)}</option>`).join('')}</select>
+        <div id="w-refprev" style="margin-top:16px"></div>
+      </div>
+      <div class="panel"><div class="panel-head"><h3>2 · O crear evidencia nueva</h3></div>
+        <div class="field" style="margin-bottom:12px"><label>Título</label><input class="input" id="w-titulo" value="${esc(w.titulo)}" placeholder="Título de la evidencia"></div>
+        <div class="field" style="margin-bottom:12px"><label>Resumen</label><textarea class="textarea" id="w-resumen" placeholder="Resumen breve de la evidencia…">${esc(w.resumen)}</textarea></div>
+        <div class="form-grid">
+          <div class="field"><label>Autor o institución</label><input class="input" id="w-autor" value="${esc(w.autor)}"></div>
+          <div class="field"><label>Año</label><input class="input" id="w-anio" type="number" value="${esc(w.anio)}"></div>
+          <div class="field"><label>Tipo de evidencia</label><select class="select" id="w-tipo">${['Guía','Revisión sistemática','Ensayo clínico','Norma','Consenso','Recomendación'].map(t=>`<option ${w.tipo===t?'selected':''}>${t}</option>`).join('')}</select></div>
+          <div class="field"><label>Temática</label><select class="select" id="w-tema">${TEMAS.map(t=>`<option value="${t.key}" ${w.tema===t.key?'selected':''}>${t.label}</option>`).join('')}</select></div>
+          <div class="field col-2"><label>Archivo o enlace</label><input class="input" id="w-enlace" value="${esc(w.enlace)}" placeholder="https://… o nombre del archivo"></div>
+          <div class="field col-2"><label>Imagen</label><div class="drop"><div class="dico" style="background:var(--ambar)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5L5 20" stroke-linecap="round"/></svg></div><b>Subir imagen</b><input type="file" accept="image/*" id="w-img"></div><div id="w-imgPrev">${w.imagen?`<div class="cover-prev"><img src="${w.imagen}"></div>`:''}</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:20px"><div class="field"><label>Fecha de publicación</label><input class="input" id="w-fecha" type="text" value="${esc(w.fecha||now())}"></div>
+      <div class="form-actions"><div class="spacer"></div><button class="btn btn-primary btn-lg" id="w-save"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3l2.4 5 5.6.5-4.2 3.8 1.3 5.5L12 15l-5.1 2.8 1.3-5.5L4 8.5 9.6 8 12 3z" stroke-linejoin="round"/></svg> Guardar evidencia de la semana</button></div></div>
+  </div>`;
+  const refPrev=()=>{const id=$('#w-ref').value;const r=res.find(x=>x.id===id);
+    $('#w-refprev').innerHTML=r?`<div class="pvcard ${RM[r.ruta].cls}"><div class="pvimg">${r.imagen?`<img src="${r.imagen}" style="height:140px;width:100%;object-fit:cover">`:svgImg(r.tema,RM[r.ruta].cls,140)}<span class="pvtype">${esc(r.tipo)}</span></div><div class="pvbody"><span class="pvtopic">${TM[r.tema].label}</span><h3>${esc(r.titulo)}</h3><p class="pvd">${esc(r.descripcion)}</p></div></div>`:'<div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg>Elige un recurso publicado o completa el formulario de la derecha.</div>';};
+  $('#w-ref').onchange=refPrev;refPrev();
+  $('#w-img').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{$('#w-imgPrev').innerHTML=`<div class="cover-prev"><img src="${rd.result}"></div>`;$('#w-imgPrev').dataset.img=rd.result;};rd.readAsDataURL(f);};
+  $('#w-save').onclick=()=>{const nw={ref:$('#w-ref').value,titulo:$('#w-titulo').value.trim(),resumen:$('#w-resumen').value.trim(),
+    autor:$('#w-autor').value.trim(),anio:$('#w-anio').value,tipo:$('#w-tipo').value,tema:$('#w-tema').value,enlace:$('#w-enlace').value.trim(),
+    imagen:$('#w-imgPrev').dataset.img||w.imagen||null,fecha:$('#w-fecha').value.trim()};
+    if(!nw.ref&&!nw.titulo){toast('Selecciona un recurso o escribe un título','warn');return;}
+    DB.set('weekly',nw);logAudit('Actualizó la evidencia destacada de la semana');syncPortal();toast('Evidencia de la semana guardada','ok');};
+}
+
+/* ================= VIEW: EXPERIENCE ================= */
+function viewExperience(){
+  const exp=DB.get('experience',{});
+  $('#adminMain').innerHTML=`
+  <div class="view">
+    <div class="view-head"><div><span class="eyebrow">Experiencia pública</span><h2>Textos y bloques de la portada</h2>
+      <p>Edita los contenidos de cada bloque. Cada uno tiene edición y vista previa; los cambios se reflejan en la portada.</p></div></div>
+    <div class="exp-grid">
+      ${Object.entries(exp).map(([k,b])=>`<div class="exp-card"><h4>${b.label}</h4>
+        <div class="exp-txt">${esc(b.value)}</div>
+        <div class="exp-acts"><button class="btn btn-primary btn-sm" onclick="editExp('${k}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z" stroke-linejoin="round"/></svg> Editar</button>
+        <button class="btn btn-ghost btn-sm" onclick="previewExp('${k}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> Vista previa</button></div></div>`).join('')}
+    </div>
+  </div>`;
+}
+window.editExp=k=>{const exp=DB.get('experience',{});const b=exp[k];
+  modal({title:'Editar · '+b.label,body:`<div class="field"><label>Contenido del bloque</label><textarea class="textarea" id="exp-txt" style="min-height:150px">${esc(b.value)}</textarea></div>`,
+    foot:`<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn btn-primary" id="exp-save">Guardar y reflejar en portada</button>`});
+  $('#exp-save').onclick=()=>{exp[k].value=$('#exp-txt').value.trim();DB.set('experience',exp);logAudit(`Editó el bloque “${b.label}” de la portada`);syncPortal();closeModal();navigate('experience');toast('Bloque actualizado','ok');};};
+window.previewExp=k=>{const b=DB.get('experience',{})[k];
+  modal({title:'Vista previa · '+b.label,body:`<div style="background:linear-gradient(135deg,#0a2540,#0e4e8a);border-radius:14px;padding:26px;color:#fff"><div class="eyebrow" style="color:#9fe9ff">${esc(b.label)}</div><p style="font-size:1.1rem;font-weight:600;margin-top:8px;color:#fff">${esc(b.value)}</p></div>`,
+    foot:`<button class="btn btn-primary" onclick="closeModal()">Cerrar</button>`});};
+
+/* ================= VIEW: USAGE ================= */
+function viewUsage(){
+  const a=DB.get('analytics',{});const res=DB.get('resources',[]);
+  const top=Object.entries(a.aperturas||{}).sort((x,y)=>y[1]-x[1]).slice(0,6);
+  const nombre=id=>res.find(r=>r.id===id)?.titulo||'Recurso';
+  const stat=(color,num,label)=>`<div class="stat"><div class="snum">${num.toLocaleString('es-CL')}</div><div class="slabel">${label}</div><span class="strend" style="background:${color}22;color:${color}">●</span></div>`;
+  $('#adminMain').innerHTML=`
+  <div class="view">
+    <div class="view-head"><div><span class="eyebrow">Uso del Centro</span><h2>Estadísticas de uso</h2>
+      <p>Cómo los funcionarios encuentran y usan el conocimiento clínico.</p></div>
+      <button class="btn btn-crit" id="resetStats"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 2v6h6M21 12A9 9 0 106 5.3L3 8" stroke-linecap="round" stroke-linejoin="round"/></svg> Reiniciar estadísticas a cero</button></div>
+    <div class="stats">
+      ${stat('#0e4e8a',a.visitas||0,'Visitas generales')}
+      ${stat('#0d9488',Object.values(a.aperturas||{}).reduce((s,v)=>s+v,0),'Aperturas por recurso')}
+      ${stat('#d98514',a.descargas||0,'Descargas')}
+      ${stat('#7c5cfc',a.eviAperturas||0,'Recursos abiertos desde EVI')}
+    </div>
+    <div class="two-col" style="margin-top:20px">
+      <div class="panel"><div class="panel-head"><h3>Recursos más consultados</h3></div>
+        <div class="mini-list">${top.map(([id,v],i)=>`<div class="mini-row"><span class="mrank">${i+1}</span><b>${esc(nombre(id))}</b><span class="mval">${v}</span></div>`).join('')||emptyMini()}</div></div>
+      <div class="panel"><div class="panel-head"><h3>Búsquedas frecuentes</h3></div>
+        <div class="mini-list">${(a.busquedas||[]).map(([q,v])=>`<div class="mini-row"><span class="mrank">🔍</span><b>“${esc(q)}”</b><span class="mval">${v}</span></div>`).join('')||emptyMini()}</div></div>
+    </div>
+    <div class="two-col" style="margin-top:20px">
+      <div class="panel"><div class="panel-head"><h3>Búsquedas sin resultados</h3><p>Oportunidades de contenido nuevo.</p></div>
+        <div class="mini-list">${(a.sinResultado||[]).map(([q,v])=>`<div class="mini-row empty-q"><span class="mrank">∅</span><b>“${esc(q)}”</b><span class="mval">${v}</span></div>`).join('')||emptyMini()}</div></div>
+      <div class="panel"><div class="panel-head"><h3>Uso por temática</h3></div>
+        <div class="rdist">${distBars(a.usoTema||{},TM)}</div></div>
+    </div>
+    <div class="two-col" style="margin-top:20px">
+      <div class="panel"><div class="panel-head"><h3>Uso por rol</h3></div>
+        <div class="rdist">${distBars(a.usoRol||{},ROLM)}</div></div>
+      <div class="panel"><div class="panel-head"><h3>Fecha y hora de las interacciones</h3></div>
+        <div class="timeline">${(a.interacciones&&a.interacciones.length?a.interacciones:defaultTimeline()).slice(0,14).map(it=>`<div class="tl"><span class="tt">${esc(it.t)}</span><span class="ta">${esc(it.a)}</span></div>`).join('')}</div></div>
+    </div>
+  </div>`;
+  $('#resetStats').onclick=()=>confirmModal({icon:'crit',color:'var(--crit)',title:'Reiniciar estadísticas a cero',
+    body:`<p style="color:var(--ink-2)">Se borrarán <b>todas las estadísticas de uso</b> (visitas, aperturas, descargas, búsquedas e interacciones). Esta acción no se puede deshacer.</p>`,
+    okLabel:'Sí, reiniciar a cero',okClass:'btn-crit',onOk:()=>{
+      DB.set('analytics',{visitas:0,descargas:0,eviAperturas:0,aperturas:{},busquedas:[],sinResultado:[],usoTema:{},usoRol:{},interacciones:[{t:now(),a:'Estadísticas reiniciadas a cero'}]});
+      logAudit('Reinició las estadísticas de uso a cero');toast('Estadísticas reiniciadas a cero','crit');viewUsage();}});
+}
+function distBars(obj,map){const max=Math.max(1,...Object.values(obj));const keys=Object.keys(map);
+  return keys.map(k=>`<div class="rdist-row"><div class="rl">${map[k].label}</div><div class="rdist-bar"><i style="width:${(obj[k]||0)/max*100}%;background:var(--brand)"></i></div><div class="rv">${obj[k]||0}</div></div>`).join('');}
+function emptyMini(){return `<div class="mini-row" style="color:var(--ink-3)"><span class="mrank" style="background:var(--ink-3)">—</span>Sin datos registrados</div>`;}
+function defaultTimeline(){return[{t:now(),a:'Apertura de “Norma de higiene de manos”'},{t:now(),a:'Búsqueda: “braden”'},{t:now(),a:'Descarga de infografía LPP'},{t:now(),a:'EVI recomendó “Escala EVA y ESCID”'}];}
+
+/* ================= VIEW: USERS ================= */
+function viewUsers(){
+  const users=DB.get('users',[]);const audit=DB.get('audit',[]);const isPrincipal=session.rol==='principal';
+  $('#adminMain').innerHTML=`
+  <div class="view">
+    <div class="view-head"><div><span class="eyebrow">Usuarios y permisos</span><h2>Administradores del Centro</h2>
+      <p>${isPrincipal?'Como Administrador principal puedes gestionar usuarios, roles y accesos.':'Solo el Administrador principal puede modificar usuarios. Vista de solo lectura.'}</p></div>
+      ${isPrincipal?`<button class="btn btn-primary" onclick="editUser()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg> Agregar administrador</button>`:''}</div>
+    ${!isPrincipal?`<div class="note" style="margin-bottom:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg>Tu rol es ${ADMIN_ROLES[session.rol].label}. La gestión de usuarios está reservada al Administrador principal.</div>`:''}
+    <div class="panel"><div class="panel-head"><h3>Usuarios (${users.length})</h3></div>
+      ${users.map(u=>`<div class="user-card">
+        <span class="uc-av" style="background:${u.color}">${esc(u.nombre.split(' ').slice(-1)[0][0])}</span>
+        <span class="uc-i"><b>${esc(u.nombre)}</b><small>${esc(u.correo)}</small></span>
+        <span class="uc-role ${ADMIN_ROLES[u.rol].cls}">${ADMIN_ROLES[u.rol].label}</span>
+        ${isPrincipal?`<span class="uc-acts">
+          <label class="switch" title="${u.activo?'Activo':'Inactivo'}"><input type="checkbox" ${u.activo?'checked':''} onchange="toggleUser('${u.id}')"><span class="track"></span><span class="knob"></span></label>
+          <button class="iact" title="Modificar" onclick="editUser('${u.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z" stroke-linejoin="round"/></svg></button>
+          <button class="iact danger" title="Eliminar autorización" onclick="delUser('${u.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M6 6l1 14a2 2 0 002 2h6a2 2 0 002-2l1-14" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </span>`:`<span class="st ${u.activo?'publicado':'oculto'}"><span class="sdot"></span>${u.activo?'Activo':'Inactivo'}</span>`}
+      </div>`).join('')}
+    </div>
+    <div class="panel" style="margin-top:20px"><div class="panel-head"><div><h3>Historial de modificaciones</h3><p>Quién realizó cada cambio en el Centro.</p></div></div>
+      <div class="timeline">${audit.slice(0,20).map(x=>`<div class="tl"><span class="tt">${esc(x.t)}</span><span class="ta"><b>${esc(x.who)}</b> · ${esc(x.what)}</span></div>`).join('')}</div></div>
+  </div>`;
+}
+window.toggleUser=id=>{const users=DB.get('users',[]);const u=users.find(x=>x.id===id);u.activo=!u.activo;DB.set('users',users);
+  logAudit(`${u.activo?'Activó':'Desactivó'} el acceso de ${u.nombre}`);toast(`Acceso ${u.activo?'activado':'desactivado'}: ${u.nombre}`,u.activo?'ok':'warn');};
+window.editUser=id=>{const users=DB.get('users',[]);const u=id?users.find(x=>x.id===id):null;
+  modal({title:u?'Modificar administrador':'Agregar administrador',body:`
+    <div class="field" style="margin-bottom:14px"><label>Nombre <span class="req">*</span></label><input class="input" id="u-nombre" value="${esc(u?.nombre||'')}" placeholder="Nombre y apellido"></div>
+    <div class="field" style="margin-bottom:14px"><label>Correo <span class="req">*</span></label><input class="input" id="u-correo" type="email" value="${esc(u?.correo||'')}" placeholder="nombre@huap.cl"></div>
+    <div class="field"><label>Rol</label>
+      <select class="select" id="u-rol">${Object.entries(ADMIN_ROLES).map(([k,v])=>`<option value="${k}" ${u?.rol===k?'selected':''}>${v.label} — ${v.desc}</option>`).join('')}</select></div>`,
+    foot:`<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn btn-primary" id="u-save">${u?'Guardar cambios':'Agregar usuario'}</button>`});
+  $('#u-save').onclick=()=>{const nombre=$('#u-nombre').value.trim(),correo=$('#u-correo').value.trim(),rol=$('#u-rol').value;
+    if(!nombre||!correo){toast('Completa nombre y correo','warn');return;}
+    if(u){const old=u.rol;u.nombre=nombre;u.correo=correo;u.rol=rol;logAudit(`Modificó a ${nombre}${old!==rol?` (rol → ${ADMIN_ROLES[rol].label})`:''}`);}
+    else{users.push({id:'u'+Date.now().toString(36),nombre,correo,rol,activo:true,color:['#2563eb','#0d9488','#e64b5c','#7c5cfc','#d98514'][users.length%5]});logAudit(`Agregó al administrador ${nombre} (${ADMIN_ROLES[rol].label})`);}
+    DB.set('users',users);closeModal();viewUsers();toast(u?'Usuario actualizado':'Administrador agregado','ok');};};
+window.delUser=id=>{const users=DB.get('users',[]);const u=users.find(x=>x.id===id);
+  if(u.rol==='principal'&&users.filter(x=>x.rol==='principal').length<=1){toast('Debe existir al menos un Administrador principal','crit');return;}
+  confirmModal({icon:'crit',color:'var(--crit)',title:'Eliminar autorización',body:`<p style="color:var(--ink-2)">¿Eliminar el acceso de “<b>${esc(u.nombre)}</b>”?</p>`,
+    okLabel:'Eliminar autorización',okClass:'btn-crit',onOk:()=>{DB.set('users',users.filter(x=>x.id!==id));logAudit(`Eliminó la autorización de ${u.nombre}`);viewUsers();toast('Autorización eliminada','crit');}});};
+
+/* ================= PORTAL SYNC ================= */
+function syncPortal(){
+  // Escribe el estado publicado para que la portada del mismo origen lo lea.
+  const res=DB.get('resources',[]);
+  DB.set('portal_public',{resources:res.filter(r=>r.estado==='publicado'),weekly:DB.get('weekly',{}),experience:DB.get('experience',{}),updated:Date.now()});
+}
+
+/* ================= MODALS / TOASTS ================= */
+function modal({title,body,foot,wide}){const o=$('#overlay');const m=$('#modal');m.className='modal'+(wide?' wide':'');
+  m.innerHTML=`<div class="modal-head"><h3>${title}</h3><button class="mclose" onclick="closeModal()" aria-label="Cerrar">✕</button></div>
+    <div class="modal-body">${body}</div>${foot?`<div class="modal-foot">${foot}</div>`:''}`;o.hidden=false;}
+function confirmModal({icon,color,title,body,okLabel,okClass,onOk}){
+  const ic={ok:'<path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/>',warn:'<path d="M12 9v4m0 4h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z" stroke-linejoin="round"/>',crit:'<path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M6 6l1 14a2 2 0 002 2h6a2 2 0 002-2l1-14"/>'}[icon];
+  modal({title,body:`<div class="confirm-ico" style="background:${color}22;color:${color}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">${ic}</svg></div>${body}`,
+    foot:`<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn ${okClass}" id="cf-ok">${okLabel}</button>`});
+  $('#cf-ok').onclick=()=>{closeModal();onOk&&onOk();};}
+function closeModal(){$('#overlay').hidden=true;}
+$('#overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeModal();});
+let toastN=0;
+function toast(msg,type){const ico={ok:'<path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/>',warn:'<path d="M12 9v4m0 4h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/>',crit:'<path d="M18 6L6 18M6 6l12 12"/>','':'<circle cx="12" cy="12" r="9"/><path d="M12 8v4m0 4h.01"/>'}[type||''];
+  const t=document.createElement('div');t.className='toast '+(type||'');t.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${ico}</svg>${esc(msg)}`;
+  $('#toasts').appendChild(t);setTimeout(()=>t.remove(),3200);}
+
+/* ================= WIRING ================= */
+function goPortal(){try{window.top.location.href='/';}catch(e){window.location.href='/';}}
+$('#verCentro').onclick=goPortal;$('#verCentroSide').onclick=goPortal;
+$('#logout').onclick=()=>confirmModal({icon:'warn',color:'var(--warn)',title:'Cerrar sesión',body:'<p style="color:var(--ink-2)">¿Deseas cerrar la sesión del Centro de Control?</p>',okLabel:'Cerrar sesión',okClass:'btn-warn',onOk:logout});
+$('#switchUser').onclick=()=>{DB.set('_session',null);session=null;$('#app').hidden=true;$('#login').hidden=false;renderLoginUsers();clearInterval(idleTimer);};
+$('#hamburger').onclick=()=>$('#sidebar').classList.toggle('open');
+$('#loginBtn').onclick=doLogin;
+$('#loginPin').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+/* ================= INIT ================= */
+seed();syncPortal();renderLoginUsers();startIdle();
+const saved=DB.get('_session',null);
+if(saved){session=saved;$('#login').hidden=true;$('#app').hidden=false;paintUser();navigate('overview');}
+</script>
+</body>
+</html>
