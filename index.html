@@ -1087,9 +1087,9 @@ $('#gridSearch').addEventListener('input', e=>{ state.q=e.target.value; $('#hero
 $$('#quickGrid .qcard').forEach(b=>b.addEventListener('click', ()=>applyFilter({ruta:b.dataset.quick})));
 
 /* admin (not built yet) */
-function adminNotice(){ alert('El panel de Administración estará disponible en una próxima etapa.'); }
-$('#adminBtn').addEventListener('click', adminNotice);
-$('#adminFoot').addEventListener('click', e=>{e.preventDefault();adminNotice();});
+function goAdmin(){ window.location.href='/admin'; }
+$('#adminBtn').addEventListener('click', goAdmin);
+$('#adminFoot').addEventListener('click', e=>{e.preventDefault();goAdmin();});
 
 /* theme toggle */
 const rootEl = document.documentElement;
