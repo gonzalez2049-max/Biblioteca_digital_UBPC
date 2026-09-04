@@ -43,6 +43,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-b);fo
 h1,h2,h3,h4{font-family:var(--font-d);margin:0;line-height:1.12;letter-spacing:-.01em}
 p{margin:0}button{font-family:inherit;cursor:pointer}input,select,textarea{font-family:inherit}
 img,svg{display:block;max-width:100%}
+[hidden]{display:none!important}
 :focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:6px}
 .r-aprender{--accent:var(--azul);--accent-soft:var(--azul-soft);--accent-ink:var(--azul-ink);--accent-hi:var(--azul-hi)}
 .r-aplicar{--accent:var(--turquesa);--accent-soft:var(--turquesa-soft);--accent-ink:var(--turquesa-ink);--accent-hi:var(--turquesa-hi)}
@@ -349,6 +350,8 @@ img,svg{display:block;max-width:100%}
 .pub-brand small{font-size:.72rem;color:var(--ink-3);font-weight:600}
 .mode-tag{margin-left:auto;font-size:.74rem;font-weight:800;padding:6px 12px;border-radius:999px;white-space:nowrap;display:none}
 @media(min-width:720px){.mode-tag{display:inline-flex;align-items:center;gap:6px}}
+.pub-clock{font-size:.8rem;font-weight:700;color:var(--ink-2);white-space:nowrap;display:none;align-items:center;gap:6px}
+@media(min-width:820px){.pub-clock{display:inline-flex}}
 .mode-tag.ok{background:var(--ok-soft);color:var(--ok)} .mode-tag.warn{background:var(--warn-soft);color:var(--warn)}
 .mode-tag::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
 .pub-hero{position:relative;isolation:isolate;overflow:hidden;color:#fff}
@@ -526,6 +529,7 @@ img,svg{display:block;max-width:100%}
         <span><b>Centro de Transferencia del Conocimiento</b><small>Unidad de Buenas Prácticas Clínicas – HUAP</small></span>
       </div>
       <span class="mode-tag ok" id="modeTag">Base de datos compartida · en vivo</span>
+      <span class="pub-clock" id="pubClock" aria-label="Fecha y hora"></span>
       <button class="btn btn-admin" id="pubAdminBtn" style="background:linear-gradient(135deg,var(--brand-ink),var(--brand));color:#fff">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 13a7.8 7.8 0 000-2l2-1.5-2-3.4L17 7a7.8 7.8 0 00-1.7-1l-.3-2.5h-4L10.7 6a7.8 7.8 0 00-1.7 1L6.6 6.1l-2 3.4L6.6 11a7.8 7.8 0 000 2l-2 1.5 2 3.4L9 16.9a7.8 7.8 0 001.7 1l.3 2.5h4l.3-2.5a7.8 7.8 0 001.7-1l2.4 1 2-3.4-2-1.5z" stroke-linejoin="round"/></svg>
         Administración
@@ -1593,7 +1597,8 @@ function showAdmin(){ if(session){ $('#viewPublic').hidden=true; $('#login').hid
 function goPortal(){ showPublic(); }
 $('#verCentro').onclick=goPortal;$('#verCentroSide').onclick=goPortal;
 $('#pubAdminBtn').onclick=showAdmin;
-$('#pubSearchInput').addEventListener('input',e=>{ pubState.q=e.target.value; renderPublic(); });
+$('#pubSearchInput').addEventListener('input',e=>{ pubState.q=e.target.value; renderPublic();
+  if(pubState.q.trim()){ const sec=document.getElementById('ps-tematica'); if(sec){ const top=sec.getBoundingClientRect().top; if(top>140) sec.scrollIntoView({behavior:'smooth',block:'start'}); } } });
 $('#pubSearchInput').addEventListener('change',e=>{ const q=e.target.value.trim(); if(q.length>=2){ let l=pubPublished(); if(pubState.route)l=l.filter(r=>r.ruta===pubState.route); const hits=l.filter(r=>(r.titulo+' '+r.descripcion+' '+(r.keywords||'')).toLowerCase().includes(q.toLowerCase())).length; trackSearch(q,hits);} });
 $('#logout').onclick=()=>confirmModal({icon:'warn',color:'var(--warn)',title:'Cerrar sesión',body:'<p style="color:var(--ink-2)">¿Deseas cerrar la sesión del Centro de Control?</p>',okLabel:'Cerrar sesión',okClass:'btn-warn',onOk:async()=>{await logout();showPublic();}});
 $('#switchUser').onclick=async()=>{await logout();showLogin();};
@@ -1609,10 +1614,17 @@ function trackVisit(){ const t=Date.now(); if(t-lastVisit<4000)return; lastVisit
 function trackOpen(r){ API.stats.track({type:'open',resourceId:r.id,tema:r.tema,titulo:r.titulo}); }
 function trackDownload(name){ API.stats.track({type:'download',name:name}); }
 function trackSearch(q,hits){ if(!q||q.length<2)return; API.stats.track({type:'search',q:q,hits:hits}); }
+function updateClock(){ const el=document.getElementById('pubClock'); if(!el)return; const d=new Date();
+  const f=d.toLocaleDateString('es-CL',{weekday:'short',day:'2-digit',month:'short'});
+  const h=d.toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'});
+  el.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="opacity:.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg>'+f+' · '+h; }
+let clockTimer=null;
+function startClock(){ updateClock(); if(!clockTimer) clockTimer=setInterval(updateClock,30000); }
 
 /* ================= INIT ================= */
 async function boot(){
   $('#bootLoader').hidden=false;
+  startClock();
   await loadPublic();
   try{ const me=await API.auth.me(); if(me&&me.user){ session=me.user; AUTH_STATE='ok'; } }catch(e){}
   $('#bootLoader').hidden=true;
