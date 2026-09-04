@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="400" height="240" role="img">
+  <defs>
+    <linearGradient id="bgap2ttv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2f6fa"/><stop offset="1" stop-color="#e6edf3"/></linearGradient>
+    <radialGradient id="acap2ttv" cx="82%" cy="16%" r="70%"><stop offset="0" stop-color="#0d9488" stop-opacity="0.20"/><stop offset="60%" stop-color="#0d9488" stop-opacity="0.05"/><stop offset="100%" stop-color="#0d9488" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="400" height="240" fill="url(#bgap2ttv)"/>
+  <rect width="400" height="240" fill="url(#acap2ttv)"/>
+  <rect x="0" y="232" width="400" height="8" fill="#0d9488" opacity="0.9"/>
+  <circle cx="356" cy="34" r="20" fill="#ffffff" opacity="0.85"/><g transform="translate(356,34)"><rect x="-4" y="-11" width="8" height="22" rx="2" fill="#0d9488"/><rect x="-11" y="-4" width="22" height="8" rx="2" fill="#0d9488"/></g>
+  <circle cx="200" cy="118" r="70" fill="#ffffff" stroke="#93a3b0"/>
+        <path d="M200 78 c18 26 26 34 26 50 a26 26 0 1 1 -52 0 c0 -16 8 -24 26 -50 z" fill="#0d9488" opacity="0.85"/>
+        <path d="M262 132 l30 12 v18 c0 20 -14 30 -30 36 -16 -6 -30 -16 -30 -36 v-18 z" fill="#ffffff" stroke="#0d9488" stroke-width="4"/>
+        <path d="M247 168 l9 9 17 -18" fill="none" stroke="#0d9488" stroke-width="4" stroke-linecap="round"/>
+</svg>
