@@ -17,11 +17,13 @@ function ts() {
 }
 
 module.exports = handler(async (req, res) => {
-  const p = req.query && req.query.path;
-  const parts = Array.isArray(p) ? p : (p ? [p] : []);
+  const url = new URL(req.url, 'http://x');
+  // Ruta tomada del path real (robusto); se ignora el prefijo 'api' si aparece.
+  let parts = url.pathname.split('/').filter(Boolean);
+  if (parts[0] === 'api') parts = parts.slice(1);
+  if (!parts.length && req.query && req.query.path) { const p = req.query.path; parts = Array.isArray(p) ? p : [p]; }
   const a = parts[0] || '';
   const b = parts[1];
-  const url = new URL(req.url, 'http://x');
 
   // ---------- HEALTH ----------
   if (a === 'health') {
