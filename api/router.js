@@ -1,6 +1,10 @@
-// Router único de la API (una sola Función Serverless) — patrón catch-all soportado por Vercel.
-// Rutas: /api/health · /api/auth/{login,logout,me} · /api/resources[/:id] · /api/weekly · /api/experience
-//        · /api/users[/:id] · /api/stats[/track|/reset] · /api/audit · /api/files[/:id]
+// Router único de la API (una sola Función Serverless).
+// Todas las rutas /api/* se canalizan aquí mediante rewrites en vercel.json, que
+// pasan la ruta anidada en el parámetro ?path= (p. ej. /api/auth/login → path=auth/login).
+// Esto evita depender del enrutado de archivos con corchetes, que no resolvía rutas anidadas.
+// Rutas: /api/health · /api/auth/{login,logout,me} · /api/resources[/:id] · /api/weekly
+//        · /api/experience · /api/branding · /api/users[/:id] · /api/stats[/track|/reset]
+//        · /api/audit · /api/files[/:id]
 const bcrypt = require('bcryptjs');
 const { put, del } = require('@vercel/blob');
 const { json, readJson, handler } = require('../lib/http');
@@ -18,10 +22,18 @@ function ts() {
 
 module.exports = handler(async (req, res) => {
   const url = new URL(req.url, 'http://x');
-  // Ruta tomada del path real (robusto); se ignora el prefijo 'api' si aparece.
-  let parts = url.pathname.split('/').filter(Boolean);
-  if (parts[0] === 'api') parts = parts.slice(1);
-  if (!parts.length && req.query && req.query.path) { const p = req.query.path; parts = Array.isArray(p) ? p : [p]; }
+  // 1) Preferir el path que inyecta el rewrite de vercel.json (?path=auth/login).
+  //    Puede venir como string "auth/login" o como arreglo; se normaliza a segmentos.
+  // 2) Si no está (acceso directo a la función), derivarlo del pathname real.
+  let parts;
+  if (req.query && Object.prototype.hasOwnProperty.call(req.query, 'path')) {
+    const q = req.query.path;
+    const raw = Array.isArray(q) ? q.join('/') : String(q || '');
+    parts = raw.split('/').filter(Boolean);
+  } else {
+    parts = url.pathname.split('/').filter(Boolean);
+    if (parts[0] === 'api') parts = parts.slice(1);
+  }
   const a = parts[0] || '';
   const b = parts[1];
 
@@ -75,7 +87,7 @@ module.exports = handler(async (req, res) => {
     await ensureSchema();
     if (!b) {
       if (req.method === 'GET') {
-        const scope = url.searchParams.get('scope') || 'public';
+        const scope = (req.query && req.query.scope) || url.searchParams.get('scope') || 'public';
         if (scope === 'all') {
           const u = getUser(req);
           if (!u) return json(res, 401, { error: 'unauthorized' });
