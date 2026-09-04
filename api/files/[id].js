@@ -2,6 +2,7 @@ const { del } = require('@vercel/blob');
 const { json, handler } = require('../../lib/http');
 const { sql, ensureSchema } = require('../../lib/db');
 const { requirePerm, getUser } = require('../../lib/auth');
+const { resolveBlobToken } = require('../../lib/env');
 
 module.exports = handler(async (req, res) => {
   await ensureSchema();
@@ -19,7 +20,7 @@ module.exports = handler(async (req, res) => {
     const u = requirePerm(req, res, 'resources');
     if (!u) return;
     const { rows } = await sql`SELECT url FROM files WHERE id = ${id} LIMIT 1`;
-    if (rows[0] && rows[0].url) { try { await del(rows[0].url); } catch (e) { /* continuar */ } }
+    if (rows[0] && rows[0].url) { try { await del(rows[0].url, { token: resolveBlobToken().token }); } catch (e) { /* continuar */ } }
     await sql`DELETE FROM files WHERE id = ${id}`;
     return json(res, 200, { ok: true });
   }

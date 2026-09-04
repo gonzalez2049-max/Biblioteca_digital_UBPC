@@ -3,6 +3,7 @@ const { sql, ensureSchema, addAudit } = require('../../lib/db');
 const { requirePerm } = require('../../lib/auth');
 const { toResource, clean } = require('../../lib/resources');
 const { del } = require('@vercel/blob');
+const { resolveBlobToken } = require('../../lib/env');
 
 module.exports = handler(async (req, res) => {
   await ensureSchema();
@@ -42,7 +43,7 @@ module.exports = handler(async (req, res) => {
     if (!existing.rows[0]) return json(res, 404, { error: 'not_found' });
     // Elimina el archivo del Blob si lo tenía.
     const arch = existing.rows[0].archivo;
-    if (arch && arch.url) { try { await del(arch.url); } catch (e) { /* continuar */ } }
+    if (arch && arch.url) { try { await del(arch.url, { token: resolveBlobToken().token }); } catch (e) { /* continuar */ } }
     await sql`DELETE FROM resources WHERE id = ${id}`;
     await addAudit(u.nombre, `Eliminó “${existing.rows[0].titulo}”`);
     return json(res, 200, { ok: true });

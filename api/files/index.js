@@ -3,6 +3,7 @@ const { put } = require('@vercel/blob');
 const { json, readJson, handler } = require('../../lib/http');
 const { sql, ensureSchema } = require('../../lib/db');
 const { requirePerm } = require('../../lib/auth');
+const { resolveBlobToken } = require('../../lib/env');
 
 const MAX = 25 * 1024 * 1024; // 25 MB
 const ALLOWED_EXT = /\.(pdf|docx?|pptx?|png|jpe?g|gif|webp|mp3|wav|m4a|ogg|mp4|webm|mov)$/i;
@@ -26,7 +27,8 @@ module.exports = handler(async (req, res) => {
 
   const id = 'f' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   const safeName = filename.replace(/[^\w.\-]+/g, '_');
-  const blob = await put(`recursos/${id}/${safeName}`, buf, { access: 'public', contentType, addRandomSuffix: false });
+  const { token } = resolveBlobToken();
+  const blob = await put(`recursos/${id}/${safeName}`, buf, { access: 'public', contentType, addRandomSuffix: false, token });
 
   await sql`INSERT INTO files (id, name, type, size, url, pathname, uploaded_by)
     VALUES (${id}, ${filename}, ${contentType}, ${buf.length}, ${blob.url}, ${blob.pathname}, ${u.nombre})`;
