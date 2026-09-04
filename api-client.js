@@ -45,7 +45,18 @@
   async function req(method, path, body) {
     const opts = { method, headers: {}, credentials: 'same-origin' };
     if (body !== undefined) { opts.headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(body); }
-    const res = await fetch(path, opts);
+    let res;
+    try {
+      res = await fetch(path, opts);
+    } catch (netErr) {
+      // "Failed to fetch": suele ser cuerpo demasiado grande (Vercel corta a ~4.5 MB) o sin conexión.
+      const big = opts.body && opts.body.length > 3.8 * 1024 * 1024;
+      const e = new Error(big
+        ? 'El archivo es demasiado pesado para subirlo directo (máx ~4 MB). Usa uno más liviano.'
+        : 'No se pudo conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.');
+      e.status = big ? 413 : 0; e.code = big ? 'too_large' : 'network_error';
+      throw e;
+    }
     const data = await res.json().catch(() => ({}));
     if (!res.ok) { const err = new Error(data.message || data.error || ('HTTP ' + res.status)); err.status = res.status; err.code = data.error; throw err; }
     return data;
