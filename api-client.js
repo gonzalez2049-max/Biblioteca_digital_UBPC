@@ -25,13 +25,17 @@
         if (m > maxDim) { const s = maxDim / m; w = Math.round(w * s); h = Math.round(h * s); }
         const c = document.createElement('canvas'); c.width = w; c.height = h;
         const ctx = c.getContext('2d');
-        ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h); // fondo blanco para PNG/transparencias
+        // PNG conserva transparencia (p. ej. logos); el resto se aplana sobre blanco a JPEG.
+        const keepAlpha = /png/i.test(file.type || '');
+        if (!keepAlpha) { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h); }
         ctx.drawImage(img, 0, 0, w, h);
+        const outType = keepAlpha ? 'image/png' : 'image/jpeg';
+        const outExt = keepAlpha ? '.png' : '.jpg';
         c.toBlob((b) => {
           if (!b) { reject(new Error('sin blob')); return; }
-          const name = (file.name || 'imagen').replace(/\.[^.]+$/, '') + '.jpg';
-          resolve(new File([b], name, { type: 'image/jpeg' }));
-        }, 'image/jpeg', quality);
+          const name = (file.name || 'imagen').replace(/\.[^.]+$/, '') + outExt;
+          resolve(new File([b], name, { type: outType }));
+        }, outType, quality);
       };
       img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('no se pudo decodificar')); };
       img.src = url;
