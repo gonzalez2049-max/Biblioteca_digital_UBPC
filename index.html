@@ -1,0 +1,1640 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Centro de Transferencia del Conocimiento - Unidad de Buenas Practicas Clinicas HUAP.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%8F%A5%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<title>Centro de Transferencia del Conocimiento</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+:root{
+  --bg:#eef2f7;--surface:#ffffff;--surface-2:#f6f9fc;--surface-3:#eef3f8;
+  --ink:#0f2233;--ink-2:#3a5165;--ink-3:#5f7488;--line:#d9e2ec;
+  --brand:#0e4e8a;--brand-ink:#0a3a68;--brand-2:#12b5a6;
+  --shadow:0 1px 2px rgba(15,34,51,.06),0 10px 30px rgba(15,34,51,.08);
+  --shadow-lg:0 20px 55px rgba(10,58,104,.20);--radius:16px;
+  --azul:#2563eb;--azul-soft:#dbeafe;--azul-ink:#1a45b0;
+  --turquesa:#0d9488;--turquesa-soft:#cbf5ee;--turquesa-ink:#0a6d64;
+  --coral:#e64b5c;--coral-soft:#ffe0e2;--coral-ink:#b23140;
+  --violeta:#7c5cfc;--violeta-soft:#e8e2ff;--violeta-ink:#5a3fd6;
+  --ambar:#d98514;--ambar-soft:#fce6c6;--ambar-ink:#a8630a;
+  /* -hi: tono para TEXTO sobre fondo oscuro. En claro = igual que -ink (sin cambios). */
+  --azul-hi:#1a45b0;--turquesa-hi:#0a6d64;--coral-hi:#b23140;--violeta-hi:#5a3fd6;--ambar-hi:#a8630a;
+  --ok:#0d9488;--ok-soft:#cbf5ee;--warn:#d98514;--warn-soft:#fce6c6;--crit:#e64b5c;--crit-soft:#ffe0e2;
+  --font-d:'Bricolage Grotesque',system-ui,sans-serif;--font-b:'Public Sans',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0b141d;--surface:#111e2b;--surface-2:#0e1a26;--surface-3:#16283a;--ink:#eaf2fa;--ink-2:#a9bccd;--ink-3:#7b91a5;
+  --line:#22384a;--brand:#4a94d6;--brand-ink:#8fc0ea;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 34px rgba(0,0,0,.45);
+  --shadow-lg:0 22px 60px rgba(0,0,0,.55);--azul-soft:#16294d;--turquesa-soft:#0c342f;--coral-soft:#3d1d22;
+  --violeta-soft:#241d47;--ambar-soft:#3a2a10;--ok-soft:#0c342f;--warn-soft:#3a2a10;--crit-soft:#3d1d22;
+  --azul-hi:#7ba9f5;--turquesa-hi:#43d3c0;--coral-hi:#ff8f9b;--violeta-hi:#b3a0ff;--ambar-hi:#f0b357;
+}}
+:root[data-theme="dark"]{--bg:#0b141d;--surface:#111e2b;--surface-2:#0e1a26;--surface-3:#16283a;--ink:#eaf2fa;--ink-2:#a9bccd;
+  --ink-3:#7b91a5;--line:#22384a;--brand:#4a94d6;--brand-ink:#8fc0ea;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 34px rgba(0,0,0,.45);
+  --shadow-lg:0 22px 60px rgba(0,0,0,.55);--azul-soft:#16294d;--turquesa-soft:#0c342f;--coral-soft:#3d1d22;--violeta-soft:#241d47;
+  --ambar-soft:#3a2a10;--ok-soft:#0c342f;--warn-soft:#3a2a10;--crit-soft:#3d1d22;
+  --azul-hi:#7ba9f5;--turquesa-hi:#43d3c0;--coral-hi:#ff8f9b;--violeta-hi:#b3a0ff;--ambar-hi:#f0b357;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-b);font-size:15.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--font-d);margin:0;line-height:1.12;letter-spacing:-.01em}
+p{margin:0}button{font-family:inherit;cursor:pointer}input,select,textarea{font-family:inherit}
+img,svg{display:block;max-width:100%}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:6px}
+.r-aprender{--accent:var(--azul);--accent-soft:var(--azul-soft);--accent-ink:var(--azul-ink);--accent-hi:var(--azul-hi)}
+.r-aplicar{--accent:var(--turquesa);--accent-soft:var(--turquesa-soft);--accent-ink:var(--turquesa-ink);--accent-hi:var(--turquesa-hi)}
+.r-ensenar{--accent:var(--coral);--accent-soft:var(--coral-soft);--accent-ink:var(--coral-ink);--accent-hi:var(--coral-hi)}
+.r-implementar{--accent:var(--violeta);--accent-soft:var(--violeta-soft);--accent-ink:var(--violeta-ink);--accent-hi:var(--violeta-hi)}
+.r-evaluar{--accent:var(--ambar);--accent-soft:var(--ambar-soft);--accent-ink:var(--ambar-ink);--accent-hi:var(--ambar-hi)}
+
+/* ---------- LOGIN ---------- */
+.login{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;
+  background:linear-gradient(135deg,#0a2540,#0e4e8a 55%,#0f6d67)}
+.login[hidden]{display:none!important}
+.login-card{background:var(--surface);border-radius:22px;box-shadow:var(--shadow-lg);max-width:440px;width:100%;padding:34px;text-align:center}
+.login-card .lbadge{width:64px;height:64px;border-radius:18px;margin:0 auto 16px;background:linear-gradient(135deg,var(--brand),var(--brand-2));
+  display:grid;place-items:center;box-shadow:0 12px 30px rgba(14,78,138,.4)}
+.login-card .lbadge svg{width:34px;height:34px}
+.login-card h1{font-size:1.5rem;font-weight:800}
+.login-card .lsub{color:var(--ink-2);font-size:.92rem;margin-top:6px}
+.login-users{display:flex;flex-direction:column;gap:10px;margin:22px 0}
+.luser{display:flex;align-items:center;gap:13px;text-align:left;border:2px solid var(--line);background:var(--surface-2);
+  border-radius:14px;padding:13px 15px;transition:.15s;width:100%}
+.luser:hover{border-color:var(--brand)}
+.luser.sel{border-color:var(--brand);background:var(--azul-soft)}
+.luser .lav{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;color:#fff;font-family:var(--font-d);font-weight:800;font-size:1.05rem}
+.luser b{display:block;font-size:.98rem}
+.luser small{color:var(--ink-2);font-size:.82rem}
+.luser .lrole{margin-left:auto;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.login-pin{display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:18px}
+.login-pin input{width:150px;text-align:center;letter-spacing:.3em;font-size:1.1rem;font-weight:700;padding:12px;border:2px solid var(--line);border-radius:12px;background:var(--surface-2);color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:12px 18px;
+  font-weight:700;font-size:.92rem;text-decoration:none;transition:transform .15s,box-shadow .15s,background .15s;color:var(--ink)}
+.btn:hover{transform:translateY(-1px)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-primary{background:var(--brand);color:#fff;box-shadow:0 8px 20px rgba(14,78,138,.28)}
+.btn-accent{background:var(--accent,var(--brand));color:#fff}
+.btn-ok{background:var(--ok);color:#fff}
+.btn-warn{background:var(--warn);color:#fff}
+.btn-crit{background:var(--crit);color:#fff}
+.btn-ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+.btn-lg{padding:14px 22px;font-size:1rem;border-radius:14px}
+.btn-block{width:100%}
+.btn-sm{padding:8px 12px;font-size:.84rem;border-radius:10px}
+
+/* ---------- APP SHELL ---------- */
+.app[hidden]{display:none!important}
+.app{min-height:100vh;display:grid;grid-template-columns:264px 1fr}
+@media(max-width:920px){.app{grid-template-columns:1fr}}
+.sidebar{background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;
+  position:sticky;top:0;height:100vh;z-index:30}
+@media(max-width:920px){.sidebar{position:fixed;inset:0 auto 0 0;width:280px;transform:translateX(-100%);transition:transform .25s;box-shadow:var(--shadow-lg)}
+  .sidebar.open{transform:translateX(0)}}
+.side-brand{display:flex;align-items:center;gap:11px;padding:18px 18px;border-bottom:1px solid var(--line)}
+.side-brand .sb{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:grid;place-items:center;flex:none}
+.side-brand .sb svg{width:22px;height:22px}
+.side-brand b{font-family:var(--font-d);font-size:.98rem;line-height:1.05;display:block}
+.side-brand small{font-size:.72rem;color:var(--ink-3);font-weight:600}
+.side-nav{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:4px}
+.side-nav .navlabel{font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding:12px 12px 6px}
+.navitem{display:flex;align-items:center;gap:12px;padding:12px 13px;border:0;background:transparent;border-radius:11px;
+  font-weight:600;font-size:.94rem;color:var(--ink-2);width:100%;text-align:left;transition:.14s}
+.navitem svg{width:21px;height:21px;flex:none;color:var(--ink-3)}
+.navitem:hover{background:var(--surface-2);color:var(--ink)}
+.navitem.active{background:var(--brand);color:#fff;box-shadow:0 8px 18px rgba(14,78,138,.28)}
+.navitem.active svg{color:#fff}
+.navitem .badge{margin-left:auto;background:var(--surface-3);color:var(--ink-2);font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:999px}
+.navitem.active .badge{background:rgba(255,255,255,.25);color:#fff}
+.side-foot{padding:14px;border-top:1px solid var(--line)}
+
+.main{min-width:0;display:flex;flex-direction:column}
+/* header */
+.ahead{position:relative;overflow:hidden;color:#fff;isolation:isolate}
+.ahead .hbg{position:absolute;inset:0;z-index:-2}
+.ahead .hbg svg{width:100%;height:100%}
+.ahead .hover{position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,rgba(9,42,74,.95),rgba(11,58,104,.88) 55%,rgba(13,92,120,.8))}
+.ahead-inner{padding:20px clamp(18px,3vw,34px)}
+.ahead-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hamburger{display:none;width:42px;height:42px;border-radius:11px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;place-items:center}
+@media(max-width:920px){.hamburger{display:grid}}
+.ahead h1{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;color:#fff}
+.ahead .heyebrow{font-size:.76rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#9fe9ff}
+.ahead-actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.hbtn{display:inline-flex;align-items:center;gap:7px;border-radius:11px;padding:10px 14px;font-weight:700;font-size:.86rem;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:#fff;transition:.15s}
+.hbtn:hover{background:rgba(255,255,255,.24)}
+.hbtn.solid{background:#fff;color:var(--brand-ink);border-color:#fff}
+.hbtn.danger{background:rgba(230,75,92,.9);border-color:transparent}
+.ahead-user{display:flex;align-items:center;gap:14px;margin-top:16px;flex-wrap:wrap}
+.ahead-user .uav{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--brand-2),#4f9bff);display:grid;place-items:center;font-family:var(--font-d);font-weight:800;font-size:1.2rem;color:#fff;border:2px solid rgba(255,255,255,.5)}
+.ahead-user .uname{font-family:var(--font-d);font-weight:700;font-size:1.12rem;color:#fff}
+.ahead-user .urole{display:inline-flex;align-items:center;gap:7px;font-size:.84rem;font-weight:700;color:#fff;background:rgba(255,255,255,.18);padding:4px 11px;border-radius:999px;margin-top:3px}
+.ahead-user .urole .rdot{width:8px;height:8px;border-radius:50%;background:#5ff3d6}
+.ahead-idle{display:inline-flex;align-items:center;gap:8px;margin-left:auto;font-size:.82rem;font-weight:700;color:#eaf6ff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);padding:8px 13px;border-radius:11px}
+.ahead-idle svg{width:16px;height:16px}
+.ahead-idle b{color:#fff}
+
+.content{padding:clamp(18px,3vw,30px);flex:1}
+.view[hidden]{display:none!important}
+.view-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:22px}
+.view-head h2{font-size:clamp(1.35rem,2.4vw,1.8rem);font-weight:700}
+.view-head p{color:var(--ink-2);margin-top:5px;max-width:64ch}
+.eyebrow{font-size:.74rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--brand)}
+
+/* stat cards */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.stat .si{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:#fff;margin-bottom:12px}
+.stat .si svg{width:23px;height:23px}
+.stat .snum{font-family:var(--font-d);font-size:2.1rem;font-weight:800;line-height:1}
+.stat .slabel{font-size:.86rem;color:var(--ink-2);font-weight:600;margin-top:4px}
+.stat .strend{position:absolute;top:16px;right:16px;font-size:.74rem;font-weight:800;padding:3px 9px;border-radius:999px}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:clamp(16px,2.4vw,24px)}
+.panel + .panel{margin-top:20px}
+.panel-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.panel-head h3{font-size:1.15rem;font-weight:700}
+.panel-head p{font-size:.85rem;color:var(--ink-2);margin-top:2px}
+
+/* route distribution bars */
+.rdist{display:flex;flex-direction:column;gap:12px}
+.rdist-row{display:grid;grid-template-columns:130px 1fr 46px;align-items:center;gap:12px}
+@media(max-width:560px){.rdist-row{grid-template-columns:110px 1fr 40px}}
+.rdist-row .rl{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.88rem}
+.rdist-row .rl .d{width:11px;height:11px;border-radius:50%;background:var(--accent)}
+.rdist-bar{height:12px;border-radius:7px;background:var(--surface-3);overflow:hidden}
+.rdist-bar i{display:block;height:100%;border-radius:7px;background:var(--accent);transition:width .5s}
+.rdist-row .rv{font-family:var(--font-d);font-weight:800;text-align:right}
+
+/* forms */
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+@media(max-width:680px){.form-grid{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.col-2{grid-column:1/-1}
+.field label{font-weight:700;font-size:.88rem;color:var(--ink)}
+.field label .req{color:var(--crit)}
+.field .hint{font-size:.78rem;color:var(--ink-3)}
+.input,.select,.textarea{border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:11px;
+  padding:11px 13px;font-size:.94rem;width:100%;transition:.15s}
+.input:focus,.select:focus,.textarea:focus{outline:none;border-color:var(--brand);background:var(--surface)}
+.textarea{resize:vertical;min-height:92px}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink-2);border-radius:10px;padding:9px 13px;font-weight:700;font-size:.85rem;transition:.14s}
+.seg button:hover{border-color:var(--brand);color:var(--ink)}
+.seg button.on{background:var(--accent,var(--brand));color:#fff;border-color:transparent}
+.seg.routes button.on{background:var(--accent);border-color:transparent}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.check{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:var(--surface-2);border-radius:10px;padding:8px 12px;font-weight:600;font-size:.85rem;cursor:pointer;transition:.14s}
+.check:hover{border-color:var(--brand)}
+.check.on{background:var(--brand);color:#fff;border-color:transparent}
+.check input{display:none}
+
+/* upload zones */
+.uploads{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:680px){.uploads{grid-template-columns:1fr}}
+.drop{border:2px dashed var(--line);border-radius:13px;padding:16px;text-align:center;background:var(--surface-2);transition:.15s;position:relative}
+.drop:hover{border-color:var(--brand)}
+.drop .dico{width:40px;height:40px;border-radius:11px;margin:0 auto 8px;display:grid;place-items:center;color:#fff}
+.drop .dico svg{width:21px;height:21px}
+.drop b{font-size:.9rem}
+.drop small{display:block;color:var(--ink-3);font-size:.76rem;margin-top:3px}
+.drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.filechip{display:flex;align-items:center;gap:10px;margin-top:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 11px;text-align:left}
+.filechip .fx{width:32px;height:32px;border-radius:8px;background:var(--accent-soft,var(--azul-soft));color:var(--accent-ink,var(--azul-ink));display:grid;place-items:center;font-weight:800;font-size:.7rem;flex:none}
+.filechip b{font-size:.84rem;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.filechip small{color:var(--ink-3);font-size:.74rem}
+.filechip .rm{margin-left:auto;border:0;background:var(--crit-soft);color:var(--crit);width:26px;height:26px;border-radius:7px;font-weight:800}
+.cover-prev{margin-top:10px;border-radius:11px;overflow:hidden;border:1px solid var(--line);max-height:150px}
+.cover-prev img{width:100%;height:150px;object-fit:cover}
+
+/* destino preview */
+.destino{background:linear-gradient(135deg,var(--surface-3),var(--surface-2));border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-top:6px}
+.destino h4{font-size:.95rem;display:flex;align-items:center;gap:8px}
+.destino .drow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.dpill{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:700;font-size:.82rem}
+.dpill .dd{width:9px;height:9px;border-radius:50%}
+
+.form-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.form-actions .spacer{flex:1}
+
+/* table / published */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+.search-in{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:11px;padding:9px 13px;background:var(--surface-2);flex:1;min-width:200px}
+.search-in svg{width:18px;height:18px;color:var(--ink-3);flex:none}
+.search-in input{border:0;background:transparent;color:var(--ink);width:100%;font-size:.92rem}
+.search-in input:focus{outline:none}
+.filter-sel{border:1.5px solid var(--line);border-radius:11px;padding:9px 12px;background:var(--surface-2);color:var(--ink);font-weight:600;font-size:.88rem}
+
+.rtable{width:100%;border-collapse:separate;border-spacing:0}
+.rtable-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+.rtable th{text-align:left;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:800;padding:13px 14px;background:var(--surface-2);white-space:nowrap;border-bottom:1px solid var(--line)}
+.rtable td{padding:13px 14px;border-bottom:1px solid var(--line);font-size:.9rem;vertical-align:middle}
+.rtable tr:last-child td{border-bottom:0}
+.rtable tr:hover td{background:var(--surface-2)}
+.rt-title{font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+.rt-thumb{width:40px;height:40px;border-radius:9px;flex:none;overflow:hidden;background:var(--accent-soft)}
+.rt-thumb svg,.rt-thumb img{width:100%;height:100%;object-fit:cover}
+.rt-sub{font-size:.78rem;color:var(--ink-3);font-weight:500}
+.rpill{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.rpill .pd{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.rpill.route{background:var(--accent-soft);color:var(--accent-ink)}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:800;padding:4px 10px;border-radius:999px}
+.st .sdot{width:7px;height:7px;border-radius:50%}
+.st.publicado{background:var(--ok-soft);color:var(--ok)} .st.publicado .sdot{background:var(--ok)}
+.st.borrador{background:var(--warn-soft);color:var(--warn)} .st.borrador .sdot{background:var(--warn)}
+.st.oculto{background:var(--surface-3);color:var(--ink-3)} .st.oculto .sdot{background:var(--ink-3)}
+.rowacts{display:flex;flex-wrap:wrap;gap:5px}
+.iact{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);display:grid;place-items:center;transition:.14s}
+.iact:hover{color:var(--ink);border-color:var(--brand)}
+.iact svg{width:16px;height:16px}
+.iact.danger:hover{color:var(--crit);border-color:var(--crit)}
+
+/* experiencia bloques */
+.exp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.exp-card{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--brand);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+.exp-card h4{font-size:1rem}
+.exp-card .exp-txt{font-size:.86rem;color:var(--ink-2);margin-top:8px;background:var(--surface-2);border-radius:9px;padding:10px 12px;max-height:120px;overflow:auto}
+.exp-card .exp-acts{display:flex;gap:8px;margin-top:12px}
+
+/* analytics */
+.mini-list{display:flex;flex-direction:column;gap:8px}
+.mini-row{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--surface-2);border-radius:11px;font-size:.9rem}
+.mini-row .mrank{width:26px;height:26px;border-radius:8px;background:var(--brand);color:#fff;display:grid;place-items:center;font-family:var(--font-d);font-weight:800;font-size:.8rem;flex:none}
+.mini-row b{font-weight:700}
+.mini-row .mval{margin-left:auto;font-family:var(--font-d);font-weight:800;color:var(--brand-ink)}
+.mini-row.empty-q{color:var(--crit)}
+.mini-row.empty-q .mrank{background:var(--crit)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:820px){.two-col{grid-template-columns:1fr}}
+.timeline{display:flex;flex-direction:column;gap:2px;max-height:340px;overflow:auto}
+.tl{display:flex;gap:12px;padding:11px 8px;border-bottom:1px dashed var(--line);font-size:.86rem}
+.tl:last-child{border-bottom:0}
+.tl .tt{font-family:var(--font-d);font-weight:700;color:var(--ink-3);font-size:.78rem;white-space:nowrap;flex:none;width:104px}
+.tl .ta{font-weight:600}
+
+/* toast */
+.toasts{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:120;display:flex;flex-direction:column;gap:10px;align-items:center;pointer-events:none}
+.toast{background:#17233a;color:#fff;padding:13px 20px;border-radius:12px;font-weight:700;font-size:.9rem;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:10px;animation:tin .3s ease;border:1px solid rgba(255,255,255,.14)}
+.toast.ok{background:var(--ok)}.toast.warn{background:var(--warn)}.toast.crit{background:var(--crit)}
+.toast svg{width:19px;height:19px}
+@keyframes tin{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+
+/* modal */
+.overlay{position:fixed;inset:0;z-index:110;background:rgba(9,20,32,.58);backdrop-filter:blur(4px);display:grid;place-items:center;padding:16px}
+.overlay[hidden]{display:none!important}
+.modal{background:var(--surface);border-radius:20px;max-width:560px;width:100%;max-height:90vh;overflow:auto;box-shadow:var(--shadow-lg);animation:pop .22s ease}
+.modal.wide{max-width:720px}
+@keyframes pop{from{transform:translateY(14px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+.modal-head{padding:20px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
+.modal-head h3{font-size:1.2rem}
+.modal-head .mclose{margin-left:auto;width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);font-size:1.1rem}
+.modal-body{padding:22px 24px}
+.modal-foot{padding:16px 24px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;background:var(--surface-2);border-radius:0 0 20px 20px}
+.confirm-ico{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;margin-bottom:14px}
+.confirm-ico svg{width:30px;height:30px}
+
+/* preview card (portada style) */
+.pvcard{border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);max-width:340px;margin:0 auto}
+.pvcard .pvimg{height:140px;position:relative}
+.pvcard .pvimg svg{position:absolute;inset:0;width:100%;height:100%}
+.pvcard .pvtype{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);color:var(--accent-ink);border-radius:999px;padding:5px 11px;font-weight:800;font-size:.72rem}
+.pvcard .pvbody{padding:15px 16px}
+.pvcard .pvtopic{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-ink)}
+.pvcard h3{font-size:1.05rem;margin-top:6px}
+.pvcard .pvd{font-size:.85rem;color:var(--ink-2);margin-top:6px}
+.pvcard .pvbtn{margin-top:12px;width:100%;background:var(--accent-soft);color:var(--accent-ink);border:0;border-radius:11px;padding:11px;font-weight:700}
+
+.user-card{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);margin-bottom:10px}
+.user-card .uc-av{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;color:#fff;font-family:var(--font-d);font-weight:800;flex:none}
+.user-card .uc-i{min-width:0}
+.user-card .uc-i b{display:block}
+.user-card .uc-i small{color:var(--ink-2);font-size:.82rem;word-break:break-all}
+.user-card .uc-role{font-size:.74rem;font-weight:800;padding:4px 11px;border-radius:999px;white-space:nowrap}
+.role-principal{background:var(--violeta-soft);color:var(--violeta-ink)}
+.role-biblioteca{background:var(--azul-soft);color:var(--azul-ink)}
+.role-editor{background:var(--turquesa-soft);color:var(--turquesa-ink)}
+.uc-acts{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.switch{position:relative;width:44px;height:25px;flex:none}
+.switch input{display:none}
+.switch .track{position:absolute;inset:0;background:var(--ink-3);border-radius:999px;transition:.2s}
+.switch .knob{position:absolute;top:3px;left:3px;width:19px;height:19px;background:#fff;border-radius:50%;transition:.2s}
+.switch input:checked + .track{background:var(--ok)}
+.switch input:checked + .track + .knob{transform:translateX(19px)}
+.empty-state{text-align:center;padding:40px 20px;color:var(--ink-2)}
+.empty-state svg{width:46px;height:46px;color:var(--ink-3);margin:0 auto 12px}
+.note{display:flex;gap:10px;align-items:flex-start;background:var(--azul-soft);color:var(--azul-ink);border-radius:12px;padding:12px 14px;font-size:.85rem;font-weight:600}
+.note svg{width:19px;height:19px;flex:none;margin-top:1px}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* ---------- boot loader ---------- */
+#bootLoader{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:linear-gradient(135deg,#0a2540,#0e4e8a 55%,#0f6d67);color:#fff}
+#bootLoader[hidden]{display:none!important}
+#bootLoader .bl{ text-align:center }
+#bootLoader .spin{width:52px;height:52px;border-radius:50%;border:5px solid rgba(255,255,255,.25);border-top-color:#5ff3d6;margin:0 auto 16px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#bootLoader b{font-family:var(--font-d);font-size:1.15rem;display:block}
+#bootLoader small{color:#cfeeff;font-size:.86rem}
+
+/* ---------- PUBLIC LIVE VIEW ---------- */
+#viewPublic[hidden]{display:none!important}
+.pub-top{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--surface) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.pub-top .pt-in{max-width:1600px;margin:0 auto;padding:12px clamp(16px,4vw,40px);display:flex;align-items:center;gap:14px}
+.pub-brand{display:flex;align-items:center;gap:12px;min-width:0}
+.pub-brand .pb{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:grid;place-items:center;flex:none}
+.pub-brand .pb svg{width:22px;height:22px}
+.pub-brand b{font-family:var(--font-d);font-size:.98rem;line-height:1.05;display:block}
+.pub-brand small{font-size:.72rem;color:var(--ink-3);font-weight:600}
+.mode-tag{margin-left:auto;font-size:.74rem;font-weight:800;padding:6px 12px;border-radius:999px;white-space:nowrap;display:none}
+@media(min-width:720px){.mode-tag{display:inline-flex;align-items:center;gap:6px}}
+.pub-clock{font-size:.8rem;font-weight:700;color:var(--ink-2);white-space:nowrap;display:none;align-items:center;gap:6px}
+@media(min-width:820px){.pub-clock{display:inline-flex}}
+.mode-tag.ok{background:var(--ok-soft);color:var(--ok)} .mode-tag.warn{background:var(--warn-soft);color:var(--warn)}
+.mode-tag::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.pub-hero{position:relative;isolation:isolate;overflow:hidden;color:#fff}
+.pub-hero .ph-bg{position:absolute;inset:0;z-index:-2}
+.pub-hero .ph-bg svg{width:100%;height:100%}
+.pub-hero .ph-ov{position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,rgba(9,42,74,.93),rgba(11,58,104,.86) 45%,rgba(13,92,120,.74))}
+.pub-hero .ph-in{max-width:1600px;margin:0 auto;padding:clamp(34px,6vw,64px) clamp(16px,4vw,40px)}
+.pub-hero .ph-tag{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.32);padding:7px 14px;border-radius:999px;font-weight:700;font-size:.8rem}
+.pub-hero h1{font-size:clamp(1.9rem,4.6vw,3.2rem);font-weight:800;color:#fff;margin:18px 0 0;max-width:18ch}
+.pub-hero .ph-sub{font-size:clamp(1rem,2vw,1.3rem);font-weight:600;color:#eaf6ff;margin-top:12px}
+.pub-hero .ph-inst{margin-top:12px;display:inline-flex;align-items:center;gap:9px;font-weight:700;color:#bff0ff}
+.pub-hero .ph-inst span{width:6px;height:6px;border-radius:50%;background:#bff0ff}
+.pub-searchbar{margin-top:26px;max-width:680px;background:var(--surface);border-radius:15px;box-shadow:var(--shadow-lg);padding:7px 7px 7px 16px;display:flex;align-items:center;gap:10px}
+.pub-searchbar svg{width:22px;height:22px;color:var(--brand);flex:none}
+.pub-searchbar input{flex:1;border:0;background:transparent;font-size:1.02rem;font-weight:500;color:var(--ink);padding:12px 0;min-width:0}
+.pub-searchbar input:focus{outline:none}
+.pub-wrap{max-width:1600px;margin:0 auto;padding:clamp(26px,4vw,46px) clamp(16px,4vw,40px)}
+.pub-filter{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:22px}
+.pub-chip{border:1.5px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:9px 15px;font-weight:700;font-size:.86rem;display:inline-flex;align-items:center;gap:8px;transition:.15s}
+.pub-chip .cd{width:9px;height:9px;border-radius:50%;background:var(--accent,var(--ink-3))}
+.pub-chip:hover{color:var(--ink);border-color:var(--brand)}
+.pub-chip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+.pub-chip.on .cd{background:#fff}
+.pub-sech{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:28px 0 16px}
+.pub-sech h2{font-size:clamp(1.3rem,2.6vw,1.9rem);font-weight:700}
+.pub-sech p{color:var(--ink-2);font-size:.9rem;margin-top:4px;max-width:60ch}
+.pub-sech .eyebrow{color:var(--brand)}
+.pub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.pub-count{font-weight:700;color:var(--ink-2);font-size:.88rem;white-space:nowrap}
+.pub-weekly{display:grid;grid-template-columns:1fr;gap:0;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);position:relative;color:#fff;min-height:230px}
+@media(min-width:760px){.pub-weekly{grid-template-columns:1.2fr 1fr}}
+.pub-weekly .pw-img{position:relative;min-height:180px}
+.pub-weekly .pw-img svg,.pub-weekly .pw-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pub-weekly .pw-body{background:linear-gradient(135deg,var(--brand-ink),var(--brand));padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;justify-content:center}
+.pub-weekly .pw-badge{align-self:flex-start;background:#fff;color:var(--azul-ink);font-weight:800;font-size:.72rem;padding:6px 12px;border-radius:999px;text-transform:uppercase;letter-spacing:.05em}
+.pub-weekly h3{color:#fff;font-size:clamp(1.3rem,2.4vw,1.75rem);margin-top:14px}
+.pub-weekly p{color:#dfeeff;margin-top:10px;font-size:.95rem}
+.pub-weekly .pw-meta{margin-top:14px;font-size:.8rem;font-weight:700;color:#bfe6ff}
+.pub-foot{background:var(--surface);border-top:1px solid var(--line);text-align:center;padding:26px 16px;color:var(--ink-3);font-size:.84rem}
+.pub-updates{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.pub-upd{display:flex;gap:14px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);text-align:left;width:100%;background:transparent;transition:.15s}
+.pub-upd:last-child{border-bottom:0}.pub-upd:hover{background:var(--surface-2)}
+.pub-upd .ud{font-family:var(--font-d);font-weight:700;color:var(--accent-ink);font-size:.8rem;width:60px;flex:none;text-align:center;background:var(--accent-soft);border-radius:9px;padding:7px 4px;line-height:1.15}
+.pub-upd .ut{font-weight:700;font-size:.95rem}.pub-upd .um{font-size:.78rem;color:var(--ink-2)}
+</style>
+
+<!-- ============ BOOT LOADER ============ -->
+<div id="bootLoader" hidden><div class="bl"><div class="spin"></div><b>Conectando con la base de datos…</b><small>Centro de Transferencia del Conocimiento · HUAP</small></div></div>
+
+<!-- ============ PUBLIC LIVE VIEW ============ -->
+<style>
+/* ====== Portada organizada: identidad por sección ====== */
+.ps-sec{padding:clamp(30px,4.2vw,56px) 0}
+.ps-sec .ps-in{max-width:1600px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.ps-sec.alt{background:linear-gradient(180deg,var(--surface) 0%,var(--surface-2) 100%)}
+.ps-sec.tint{background:linear-gradient(180deg,color-mix(in srgb,var(--sec) 9%,var(--surface)) 0%,var(--surface) 100%)}
+.ps-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:22px}
+.ps-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--sec)}
+.ps-eyebrow::before{content:"";width:26px;height:4px;border-radius:3px;background:var(--sec)}
+.ps-head h2{font-size:clamp(1.4rem,2.8vw,2.05rem);font-weight:800;margin-top:9px;color:var(--ink)}
+.ps-head p{color:var(--ink-2);font-size:.95rem;margin-top:6px;max-width:66ch}
+.ps-count{font-weight:800;color:var(--sec);font-size:.84rem;background:color-mix(in srgb,var(--sec) 15%,transparent);padding:6px 12px;border-radius:999px;white-space:nowrap;align-self:flex-end}
+.ps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:18px}
+.ps-card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);transition:transform .16s,box-shadow .16s;cursor:pointer;text-align:left}
+.ps-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.ps-card .pc-img{height:120px;position:relative}
+.ps-card .pc-img svg,.ps-card .pc-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ps-card .pc-fmt{position:absolute;top:10px;left:10px;background:rgba(255,255,255,.92);color:var(--accent-ink);font-weight:800;font-size:.67rem;padding:4px 9px;border-radius:999px}
+.ps-card .pc-body{padding:13px 14px 15px;display:flex;flex-direction:column;gap:8px;flex:1}
+.ps-card .pc-eye{font-size:.67rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--accent-hi)}
+.ps-card h3{font-size:1rem;font-weight:700;line-height:1.22}
+.ps-card .pc-desc{font-size:.83rem;color:var(--ink-2);flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ps-card .pc-meta{display:flex;flex-wrap:wrap;gap:5px}
+.ps-chip{font-size:.68rem;font-weight:700;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:3px 8px;display:inline-flex;align-items:center;gap:4px}
+.ps-card .pc-btn{margin-top:4px;display:inline-flex;align-items:center;justify-content:center;gap:7px;background:var(--accent-soft);color:var(--accent-hi);border:1.5px solid color-mix(in srgb,var(--accent) 45%,transparent);border-radius:10px;padding:10px;font-weight:800;font-size:.85rem;transition:.15s}
+.ps-card:hover .pc-btn{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ps-access{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:720px){.ps-access{grid-template-columns:repeat(3,1fr)}}
+.ps-acc{display:flex;align-items:center;gap:14px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:16px 18px;box-shadow:var(--shadow);cursor:pointer;transition:.16s;width:100%}
+.ps-acc:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.ps-acc .ai{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;color:#fff;flex:none}
+.ps-acc .ai svg{width:24px;height:24px}
+.ps-acc h3{font-size:1.08rem}.ps-acc p{font-size:.82rem;color:var(--ink-2);margin-top:2px}
+.ps-acc .ar{margin-left:auto;color:var(--ink-3);font-size:1.2rem}
+.ps-routes{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:640px){.ps-routes{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1040px){.ps-routes{grid-template-columns:repeat(5,1fr)}}
+.ps-route{border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:14px;background:var(--surface);box-shadow:var(--shadow);padding:16px;cursor:pointer;transition:.16s;display:flex;flex-direction:column;gap:6px;width:100%;text-align:left}
+.ps-route:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.ps-route .rk{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-hi)}
+.ps-route h3{font-size:1.02rem}.ps-route p{font-size:.8rem;color:var(--ink-2);flex:1}
+.ps-route .rgo{font-weight:800;font-size:.82rem;color:var(--accent-hi)}
+.ps-chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:16px}
+.ps-tchip{border:1.5px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:8px 14px;font-weight:700;font-size:.84rem;cursor:pointer;display:inline-flex;gap:8px;align-items:center;transition:.15s}
+.ps-tchip .d{width:9px;height:9px;border-radius:50%;background:var(--td,var(--ink-3))}
+.ps-tchip:hover{border-color:var(--sec);color:var(--ink)}
+.ps-tchip.on{background:var(--sec);color:#fff;border-color:var(--sec)}
+.ps-tchip.on .d{background:#fff}
+.ps-active{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.ps-atag{display:inline-flex;align-items:center;gap:7px;background:var(--sec);color:#fff;border-radius:999px;padding:6px 8px 6px 13px;font-weight:700;font-size:.8rem}
+.ps-atag button{border:0;background:rgba(255,255,255,.28);color:#fff;width:19px;height:19px;border-radius:50%;cursor:pointer;font-size:.8rem;line-height:1}
+.ps-roles{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+@media(min-width:720px){.ps-roles{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1040px){.ps-roles{grid-template-columns:repeat(6,1fr)}}
+.ps-role{text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 10px;box-shadow:var(--shadow);cursor:pointer;transition:.16s;width:100%}
+.ps-role:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--sec)}
+.ps-role.on{border-color:var(--sec);box-shadow:0 0 0 2px var(--sec) inset}
+.ps-role .ri{width:50px;height:50px;border-radius:14px;margin:0 auto 10px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--sec),color-mix(in srgb,var(--sec) 55%,#fff))}
+.ps-role .ri svg{width:26px;height:26px}
+.ps-role h4{font-size:.92rem}.ps-role small{color:var(--ink-3);font-size:.74rem;display:block;margin-top:4px;font-weight:600}
+.ps-journey{background:linear-gradient(135deg,var(--brand-ink),var(--brand) 60%,#12857f);color:#fff;border-radius:22px;padding:clamp(22px,3.5vw,40px);box-shadow:var(--shadow-lg)}
+.ps-journey .ps-eyebrow{color:#9fe9ff}.ps-journey .ps-eyebrow::before{background:#9fe9ff}
+.ps-journey h2{color:#fff}.ps-journey>p{color:#dff1ff;max-width:60ch;margin-top:6px}
+.ps-jsteps{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px}
+@media(min-width:860px){.ps-jsteps{grid-template-columns:repeat(4,1fr)}}
+.ps-jstep{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:14px;padding:16px}
+.ps-jstep .num{width:32px;height:32px;border-radius:9px;background:#fff;color:var(--brand-ink);font-family:var(--font-d);font-weight:800;display:grid;place-items:center}
+.ps-jstep h4{color:#fff;margin-top:10px;font-size:1rem}.ps-jstep p{color:#dbeeff;font-size:.83rem;margin-top:5px}
+.ps-gaps{display:grid;grid-template-columns:1fr;gap:15px}
+@media(min-width:720px){.ps-gaps{grid-template-columns:repeat(3,1fr)}}
+.ps-gap{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--gc);border-radius:13px;padding:17px;box-shadow:var(--shadow)}
+.ps-gap .gl{font-size:.69rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--gc);background:color-mix(in srgb,var(--gc) 15%,transparent);padding:4px 10px;border-radius:999px}
+.ps-gap h4{margin-top:11px;font-size:1rem}.ps-gap p{font-size:.83rem;color:var(--ink-2);margin-top:6px}
+.ps-gap .gbar{height:8px;border-radius:6px;background:var(--surface-2);margin-top:12px;overflow:hidden}.ps-gap .gbar i{display:block;height:100%;background:var(--gc)}
+.ps-gap .gf{display:flex;justify-content:space-between;font-size:.75rem;font-weight:700;color:var(--ink-2);margin-top:7px}
+.ps-updates{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.ps-upd{display:flex;gap:14px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);text-align:left;width:100%;background:transparent;cursor:pointer;transition:.15s}
+.ps-upd:last-child{border-bottom:0}.ps-upd:hover{background:var(--surface-2)}
+.ps-upd .ud{font-family:var(--font-d);font-weight:800;color:var(--accent-ink);font-size:.78rem;width:56px;flex:none;text-align:center;background:var(--accent-soft);border-radius:9px;padding:7px 4px;line-height:1.15}
+.ps-upd .ut{font-weight:700;font-size:.94rem}.ps-upd .um{font-size:.77rem;color:var(--ink-2)}
+.ps-weekly{display:grid;grid-template-columns:1fr;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);color:#fff;min-height:230px}
+@media(min-width:760px){.ps-weekly{grid-template-columns:1.2fr 1fr}}
+.ps-weekly .pw-img{position:relative;min-height:180px}.ps-weekly .pw-img svg,.ps-weekly .pw-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ps-weekly .pw-b{background:linear-gradient(135deg,var(--accent-ink),var(--accent));padding:clamp(20px,3vw,30px);display:flex;flex-direction:column;justify-content:center}
+.ps-weekly .pw-badge{align-self:flex-start;background:#fff;color:var(--accent-ink);font-weight:800;font-size:.7rem;padding:6px 12px;border-radius:999px;text-transform:uppercase}
+.ps-weekly h3{color:#fff;margin-top:12px;font-size:clamp(1.3rem,2.3vw,1.7rem)}.ps-weekly p{color:#eef6ff;margin-top:9px;font-size:.93rem}
+.ps-weekly .pw-m{margin-top:12px;font-size:.79rem;font-weight:700;color:#dff0ff}
+.ps-shift{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(232px,264px);gap:14px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x mandatory}
+.ps-shift .ps-card{scroll-snap-align:start}
+.ps-evi{display:grid;grid-template-columns:1fr;gap:22px;align-items:center;background:linear-gradient(135deg,#101f36,#123a63 55%,#0f6d67);border-radius:22px;padding:clamp(24px,4vw,40px);color:#fff;box-shadow:var(--shadow-lg)}
+@media(min-width:860px){.ps-evi{grid-template-columns:1.3fr .9fr}}
+.ps-evi .ps-eyebrow{color:#7fe9ff}.ps-evi .ps-eyebrow::before{background:#7fe9ff}
+.ps-evi h2{color:#fff}.ps-evi p{color:#dbeeff;margin-top:9px;max-width:52ch}
+.ps-evi .ev-av{justify-self:center;width:min(220px,70%);aspect-ratio:1;border-radius:22px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);display:grid;place-items:center}
+.ps-evi .ev-blob{width:104px;height:104px;border-radius:30px;background:linear-gradient(135deg,#38e0c8,#4f9bff);display:grid;place-items:center;box-shadow:0 18px 44px rgba(0,0,0,.35)}
+.ps-evi .ev-blob svg{width:56px;height:56px;color:#fff}
+/* ---- Panel EVI ---- */
+.evipanel{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);z-index:95;background:var(--surface);box-shadow:-20px 0 60px rgba(9,20,32,.3);display:flex;flex-direction:column;animation:slidein .28s ease}
+.evipanel[hidden]{display:none!important}
+@keyframes slidein{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.evi-top{background:linear-gradient(135deg,#123a63,#0f6d67);color:#fff;padding:16px 18px;display:flex;align-items:center;gap:12px}
+.evi-top .eav{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#38e0c8,#4f9bff);display:grid;place-items:center;flex:none}.evi-top .eav svg{width:22px;height:22px;color:#fff}
+.evi-top b{font-family:var(--font-d);font-size:1.05rem;display:block}.evi-top small{font-size:.76rem;color:#cfeeff}
+.evi-top .eclose{margin-left:auto;width:34px;height:34px;border-radius:10px;border:0;background:rgba(255,255,255,.16);color:#fff;font-size:1.05rem;cursor:pointer}
+.evi-log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;background:var(--surface-2)}
+.emsg{max-width:88%;padding:11px 14px;border-radius:15px;font-size:.9rem;line-height:1.5}
+.emsg.bot{background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:5px;color:var(--ink);box-shadow:var(--shadow)}
+.emsg.user{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:5px}
+.emsg b{color:var(--brand-ink)}
+.erec{text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:11px;padding:9px 11px;display:flex;gap:9px;align-items:center;box-shadow:var(--shadow);width:100%;cursor:pointer;margin-top:6px}
+.erec:hover{border-color:var(--brand)}
+.erec .ed{width:32px;height:32px;border-radius:9px;flex:none;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-weight:800;font-size:.66rem}
+.erec .et{font-weight:700;font-size:.84rem;color:var(--ink)}.erec .em{font-size:.72rem;color:var(--ink-2)}
+.evi-choices{padding:13px;border-top:1px solid var(--line);background:var(--surface);display:flex;flex-wrap:wrap;gap:8px}
+.evi-choices .cl{width:100%;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3)}
+.echip2{border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:999px;padding:8px 13px;font-weight:600;font-size:.83rem;cursor:pointer}
+.echip2:hover{border-color:var(--brand);color:var(--brand)}
+.ereset{margin-left:auto;font-size:.8rem;font-weight:700;color:var(--ink-2);background:transparent;border:0;text-decoration:underline;cursor:pointer}
+</style>
+<div id="viewPublic" hidden>
+  <header class="pub-top">
+    <div class="pt-in">
+      <div class="pub-brand">
+        <span class="pb"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 8v6M9 11h6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span><b>Centro de Transferencia del Conocimiento</b><small>Unidad de Buenas Prácticas Clínicas – HUAP</small></span>
+      </div>
+      <span class="mode-tag ok" id="modeTag">Base de datos compartida · en vivo</span>
+      <span class="pub-clock" id="pubClock" aria-label="Fecha y hora"></span>
+      <button class="btn btn-admin" id="pubAdminBtn" style="background:linear-gradient(135deg,var(--brand-ink),var(--brand));color:#fff">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 13a7.8 7.8 0 000-2l2-1.5-2-3.4L17 7a7.8 7.8 0 00-1.7-1l-.3-2.5h-4L10.7 6a7.8 7.8 0 00-1.7 1L6.6 6.1l-2 3.4L6.6 11a7.8 7.8 0 000 2l-2 1.5 2 3.4L9 16.9a7.8 7.8 0 001.7 1l.3 2.5h4l.3-2.5a7.8 7.8 0 001.7-1l2.4 1 2-3.4-2-1.5z" stroke-linejoin="round"/></svg>
+        Administración
+      </button>
+    </div>
+  </header>
+  <section class="pub-hero">
+    <div class="ph-bg" aria-hidden="true">
+      <svg viewBox="0 0 1440 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="psky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b7d7ea"/><stop offset="1" stop-color="#e7f0f5"/></linearGradient>
+        <linearGradient id="pcon" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8f9aa2"/><stop offset="1" stop-color="#69747c"/></linearGradient></defs>
+        <rect width="1440" height="520" fill="url(#psky)"/><rect x="0" y="120" width="1440" height="400" fill="url(#pcon)"/>
+        <rect x="120" y="210" width="1200" height="110" fill="#aab3ba"/><rect x="120" y="210" width="1200" height="16" fill="#5f6970"/>
+        <rect x="470" y="238" width="500" height="56" rx="4" fill="#5c666d"/>
+        <text x="720" y="279" font-family="Arial, sans-serif" font-weight="700" font-size="42" letter-spacing="9" fill="#eef3f6" text-anchor="middle">URGENCIA</text>
+        <g transform="translate(1015,243)"><rect x="0" y="0" width="48" height="48" rx="7" fill="#fff"/><rect x="18" y="7" width="12" height="34" fill="#d33b3b"/><rect x="7" y="18" width="34" height="12" fill="#d33b3b"/></g>
+        <rect x="120" y="330" width="1200" height="190" fill="#727c83"/>
+        <g fill="#93a6b0" opacity=".85"><rect x="150" y="352" width="120" height="130"/><rect x="300" y="352" width="120" height="130"/><rect x="900" y="352" width="120" height="130"/><rect x="1050" y="352" width="120" height="130"/></g>
+        <rect x="560" y="392" width="320" height="128" fill="#3f4a52"/>
+      </svg>
+      <img id="pubHeroImg" alt="" hidden style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    </div>
+    <div class="ph-ov" aria-hidden="true"></div>
+    <div class="ph-in">
+      <img id="pubLogo" alt="Logo institucional" hidden style="height:56px;width:auto;margin-bottom:16px;display:block">
+      <span class="ph-tag"><span style="width:8px;height:8px;border-radius:50%;background:#5ff3d6;display:inline-block"></span> Hospital de Urgencia Asistencia Pública · Edificio Monseñor Valech</span>
+      <h1 id="pubHeroTitle">Centro de Transferencia del Conocimiento</h1>
+      <p class="ph-sub">Unidad de Buenas Prácticas Clínicas – HUAP</p>
+      <div class="ph-inst"><span></span> Seguridad · Evidencia y Cuidado</div>
+      <div class="pub-searchbar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+        <input id="pubSearchInput" type="search" placeholder="¿Qué necesitas resolver hoy?" aria-label="Buscar recurso" autocomplete="off">
+      </div>
+    </div>
+  </section>
+  <div class="pub-wrap"><div id="pubBody"></div></div>
+  <div class="pub-foot">© 2026 Centro de Transferencia del Conocimiento · Unidad de Buenas Prácticas Clínicas · HUAP — Vista pública en vivo (datos reales desde la base de datos)</div>
+</div>
+
+<!-- ============ PANEL EVI ============ -->
+<aside class="evipanel" id="eviPanel" hidden aria-label="Asistente EVI">
+  <div class="evi-top">
+    <span class="eav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r="1.3" fill="currentColor" stroke="none"/><path d="M8.5 14.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8" stroke-linecap="round"/></svg></span>
+    <div><b>EVI</b><small>Evidencia · Vínculo · Implementación</small></div>
+    <button class="eclose" id="eviClose" aria-label="Cerrar asistente">✕</button>
+  </div>
+  <div class="evi-log" id="eviLog"></div>
+  <div class="evi-choices" id="eviChoices"></div>
+</aside>
+
+<!-- ============ LOGIN ============ -->
+<div class="login" id="login">
+  <div class="login-card">
+    <div class="lbadge"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 8v6M9 11h6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+    <h1>Centro de Control de Transferencia</h1>
+    <p class="lsub">Unidad de Buenas Prácticas Clínicas – HUAP · Acceso privado de administración</p>
+    <div class="field" style="text-align:left;margin:6px 0 12px"><label style="font-weight:700;font-size:.85rem">Correo</label>
+      <input class="input" id="loginEmail" type="email" autocomplete="username" placeholder="nombre@huap.cl"></div>
+    <div class="field" style="text-align:left;margin-bottom:16px"><label style="font-weight:700;font-size:.85rem">Contraseña</label>
+      <input class="input" id="loginPass" type="password" autocomplete="current-password" placeholder="Contraseña"></div>
+    <button class="btn btn-primary btn-lg btn-block" id="loginBtn">Ingresar al Centro de Control</button>
+    <div id="loginMsg" class="lsub" style="margin-top:14px"></div>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div class="app" id="app" hidden>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="side-brand">
+      <span class="sb"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 8v6M9 11h6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+      <span><b>Centro de Control</b><small>Transferencia · HUAP</small></span>
+    </div>
+    <nav class="side-nav" id="sideNav">
+      <span class="navlabel">Administración</span>
+    </nav>
+    <div class="side-foot">
+      <button class="btn btn-ghost btn-block btn-sm" id="verCentroSide">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        Ver Centro público
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="ahead">
+      <div class="hbg" aria-hidden="true">
+        <svg viewBox="0 0 1440 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="ah" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#123a63"/><stop offset="1" stop-color="#0f6d67"/></linearGradient></defs>
+          <rect width="1440" height="300" fill="url(#ah)"/>
+          <g stroke="#ffffff" stroke-opacity=".12" stroke-width="2" fill="none">
+            <path d="M0 210h300l30-60 40 120 34-150 40 210 30-90h260"/>
+          </g>
+          <g fill="#ffffff" fill-opacity=".06"><circle cx="1240" cy="70" r="120"/><circle cx="1120" cy="240" r="70"/></g>
+          <g transform="translate(1180,90)" fill="#fff" fill-opacity=".14"><rect x="18" y="0" width="14" height="50" rx="3"/><rect x="0" y="18" width="50" height="14" rx="3"/></g>
+        </svg>
+      </div>
+      <div class="hover" aria-hidden="true"></div>
+      <div class="ahead-inner">
+        <div class="ahead-top">
+          <button class="hamburger" id="hamburger" aria-label="Abrir menú"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/></svg></button>
+          <div>
+            <div class="heyebrow">Panel privado · Unidad de Buenas Prácticas Clínicas – HUAP</div>
+            <h1>Centro de Control de Transferencia</h1>
+          </div>
+          <div class="ahead-actions">
+            <button class="hbtn solid" id="verCentro"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> Ver Centro</button>
+            <button class="hbtn" id="switchUser"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 11l-3-3m0 0l-3 3m3-3v8" stroke-linecap="round" stroke-linejoin="round"/></svg> Cambiar usuario</button>
+            <button class="hbtn danger" id="logout"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke-linecap="round" stroke-linejoin="round"/></svg> Cerrar sesión</button>
+          </div>
+        </div>
+        <div class="ahead-user">
+          <div class="uav" id="userAv">A</div>
+          <div>
+            <div class="uname" id="userName">—</div>
+            <div class="urole"><span class="rdot"></span><span id="userRole">—</span></div>
+          </div>
+          <div class="ahead-idle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg> Cierre automático en <b id="idleClock">30:00</b> por inactividad</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="content" id="adminMain"></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+<div class="overlay" id="overlay" hidden><div class="modal" id="modal" role="dialog" aria-modal="true"></div></div>
+
+<script src="/api-client.js"></script>
+<script>
+window.__BOOT__=(window.__BOOT__||'public');
+/* ===== STORE: API real (Neon + Vercel Blob) ===== */
+const S={};
+let AUTH_STATE='unknown';
+const API=window.NexAPI;
+const DB={ get(k,d){ return (k in S && S[k]!=null)?S[k]:d; }, set(){ return true; } };
+function fmtFecha(v){ if(!v)return ''; try{const d=new Date(v); if(isNaN(d))return String(v); return d.toLocaleDateString('es-CL',{day:'2-digit',month:'short'});}catch(e){return String(v);} }
+function normRes(list){ (list||[]).forEach(r=>{ r.fecha=fmtFecha(r.fecha); }); return list||[]; }
+async function loadPublic(){
+  try{ S.resources=normRes(await API.resources.listPublic()); }catch(e){ S.resources=S.resources||[]; }
+  try{ S.weekly=await API.weekly.get(); }catch(e){ S.weekly=S.weekly||{}; }
+  try{ S.experience=await API.experience.get(); }catch(e){ S.experience=S.experience||{}; }
+  try{ S.branding=await API.branding.get(); }catch(e){ S.branding=S.branding||{}; }
+}
+async function loadAdmin(){
+  try{ S.resources=normRes(await API.resources.listAll()); }catch(e){}
+  try{ S.weekly=await API.weekly.get(); }catch(e){}
+  try{ S.experience=await API.experience.get(); }catch(e){}
+  try{ S.branding=await API.branding.get(); }catch(e){ S.branding=S.branding||{}; }
+  try{ S.users=await API.users.list(); }catch(e){ S.users=[]; }
+  try{ S.analytics=await API.stats.get(); }catch(e){ S.analytics={}; }
+  try{ S.audit=await API.audit(); }catch(e){ S.audit=[]; }
+}
+async function refreshResources(){ try{ S.resources=normRes(session?await API.resources.listAll():await API.resources.listPublic()); }catch(e){} }
+function logAudit(){ /* el servidor registra la auditoría automáticamente */ }
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const uid=()=>'r'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+function now(){const d=new Date();return d.toLocaleDateString('es-CL',{day:'2-digit',month:'short'})+' · '+d.toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'});}
+
+/* ================= REFERENCE ================= */
+const RUTAS=[
+  {key:'aprender',label:'Aprender',full:'Necesito aprender',cls:'r-aprender',sec:'Recursos permanentes por temática'},
+  {key:'aplicar',label:'Aplicar',full:'Necesito aplicar',cls:'r-aplicar',sec:'Recursos permanentes por temática'},
+  {key:'ensenar',label:'Enseñar',full:'Necesito enseñar',cls:'r-ensenar',sec:'Recursos permanentes por temática'},
+  {key:'implementar',label:'Implementar',full:'Necesito implementar',cls:'r-implementar',sec:'Recursos permanentes por temática'},
+  {key:'evaluar',label:'Evaluar',full:'Necesito evaluar',cls:'r-evaluar',sec:'Recursos permanentes por temática'},
+];
+const RM=Object.fromEntries(RUTAS.map(r=>[r.key,r]));
+const TEMAS=[{key:'lesiones',label:'Lesiones por presión'},{key:'accesos',label:'Accesos vasculares'},{key:'dolor',label:'Dolor'},
+  {key:'iaas',label:'IAAS'},{key:'seguridad',label:'Seguridad del paciente'},{key:'otras',label:'Otras buenas prácticas'}];
+const TM=Object.fromEntries(TEMAS.map(t=>[t.key,t]));
+const ROLES=[{key:'enfermeria',label:'Enfermería'},{key:'tens',label:'TENS'},{key:'kine',label:'Kinesiología'},
+  {key:'auxiliares',label:'Auxiliares'},{key:'jefaturas',label:'Jefaturas y supervisión'},{key:'champions',label:'Champions Clínicos'}];
+const ROLM=Object.fromEntries(ROLES.map(r=>[r.key,r]));
+const TIPOS=['Guía','Algoritmo','Checklist','Norma','Cápsula','Video','Infografía','Presentación','Auditoría','Indicador','Pauta','Herramienta','Escala','Actividad','Recomendación'];
+const APREND=[{key:'leer',label:'Leer',ico:'📖'},{key:'ver',label:'Ver',ico:'👁'},{key:'escuchar',label:'Escuchar',ico:'🎧'},{key:'practicar',label:'Practicar',ico:'✋'}];
+const APM=Object.fromEntries(APREND.map(a=>[a.key,a]));
+const ADMIN_ROLES={principal:{label:'Administrador principal',desc:'Control completo',cls:'role-principal'},
+  biblioteca:{label:'Administrador de biblioteca',desc:'Gestión general de contenidos',cls:'role-biblioteca'},
+  editor:{label:'Editor de contenidos',desc:'Crea y modifica contenidos autorizados',cls:'role-editor'}};
+const TEMA_ICON={lesiones:'<path d="M4 15c3-4 6-6 8-6s3 1 3 3-2 3-4 3-3-1-3-3c0-3 3-6 8-8" stroke-linecap="round"/><path d="M3 19h18" stroke-linecap="round"/>',
+  accesos:'<path d="M12 3v5m0 0l-2.5 2.5M12 8l2.5 2.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="9" y="10" width="6" height="9" rx="2"/>',
+  dolor:'<path d="M3 12h4l2-5 3 9 2-4h5" stroke-linecap="round" stroke-linejoin="round"/>',
+  iaas:'<path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>',
+  seguridad:'<circle cx="12" cy="8" r="3.2"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke-linecap="round"/>',
+  otras:'<path d="M12 3l2.4 5 5.6.5-4.2 3.8 1.3 5.5L12 15l-5.1 2.8 1.3-5.5L4 8.5 9.6 8 12 3z" stroke-linejoin="round"/>'};
+const RCOL={'r-aprender':['#2563eb','#5f92f6'],'r-aplicar':['#0d9488','#3fd0bd'],'r-ensenar':['#e64b5c','#ff8a95'],'r-implementar':['#7c5cfc','#a48cff'],'r-evaluar':['#d98514','#eba94b']};
+function svgImg(tema,cls,h){const[c1,c2]=RCOL[cls]||['#0e4e8a','#12b5a6'];const g='g'+Math.random().toString(36).slice(2,7);
+  return `<svg viewBox="0 0 400 ${h}" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs><rect width="400" height="${h}" fill="url(#${g})"/><circle cx="330" cy="${h*.28}" r="${h*.55}" fill="rgba(255,255,255,.12)"/><g transform="translate(${200-26},${h/2-26}) scale(2.2)" stroke="#fff" stroke-width="1.4" fill="none">${TEMA_ICON[tema]||TEMA_ICON.otras}</g></svg>`;}
+
+/* ================= SEED ================= */
+function buildSeed(){
+  {
+    const base=[
+     ['Guía RNAO: Valoración y prevención de lesiones por presión','Recomendaciones basadas en evidencia para valorar el riesgo y prevenir LPP en pacientes hospitalizados.','aprender','lesiones',['enfermeria','tens','champions'],'leer','Guía','RNAO','2016','LPP, Braden, prevención','20 min','publicado'],
+     ['Checklist de cambios de posición cada 2 horas','Lista de verificación para asegurar la reposición y el alivio de presión en pacientes de riesgo.','aplicar','lesiones',['enfermeria','tens','auxiliares'],'practicar','Checklist','UBPC HUAP','2024','posición, alivio de presión','2 min','publicado'],
+     ['Escala de Braden: aplicación paso a paso','Cómo puntuar el riesgo de lesión por presión y qué medidas activar según el resultado.','aplicar','lesiones',['enfermeria','tens'],'practicar','Escala','Braden & Bergstrom','2023','Braden, riesgo','5 min','publicado'],
+     ['Infografía: los 5 puntos clave para prevenir LPP','Material visual listo para imprimir y usar en la inducción del equipo.','ensenar','lesiones',['champions','jefaturas','tens'],'ver','Infografía','UBPC HUAP','2025','infografía, inducción','Descarga','publicado'],
+     ['Mantención segura de accesos vasculares periféricos','Evidencia sobre inserción, mantención y retiro oportuno de vías venosas periféricas.','aprender','accesos',['enfermeria','tens'],'leer','Guía','INS','2021','vía venosa, flebitis','15 min','publicado'],
+     ['Algoritmo: ¿retirar o mantener la vía venosa?','Diagrama de flujo para decidir el retiro de un acceso periférico según signos de flebitis.','aplicar','accesos',['enfermeria','tens','champions'],'ver','Algoritmo','Escala VIP','2022','flebitis, retiro','3 min','publicado'],
+     ['Checklist de instalación de catéter venoso periférico','Pasos de asepsia y verificación para una instalación segura junto a la cama.','aplicar','accesos',['enfermeria','tens'],'practicar','Checklist','Bundle HUAP','2024','asepsia, catéter','2 min','publicado'],
+     ['Indicador: tasa de flebitis por 1.000 días-catéter','Ficha del indicador, fórmula de cálculo y meta institucional para seguimiento mensual.','evaluar','accesos',['jefaturas','champions'],'leer','Indicador','Programa IAAS HUAP','2025','indicador, flebitis','Ficha','publicado'],
+     ['Manejo del dolor agudo en el servicio de urgencia','Recomendaciones para la valoración y tratamiento oportuno del dolor en adultos.','aprender','dolor',['enfermeria','kine','tens'],'leer','Recomendación','MINSAL','2023','dolor agudo, EVA','12 min','publicado'],
+     ['Escala EVA y ESCID: cuál usar y cuándo','Guía práctica para valorar dolor en pacientes comunicantes y no comunicantes.','aplicar','dolor',['enfermeria','tens','kine'],'practicar','Escala','UBPC HUAP','2024','EVA, ESCID','4 min','publicado'],
+     ['Cápsula en video: valoración del dolor en 3 minutos','Microaprendizaje audiovisual para reforzar la valoración sistemática del dolor.','ensenar','dolor',['enfermeria','tens','champions'],'ver','Cápsula','UBPC HUAP','2025','video, dolor','3 min','publicado'],
+     ['Norma de higiene de manos: los 5 momentos de la OMS','Fundamento y aplicación de los cinco momentos clave para la higiene de manos.','aprender','iaas',['enfermeria','tens','auxiliares','kine'],'leer','Norma','OMS','2009','higiene de manos, IAAS','10 min','publicado'],
+     ['Bundle de prevención de neumonía asociada a VM','Paquete de medidas verificables para prevenir NAV en pacientes ventilados.','aplicar','iaas',['enfermeria','kine','champions'],'practicar','Checklist','Programa IAAS HUAP','2024','NAV, bundle','3 min','publicado'],
+     ['Pauta de auditoría de higiene de manos','Instrumento de observación directa para medir adherencia por unidad y turno.','evaluar','iaas',['jefaturas','champions'],'practicar','Auditoría','IAAS HUAP','2025','auditoría, adherencia','Pauta','publicado'],
+     ['Identificación segura del paciente','Prácticas para verificar la identidad con dos identificadores antes de cada procedimiento.','aprender','seguridad',['enfermeria','tens','auxiliares'],'leer','Guía','Metas OMS','2022','identificación, seguridad','8 min','publicado'],
+     ['Checklist de traspaso de turno SBAR','Estructura Situación-Antecedentes-Evaluación-Recomendación para un traspaso seguro.','aplicar','seguridad',['enfermeria','tens','kine','jefaturas'],'practicar','Checklist','SBAR','2024','SBAR, traspaso','4 min','publicado'],
+     ['Plan de implementación por unidad, rol y brecha','Plantilla para bajar una guía RNAO a la realidad de tu unidad y asignar responsables.','implementar','seguridad',['jefaturas','champions'],'practicar','Herramienta','Modelo BPSO · RNAO','2025','implementación, brecha','Plantilla','publicado'],
+     ['Tablero de indicadores de seguridad del paciente','Panel con eventos adversos, caídas y adherencia a metas para seguimiento por unidad.','evaluar','seguridad',['jefaturas','champions'],'ver','Indicador','Calidad HUAP','2025','indicadores, eventos','Panel','publicado'],
+     ['Presentación: cultura de seguridad y notificación de eventos','Set de diapositivas para sensibilizar al equipo sobre la notificación sin culpa.','ensenar','seguridad',['champions','jefaturas'],'ver','Presentación','UBPC HUAP','2025','cultura, notificación','Descarga','publicado'],
+     ['Ruta de implementación de la guía LPP en tu unidad','Pasos, recursos y roles para instalar la prevención de LPP como práctica estándar.','implementar','lesiones',['jefaturas','champions','enfermeria'],'practicar','Herramienta','Modelo BPSO · RNAO','2025','implementación, LPP','Plantilla','publicado'],
+     ['Actividad práctica: taller de movilización segura','Guion de taller con estaciones para entrenar la movilización y el traslado seguro.','ensenar','otras',['kine','tens','auxiliares'],'practicar','Actividad','Kinesiología HUAP','2024','taller, movilización','45 min','borrador'],
+     ['Pauta de seguimiento de la reevaluación del dolor','Instrumento para verificar que el dolor se reevalúe tras cada intervención.','evaluar','dolor',['enfermeria','champions','jefaturas'],'leer','Pauta','UBPC HUAP','2025','reevaluación, dolor','Pauta','oculto'],
+    ];
+    const res=base.map((b,i)=>({id:'seed'+i,titulo:b[0],descripcion:b[1],ruta:b[2],tema:b[3],roles:b[4],aprendizaje:b[5],tipo:b[6],
+      autor:b[7],anio:b[8],keywords:b[9],tiempo:b[10],estado:b[11],imagen:null,archivo:null,enlace:'',youtube:'',
+      creadoPor:'Administrador principal',modificadoPor:'Administrador principal',fecha:now()}));
+    S.resources=res;
+  }
+  S.weekly={ref:'seed0',titulo:'',resumen:'',autor:'',anio:'',tipo:'Guía',tema:'lesiones',enlace:'',fecha:now()};
+  S.experience={
+    hero:{label:'Textos principales de la portada',value:'Centro de Transferencia del Conocimiento · Seguridad, Evidencia y Cuidado. ¿Qué necesitas resolver hoy?'},
+    turno:{label:'Lo necesito para el turno',value:'Acción rápida junto a la cama del paciente. Recursos breves para resolver en segundos durante el turno.'},
+    tematica:{label:'Recursos permanentes por temática',value:'Explora y filtra el conocimiento clínico por temática, ruta o rol.'},
+    roles:{label:'Recursos según rol',value:'Contenido pensado para tu función clínica: Enfermería, TENS, Kinesiología, Auxiliares, Jefaturas y Champions.'},
+    practica:{label:'De la evidencia a la práctica',value:'Un recorrido claro: necesidad clínica → recurso → aplicación práctica → evaluación.'},
+    mejora:{label:'Oportunidades de mejora',value:'Brechas detectadas que podemos cerrar juntos, del monitoreo de indicadores a la acción concreta.'},
+    updates:{label:'Últimas actualizaciones',value:'Novedades del Centro: nuevos recursos, evidencias y herramientas publicadas cada semana.'}
+  };
+  S.analytics={
+    visitas:1284,descargas:212,eviAperturas:96,
+    aperturas:{seed0:142,seed4:118,seed11:205,seed15:88,seed8:76,seed2:64,seed1:59,seed14:47},
+    busquedas:[['higiene de manos',48],['braden',37],['dolor',33],['flebitis',24],['sbar',19],['caídas',12]],
+    sinResultado:[['sedación',8],['delirium',6],['nutrición enteral',4]],
+    usoTema:{iaas:342,lesiones:298,seguridad:256,dolor:188,accesos:164,otras:52},
+    usoRol:{enfermeria:520,tens:284,jefaturas:190,champions:150,kine:110,auxiliares:60},
+    interacciones:[]
+  };
+  S.users=[
+    {id:'u1',nombre:'Dra. Camila Rojas',correo:'camila.rojas@huap.cl',rol:'principal',activo:true,color:'#7c5cfc'},
+    {id:'u2',nombre:'EU Marcela Díaz',correo:'marcela.diaz@huap.cl',rol:'biblioteca',activo:true,color:'#2563eb'},
+    {id:'u3',nombre:'TENS Jorge Soto',correo:'jorge.soto@huap.cl',rol:'editor',activo:true,color:'#0d9488'},
+    {id:'u4',nombre:'EU Paula Fuentes',correo:'paula.fuentes@huap.cl',rol:'editor',activo:false,color:'#d98514'}
+  ];
+  S.audit=[
+    {t:now(),who:'Administrador principal',what:'Inicializó el Centro de Control con 22 recursos base'},
+    {t:now(),who:'Administrador de biblioteca',what:'Publicó “Norma de higiene de manos: los 5 momentos de la OMS”'}
+  ];
+}
+function logAudit(){ /* auditoría registrada por el servidor */ }
+
+/* ================= SESSION ================= */
+let session=null;
+function renderLoginUsers(){ /* acceso por correo + contraseña (sin lista de usuarios) */ }
+async function doLogin(){
+  const email=$('#loginEmail')?$('#loginEmail').value.trim():'';
+  const pass=$('#loginPass')?$('#loginPass').value:'';
+  const msg=$('#loginMsg');
+  if(!email||!pass){ if(msg)msg.textContent='Ingresa tu correo y contraseña.'; return; }
+  if(msg)msg.textContent='Verificando…';
+  try{
+    const res=await API.auth.login(email,pass);
+    session=res.user; AUTH_STATE='ok';
+    $('#viewPublic').hidden=true;$('#login').hidden=true;$('#app').hidden=false;
+    await loadAdmin(); paintUser(); resetIdle(); startIdle(); navigate('overview');
+    if(msg)msg.textContent=''; toast('Sesión iniciada: '+session.nombre,'ok');
+  }catch(e){
+    if(e&&(e.status===503||e.code==='auth_not_configured')){ AUTH_STATE='pending'; if(msg)msg.innerHTML='<b style="color:var(--warn)">Autenticación pendiente:</b> faltan las variables AUTH_SECRET, ADMIN_EMAIL y ADMIN_PASSWORD en Vercel.'; }
+    else if(e&&e.status===401){ if(msg)msg.innerHTML='<b style="color:var(--crit)">Credenciales inválidas</b> o acceso desactivado.'; }
+    else { if(msg)msg.textContent=(e&&e.message)||'No se pudo iniciar sesión.'; }
+  }
+}
+function paintUser(){
+  $('#userName').textContent=session.nombre;
+  $('#userRole').textContent=ADMIN_ROLES[session.rol].label;
+  $('#userAv').textContent=session.nombre.split(' ').slice(-1)[0][0];
+  $('#userAv').style.background=session.color||'#0e4e8a';
+}
+async function logout(){ try{ await API.auth.logout(); }catch(e){} session=null; clearInterval(idleTimer); }
+
+/* idle 30 min */
+let idleTimer=null,idleLeft=30*60;
+function resetIdle(){idleLeft=30*60;}
+function tickIdle(){ if(!session||$('#app').hidden){return;} idleLeft--;const m=Math.floor(idleLeft/60),s=idleLeft%60;
+  const c=$('#idleClock');if(c)c.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  if(idleLeft<=0){clearInterval(idleTimer);toast('Sesión cerrada por 30 min de inactividad','warn');logout();if(typeof showPublic==='function')showPublic();}}
+['mousemove','keydown','click','scroll','touchstart'].forEach(ev=>document.addEventListener(ev,()=>{if(session)resetIdle();},{passive:true}));
+function startIdle(){clearInterval(idleTimer);idleTimer=setInterval(tickIdle,1000);}
+
+/* ================= NAV ================= */
+const NAV=[
+  {key:'overview',label:'Visión general',ico:'<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>'},
+  {key:'create',label:'Crear contenido',ico:'<path d="M12 5v14M5 12h14" stroke-linecap="round"/>'},
+  {key:'published',label:'Contenido publicado',ico:'<path d="M4 5h16M4 12h16M4 19h10" stroke-linecap="round"/>'},
+  {key:'weekly',label:'Evidencia semanal',ico:'<path d="M12 3l2.4 5 5.6.5-4.2 3.8 1.3 5.5L12 15l-5.1 2.8 1.3-5.5L4 8.5 9.6 8 12 3z" stroke-linejoin="round"/>'},
+  {key:'experience',label:'Experiencia pública',ico:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>'},
+  {key:'usage',label:'Uso del Centro',ico:'<path d="M4 19V5M4 19h16M8 16v-5M12 16V8M16 16v-3" stroke-linecap="round"/>'},
+  {key:'users',label:'Usuarios y permisos',ico:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16 4.5a3.2 3.2 0 010 7M21 20c0-2.6-1.5-4.4-3.8-5.1" stroke-linecap="round"/>'},
+];
+let currentView='overview';
+const NAV_PERM={overview:null,create:'resources',published:'resources',weekly:'content',experience:'content',usage:null,users:null};
+function renderNav(){
+  const res=DB.get('resources',[]);const counts={published:res.filter(r=>r.estado==='publicado').length};
+  const nav=$('#sideNav');
+  nav.innerHTML='<span class="navlabel">Administración</span>'+NAV.filter(n=>!NAV_PERM[n.key]||can(NAV_PERM[n.key])).map(n=>`
+    <button class="navitem ${n.key===currentView?'active':''}" data-nav="${n.key}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">${n.ico}</svg>
+      <span>${n.label}</span>${n.key==='published'?`<span class="badge">${counts.published}</span>`:''}
+    </button>`).join('');
+  $$('#sideNav .navitem').forEach(b=>b.onclick=()=>{navigate(b.dataset.nav);$('#sidebar').classList.remove('open');});
+}
+function navigate(key){ if(NAV_PERM[key]&&!can(NAV_PERM[key])){ toast('Tu rol no tiene acceso a esta sección','crit'); key='overview'; }
+  currentView=key;renderNav();resetIdle();
+  ({overview:viewOverview,create:viewCreate,published:viewPublished,weekly:viewWeekly,experience:viewExperience,usage:viewUsage,users:viewUsers}[key])();
+  $('#adminMain').scrollTop=0;window.scrollTo({top:0,behavior:'smooth'});}
+
+/* ================= VIEW: OVERVIEW ================= */
+function viewOverview(){
+  const res=DB.get('resources',[]);
+  const total=res.length,pub=res.filter(r=>r.estado==='publicado').length,ocultos=res.filter(r=>r.estado==='oculto').length;
+  const weekly=DB.get('weekly',{});const evidencias=res.filter(r=>r.dest).length + (weekly.ref||weekly.titulo?1:0);
+  const byRuta=Object.fromEntries(RUTAS.map(r=>[r.key,res.filter(x=>x.ruta===r.key).length]));
+  const maxR=Math.max(1,...Object.values(byRuta));
+  const st=(ico,color,num,label,trend)=>`<div class="stat"><div class="si" style="background:${color}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">${ico}</svg></div>
+    ${trend?`<span class="strend" style="background:var(--ok-soft);color:var(--ok)">${trend}</span>`:''}
+    <div class="snum">${num}</div><div class="slabel">${label}</div></div>`;
+  $('#adminMain').innerHTML=`
+  <div class="view">
+    <div class="view-head">
+      <div><span class="eyebrow">Visión general</span><h2>Estado del Centro de Transferencia</h2>
+        <p>Resumen del conocimiento clínico gestionado y su distribución por ruta.</p></div>
+      <button class="btn btn-primary btn-lg" onclick="navigate('create')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+        Crear nuevo recurso</button>
+    </div>
+    <div class="stats">
+      ${st('<path d="M4 5h16M4 12h16M4 19h16" stroke-linecap="round"/>','#0e4e8a',total,'Total de recursos')}
+      ${st('<path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/>','#0d9488',pub,'Recursos publicados','En línea')}
+      ${st('<path d="M12 3l2.4 5 5.6.5-4.2 3.8 1.3 5.5L12 15l-5.1 2.8 1.3-5.5L4 8.5 9.6 8 12 3z" stroke-linejoin="round"/>','#d98514',evidencias,'Evidencias semanales')}
+      ${st('<path d="M17.94 17.94A10 10 0 016.06 6.06M1 1l22 22M9.9 4.24A9.1 9.1 0 0112 4c7 0 10 8 10 8a18 18 0 01-2.16 3.19" stroke-linecap="round"/>','#5f7488',ocultos,'Recursos ocultos')}
+    </div>
+    <div class="panel" style="margin-top:20px">
+      <div class="panel-head"><div><h3>Contenidos por ruta</h3><p>Distribución del recorrido de aprender a evaluar.</p></div></div>
+      <div class="rdist">
+        ${RUTAS.map(r=>`<div class="rdist-row ${r.cls}"><div class="rl"><span class="d"></span>${r.full}</div>
+          <div class="rdist-bar"><i style="width:${byRuta[r.key]/maxR*100}%"></i></div><div class="rv">${byRuta[r.key]}</div></div>`).join('')}
+      </div>
+    </div>
+    <div class="two-col" style="margin-top:20px">
+      <div class="panel"><div class="panel-head"><h3>Por estado</h3></div>
+        <div class="mini-list">
+          <div class="mini-row"><span class="mrank" style="background:var(--ok)">✓</span><b>Publicados</b><span class="mval">${pub}</span></div>
+          <div class="mini-row"><span class="mrank" style="background:var(--warn)">✎</span><b>Borradores</b><span class="mval">${res.filter(r=>r.estado==='borrador').length}</span></div>
+          <div class="mini-row"><span class="mrank" style="background:var(--ink-3)">◇</span><b>Ocultos</b><span class="mval">${ocultos}</span></div>
+        </div>
+      </div>
+      <div class="panel"><div class="panel-head"><h3>Por temática</h3></div>
+        <div class="mini-list">
+          ${TEMAS.map(t=>`<div class="mini-row"><span class="mrank">${res.filter(r=>r.tema===t.key).length}</span><b>${t.label}</b></div>`).join('')}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ================= VIEW: CREATE ================= */
+let draft=blankDraft();
+function blankDraft(){return{id:null,titulo:'',descripcion:'',ruta:'',tema:'',roles:[],aprendizaje:'',tipo:'',autor:'',anio:new Date().getFullYear(),keywords:'',tiempo:'',imagen:null,archivo:null,enlace:'',youtube:'',estado:'borrador'};}
+let wzStep=1;
+function viewCreate(editId){
+  if(editId){const r=DB.get('resources',[]).find(x=>x.id===editId);if(r)draft=JSON.parse(JSON.stringify(r));}
+  else if(!draft) draft=blankDraft();
+  const d=draft; wzStep=1;
+  const steps=['Información principal','Clasificación','Archivo, imagen o enlace','Ubicación en la portada','Vista previa y publicación'];
+  $('#adminMain').innerHTML=`
+  <style>
+    .wz-steps{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+    .wz-st{display:flex;align-items:center;gap:9px;flex:1;min-width:150px;border:1.5px solid var(--line);background:var(--surface-2);border-radius:12px;padding:10px 12px;cursor:pointer;transition:.15s}
+    .wz-st .n{width:26px;height:26px;border-radius:50%;background:var(--line);color:var(--ink-2);display:grid;place-items:center;font-weight:800;font-size:.82rem;flex:none}
+    .wz-st b{font-size:.82rem;color:var(--ink-2);line-height:1.12}
+    .wz-st.active{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 9%,var(--surface))}
+    .wz-st.active .n{background:var(--brand);color:#fff}.wz-st.active b{color:var(--ink)}
+    .wz-st.done .n{background:var(--ok);color:#fff}
+    .wz-nav{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+    .wz-nav .spacer{flex:1}
+    .wz-prevcard{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:.9rem;color:var(--ink-2)}
+  </style>
+  <div class="view ${d.ruta?RM[d.ruta].cls:''}" id="createView">
+    <div class="view-head"><div><span class="eyebrow">${d.id?'Editar contenido':'Crear contenido'}</span>
+      <h2>${d.id?'Editar recurso':'Nuevo recurso · asistente en 5 pasos'}</h2>
+      <p>Un solo flujo guiado. Completa cada paso; al final verás la vista previa y dónde aparecerá en la portada.</p></div></div>
+    <div class="panel">
+      <div class="wz-steps" id="wzSteps">${steps.map((t,i)=>`<div class="wz-st" data-s="${i+1}" onclick="wzGo(${i+1})"><span class="n">${i+1}</span><b>${t}</b></div>`).join('')}</div>
+
+      <!-- PASO 1 -->
+      <div class="wz-step" data-step="1">
+        <div class="form-grid">
+          <div class="field col-2"><label>Título <span class="req">*</span></label>
+            <input class="input" id="f-titulo" placeholder="Ej: Guía de prevención de lesiones por presión" value="${esc(d.titulo)}"></div>
+          <div class="field col-2"><label>Descripción breve <span class="req">*</span></label>
+            <textarea class="textarea" id="f-desc" placeholder="Describe el recurso y para qué sirve en la práctica clínica…">${esc(d.descripcion)}</textarea></div>
+          <div class="field"><label>Autor o institución</label>
+            <input class="input" id="f-autor" placeholder="Ej: RNAO · MINSAL · UBPC HUAP" value="${esc(d.autor)}"></div>
+          <div class="field"><label>Año</label>
+            <input class="input" id="f-anio" type="number" min="1990" max="2100" value="${esc(d.anio)}"></div>
+          <div class="field"><label>Tiempo estimado de revisión</label>
+            <input class="input" id="f-tiempo" placeholder="Ej: 10 min · Descarga · Ficha" value="${esc(d.tiempo)}"></div>
+          <div class="field"><label>Palabras clave</label>
+            <input class="input" id="f-keys" placeholder="LPP, Braden, prevención" value="${esc(d.keywords)}"></div>
+        </div>
+      </div>
+
+      <!-- PASO 2 -->
+      <div class="wz-step" data-step="2" hidden>
+        <div class="form-grid">
+          <div class="field col-2"><label>Ruta <span class="req">*</span></label>
+            <div class="seg routes" id="f-ruta">${RUTAS.map(r=>`<button type="button" class="${d.ruta===r.key?'on':''} ${r.cls}" data-v="${r.key}" style="${d.ruta===r.key?`--accent:${RCOL[r.cls][0]}`:''}">${r.full}</button>`).join('')}</div></div>
+          <div class="field"><label>Temática <span class="req">*</span></label>
+            <select class="select" id="f-tema"><option value="">Selecciona…</option>${TEMAS.map(t=>`<option value="${t.key}" ${d.tema===t.key?'selected':''}>${t.label}</option>`).join('')}</select></div>
+          <div class="field"><label>Tipo de recurso <span class="req">*</span></label>
+            <select class="select" id="f-tipo"><option value="">Selecciona…</option>${TIPOS.map(t=>`<option ${d.tipo===t?'selected':''}>${t}</option>`).join('')}</select></div>
+          <div class="field col-2"><label>Rol destinatario</label><span class="hint">Puedes seleccionar más de uno.</span>
+            <div class="checks" id="f-roles">${ROLES.map(r=>`<label class="check ${d.roles.includes(r.key)?'on':''}"><input type="checkbox" value="${r.key}" ${d.roles.includes(r.key)?'checked':''}>${r.label}</label>`).join('')}</div></div>
+          <div class="field col-2"><label>Tipo de aprendizaje</label>
+            <div class="seg" id="f-aprend">${APREND.map(a=>`<button type="button" class="${d.aprendizaje===a.key?'on':''}" data-v="${a.key}" style="--accent:var(--brand)">${a.ico} ${a.label}</button>`).join('')}</div></div>
+        </div>
+      </div>
+
+      <!-- PASO 3 -->
+      <div class="wz-step" data-step="3" hidden>
+        <p class="hint" style="margin-bottom:14px">Puedes usar imagen, archivo y enlace al mismo tiempo. Formatos: PDF, Word, PowerPoint, Imagen, Audio, Video, Enlace web y YouTube.</p>
+        <div class="uploads">
+          <div class="field"><label>Imagen de portada</label>
+            <div class="drop"><div class="dico" style="background:var(--azul)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5L5 20" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <b>Subir imagen</b><small>JPG, PNG · se muestra en la tarjeta</small>
+              <input type="file" accept="image/*" id="f-imagen"></div>
+            <div id="imagenPrev"></div></div>
+          <div class="field"><label>Archivo</label>
+            <div class="drop"><div class="dico" style="background:var(--coral)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v5h5"/><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V8l-6-5z" stroke-linejoin="round"/></svg></div>
+              <b>Subir archivo</b><small>PDF, Word, PowerPoint, Audio, Video</small>
+              <input type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,audio/*,video/*" id="f-archivo"></div>
+            <div id="archivoPrev"></div></div>
+          <div class="field"><label>Enlace web</label>
+            <input class="input" id="f-enlace" placeholder="https://…" value="${esc(d.enlace)}"></div>
+          <div class="field"><label>Video de YouTube</label>
+            <input class="input" id="f-youtube" placeholder="https://youtube.com/watch?v=…" value="${esc(d.youtube)}"></div>
+        </div>
+      </div>
+
+      <!-- PASO 4 -->
+      <div class="wz-step" data-step="4" hidden>
+        <h3 style="font-size:1.05rem;margin-bottom:10px">Estado de publicación</h3>
+        <div class="seg" id="f-estado">
+          <button type="button" class="${d.estado==='borrador'?'on':''}" data-v="borrador" style="--accent:var(--warn)">✎ Borrador</button>
+          <button type="button" class="${d.estado==='publicado'?'on':''}" data-v="publicado" style="--accent:var(--ok)">✓ Publicado</button>
+          <button type="button" class="${d.estado==='oculto'?'on':''}" data-v="oculto" style="--accent:var(--ink-3)">◇ Oculto</button>
+        </div>
+        <div class="destino" id="destino" style="margin-top:16px"></div>
+      </div>
+
+      <!-- PASO 5 -->
+      <div class="wz-step" data-step="5" hidden>
+        <h3 style="font-size:1.05rem;margin-bottom:12px">Así se verá y dónde aparecerá</h3>
+        <div id="wzPreview"></div>
+        <div class="note" style="margin-top:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg>Al publicar, el recurso aparece de inmediato en la portada pública. Puedes guardarlo como borrador y publicarlo más tarde.</div>
+      </div>
+
+      <div class="wz-nav">
+        <button class="btn btn-ghost" onclick="cancelCreate()">Cancelar</button>
+        <div class="spacer"></div>
+        <button class="btn btn-ghost" id="wzPrevBtn" onclick="wzGo(wzStep-1)" hidden>← Anterior</button>
+        <button class="btn btn-primary" id="wzNextBtn" onclick="wzNext()">Siguiente →</button>
+        <button class="btn btn-warn" id="wzDraftBtn" hidden onclick="saveDraft()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8" stroke-linecap="round"/></svg> Guardar borrador</button>
+        <button class="btn btn-ok" id="wzPubBtn" hidden onclick="publishDraft()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linejoin="round"/></svg> Publicar</button>
+      </div>
+    </div>
+  </div>`;
+  wireCreate(); wzGo(1);
+}
+window.wzGo=function(n){ n=Math.max(1,Math.min(5,n)); wzStep=n; collectDraft();
+  $$('#adminMain .wz-step').forEach(p=>p.hidden = (+p.dataset.step!==n));
+  $$('#wzSteps .wz-st').forEach(st=>{const k=+st.dataset.s; st.classList.toggle('active',k===n); st.classList.toggle('done',k<n);});
+  const prev=$('#wzPrevBtn'),next=$('#wzNextBtn'),dr=$('#wzDraftBtn'),pb=$('#wzPubBtn');
+  if(prev)prev.hidden=(n===1);
+  if(n===5){ if(next)next.hidden=true; if(dr)dr.hidden=!can('resources'); if(pb)pb.hidden=!can('resources'); renderWzPreview(); }
+  else { if(next)next.hidden=false; if(dr)dr.hidden=true; if(pb)pb.hidden=true; if(n===4)updateDestino(); }
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+window.wzNext=function(){ collectDraft();
+  if(wzStep===1){ if(!draft.titulo){toast('Falta el título','warn');return;} if(!draft.descripcion){toast('Falta la descripción','warn');return;} }
+  if(wzStep===2){ if(!draft.ruta){toast('Selecciona una ruta','warn');return;} if(!draft.tema){toast('Selecciona una temática','warn');return;} if(!draft.tipo){toast('Selecciona el tipo de recurso','warn');return;} }
+  wzGo(wzStep+1);
+};
+window.renderWzPreview=function(){ collectDraft(); const el=$('#wzPreview'); if(!el)return;
+  const rt=draft.ruta?RM[draft.ruta]:RM.aprender; const ap=APM[draft.aprendizaje];
+  const fmt = draft.archivo?fileExt(draft.archivo.type):(draft.youtube?'YouTube':(draft.enlace?'Enlace web':(draft.tipo||'Ficha')));
+  el.innerHTML='<div style="display:grid;grid-template-columns:1fr;gap:16px;align-items:start">'
+    +'<div class="pvcard '+rt.cls+'" style="max-width:340px"><div class="pvimg">'+(draft.imagen?'<img src="'+draft.imagen+'" style="height:140px;width:100%;object-fit:cover">':svgImg(draft.tema||'otras',rt.cls,140))+'<span class="pvtype">'+esc(draft.tipo||'Recurso')+'</span></div><div class="pvbody"><span class="pvtopic">'+(draft.tema?TM[draft.tema].label:'—')+' · '+rt.label+'</span><h3>'+esc(draft.titulo||'Sin título')+'</h3><p class="pvd">'+esc(draft.descripcion||'')+'</p><button class="pvbtn">Abrir recurso →</button></div></div>'
+    +'<div class="wz-prevcard"><b style="color:var(--ink)">Ubicación en la portada:</b> '+(draft.estado==='publicado'?('Ruta <b style="color:var(--ink)">'+rt.full+'</b> · sección <b style="color:var(--ink)">Recursos permanentes por temática</b>'):('Estado <b style="color:var(--ink)">'+draft.estado+'</b> — no se mostrará hasta publicarlo'))
+    +'<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px">'
+    +'<span class="ps-chip">👤 '+((draft.roles||[]).map(x=>ROLM[x]?ROLM[x].label:x).join(', ')||'Todos los roles')+'</span>'
+    +(ap?'<span class="ps-chip">'+ap.ico+' '+ap.label+'</span>':'')
+    +'<span class="ps-chip">📎 '+fmt+'</span><span class="ps-chip">🕓 '+esc(draft.tiempo||'—')+'</span></div></div></div>';
+};
+function collectDraft(){
+  draft.titulo=$('#f-titulo').value.trim();draft.descripcion=$('#f-desc').value.trim();
+  draft.tema=$('#f-tema').value;draft.tipo=$('#f-tipo').value;draft.tiempo=$('#f-tiempo').value.trim();
+  draft.autor=$('#f-autor').value.trim();draft.anio=$('#f-anio').value;draft.keywords=$('#f-keys').value.trim();
+  draft.enlace=$('#f-enlace').value.trim();draft.youtube=$('#f-youtube').value.trim();
+  draft.roles=$$('#f-roles input:checked').map(c=>c.value);
+}
+function wireCreate(){
+  const cv=$('#createView');
+  $$('#f-ruta button').forEach(b=>b.onclick=()=>{draft.ruta=b.dataset.v;$$('#f-ruta button').forEach(x=>{x.classList.remove('on');x.style.removeProperty('--accent');});
+    b.classList.add('on');b.style.setProperty('--accent',RCOL[RM[draft.ruta].cls][0]);cv.className='view '+RM[draft.ruta].cls;});
+  $$('#f-aprend button').forEach(b=>b.onclick=()=>{draft.aprendizaje=b.dataset.v;$$('#f-aprend button').forEach(x=>x.classList.remove('on'));b.classList.add('on');});
+  $$('#f-estado button').forEach(b=>b.onclick=()=>{draft.estado=b.dataset.v;$$('#f-estado button').forEach(x=>x.classList.remove('on'));b.classList.add('on');updateDestino();});
+  $$('#f-roles input').forEach(c=>c.onchange=()=>{c.closest('.check').classList.toggle('on',c.checked);});
+  $('#f-imagen').onchange=e=>{const f=e.target.files[0];if(!f)return;
+    if(!/^image\//.test(f.type||'')){toast('El archivo seleccionado no es una imagen','warn');e.target.value='';return;}
+    if(f.size>3*1024*1024){toast('Imagen demasiado grande (máx 3 MB)','warn');e.target.value='';return;}
+    toast('Subiendo imagen…'); API.files.upload(f).then(ref=>{ draft.imagen=ref.url; renderImagenPrev(); toast('Imagen cargada','ok'); }).catch(err=>toast((err&&err.message)||'No se pudo subir la imagen','crit'));};
+  $('#f-archivo').onchange=e=>{const f=e.target.files[0];if(!f)return;
+    if(!validFileType(f)){toast('Tipo no permitido. Usa PDF, Word, PowerPoint, imagen, audio o video.','warn');e.target.value='';return;}
+    if(f.size>3*1024*1024){toast('Archivo demasiado grande (máx 3 MB)','warn');e.target.value='';return;}
+    toast('Subiendo archivo…');
+    API.files.upload(f).then(ref=>{ draft.archivo={id:ref.id,name:ref.name,type:ref.type,size:ref.size,url:ref.url}; renderArchivoPrev(); toast('Archivo cargado','ok'); }).catch(err=>toast((err&&err.message)||'No se pudo subir el archivo','crit'));};
+  renderImagenPrev();renderArchivoPrev();
+}
+function validFileType(f){const n=(f.name||'').toLowerCase(),t=(f.type||'').toLowerCase();
+  return /\.(pdf|docx?|pptx?)$/.test(n)||/^(image|audio|video)\//.test(t)||/\.(png|jpe?g|gif|webp|mp3|wav|m4a|ogg|mp4|webm|mov)$/.test(n);}
+window.removeDraftFile=()=>{ if(draft.archivo&&draft.archivo.id)API.files.remove(draft.archivo.id).catch(()=>{}); draft.archivo=null; renderArchivoPrev(); };
+function renderImagenPrev(){const el=$('#imagenPrev');if(!el)return;
+  el.innerHTML=draft.imagen?`<div class="cover-prev"><img src="${draft.imagen}" alt="Portada"></div><button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="draft.imagen=null;renderImagenPrev()">Quitar imagen</button>`:'';}
+function fileExt(t){t=(t||'').toLowerCase();if(t.includes('pdf'))return'PDF';if(t.includes('word')||t.includes('doc'))return'DOC';if(t.includes('presentation')||t.includes('ppt'))return'PPT';if(t.includes('audio'))return'MP3';if(t.includes('video'))return'VID';return'FILE';}
+function renderArchivoPrev(){const el=$('#archivoPrev');if(!el)return;const a=draft.archivo;
+  el.innerHTML=a?`<div class="filechip"><span class="fx">${fileExt(a.type)}</span><span style="min-width:0"><b>${esc(a.name)}</b><small>${(a.size/1024).toFixed(0)} KB · cargado</small></span><button class="rm" onclick="removeDraftFile()">✕</button></div>`:'';}
+function updateDestino(){collectDraft();const el=$('#destino');if(!el)return;
+  const r=draft.ruta?RM[draft.ruta]:null;
+  if(!r){el.innerHTML=`<h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4m0 4h.01" stroke-linecap="round"/></svg> Selecciona una ruta para ver dónde aparecerá en la portada</h4>`;return;}
+  el.className='destino '+r.cls;
+  const secExtra=[];
+  if(draft.estado==='publicado'){
+    secExtra.push('Recursos permanentes por temática');
+    if(['aplicar','evaluar'].includes(draft.ruta) && /min/.test(draft.tiempo)) secExtra.push('Lo necesito para el turno');
+    if(draft.roles.length) secExtra.push('Recursos según rol');
+    secExtra.push('Últimas actualizaciones');
+  }
+  el.innerHTML=`<h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ink)" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> ${draft.estado==='publicado'?'Al publicar, este recurso aparecerá en:':'Este recurso está en '+draft.estado+' — al publicar aparecerá en:'}</h4>
+    <div class="drow">
+      <span class="dpill"><span class="dd" style="background:${RCOL[r.cls][0]}"></span>Ruta: ${r.full}</span>
+      ${draft.tema?`<span class="dpill"><span class="dd" style="background:var(--accent)"></span>${TM[draft.tema].label}</span>`:''}
+      ${[...new Set(secExtra)].map(s=>`<span class="dpill">Sección · ${s}</span>`).join('')}
+      ${draft.roles.map(x=>`<span class="dpill">Rol · ${ROLM[x].label}</span>`).join('')}
+    </div>`;
+}
+function validateDraft(needFull){collectDraft();
+  if(!draft.titulo){toast('Falta el título','warn');return false;}
+  if(needFull){if(!draft.descripcion){toast('Falta la descripción','warn');return false;}
+    if(!draft.ruta){toast('Selecciona una ruta','warn');return false;}
+    if(!draft.tema){toast('Selecciona una temática','warn');return false;}
+    if(!draft.tipo){toast('Selecciona el tipo de recurso','warn');return false;}}
+  return true;}
+async function persistDraft(estado){
+  collectDraft(); const p={titulo:draft.titulo,descripcion:draft.descripcion,ruta:draft.ruta,tema:draft.tema,roles:draft.roles,aprendizaje:draft.aprendizaje,tipo:draft.tipo,autor:draft.autor,anio:draft.anio,keywords:draft.keywords,tiempo:draft.tiempo,imagen:draft.imagen||null,archivo:draft.archivo||null,enlace:draft.enlace,youtube:draft.youtube,estado};
+  try{ if(draft.id){ await API.resources.update(draft.id,p); } else { const r=await API.resources.create(p); draft.id=r.id; } await refreshResources(); syncPortal(); return true; }
+  catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); return false; } }
+async function saveDraft(){if(!requirePerm('resources'))return;if(!validateDraft(false))return;if(await persistDraft('borrador')){toast('Borrador guardado','ok');draft=blankDraft();navigate('published');}}
+function publishDraft(){if(!requirePerm('resources'))return;if(!validateDraft(true))return;
+  confirmModal({icon:'ok',color:'var(--ok)',title:'Publicar recurso',
+    body:`<p style="color:var(--ink-2)">“<b>${esc(draft.titulo)}</b>” quedará <b>visible en la portada pública</b> en la ruta <b>${RM[draft.ruta].full}</b> y en <b>Recursos permanentes por temática</b>.</p><div class="note" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg>Los cambios se reflejan de inmediato en el Centro público.</div>`,
+    okLabel:'Publicar ahora',okClass:'btn-ok',onOk:async()=>{if(await persistDraft('publicado')){toast('Recurso publicado en la portada','ok');draft=blankDraft();navigate('published');}}});}
+function previewDraft(){if(!validateDraft(false))return;openPreview(draft);}
+function cancelCreate(){confirmModal({icon:'warn',color:'var(--warn)',title:'Cancelar edición',body:'<p style="color:var(--ink-2)">Se perderán los cambios no guardados de este recurso.</p>',okLabel:'Descartar cambios',okClass:'btn-crit',onOk:()=>{draft=blankDraft();navigate('overview');}});}
+
+/* ================= VIEW: PUBLISHED ================= */
+let pubFilter={q:'',ruta:'',tema:'',estado:''};
+function viewPublished(){
+  $('#adminMain').innerHTML=`
+  <div class="view">
+    <div class="view-head"><div><span class="eyebrow">Contenido publicado</span><h2>Todos los recursos del Centro</h2>
+      <p>Busca, filtra y gestiona cada recurso. Los cambios se reflejan de inmediato en la portada pública.</p></div>
+      <button class="btn btn-primary" onclick="navigate('create')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg> Nuevo recurso</button></div>
+    <div class="panel">
+      <div class="toolbar">
+        <div class="search-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+          <input id="pubSearch" placeholder="Buscar por título, autor, palabra clave…" value="${esc(pubFilter.q)}"></div>
+        <select class="filter-sel" id="pubRuta"><option value="">Todas las rutas</option>${RUTAS.map(r=>`<option value="${r.key}" ${pubFilter.ruta===r.key?'selected':''}>${r.full}</option>`).join('')}</select>
+        <select class="filter-sel" id="pubTema"><option value="">Todas las temáticas</option>${TEMAS.map(t=>`<option value="${t.key}" ${pubFilter.tema===t.key?'selected':''}>${t.label}</option>`).join('')}</select>
+        <select class="filter-sel" id="pubEstado"><option value="">Todos los estados</option><option value="publicado" ${pubFilter.estado==='publicado'?'selected':''}>Publicado</option><option value="borrador" ${pubFilter.estado==='borrador'?'selected':''}>Borrador</option><option value="oculto" ${pubFilter.estado==='oculto'?'selected':''}>Oculto</option></select>
+      </div>
+      <div id="pubTable"></div>
+    </div>
+  </div>`;
+  $('#pubSearch').oninput=e=>{pubFilter.q=e.target.value;renderPubTable();};
+  $('#pubRuta').onchange=e=>{pubFilter.ruta=e.target.value;renderPubTable();};
+  $('#pubTema').onchange=e=>{pubFilter.tema=e.target.value;renderPubTable();};
+  $('#pubEstado').onchange=e=>{pubFilter.estado=e.target.value;renderPubTable();};
+  renderPubTable();
+}
+function renderPubTable(){
+  let res=DB.get('resources',[]);const q=pubFilter.q.toLowerCase();
+  res=res.filter(r=>{
+    if(pubFilter.ruta&&r.ruta!==pubFilter.ruta)return false;
+    if(pubFilter.tema&&r.tema!==pubFilter.tema)return false;
+    if(pubFilter.estado&&r.estado!==pubFilter.estado)return false;
+    if(q&&!(r.titulo+' '+r.autor+' '+r.keywords+' '+(TM[r.tema]?.label||'')).toLowerCase().includes(q))return false;
+    return true;});
+  const wrap=$('#pubTable');
+  if(!res.length){wrap.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg><b>Sin recursos que coincidan.</b></div>`;return;}
+  wrap.innerHTML=`<div class="rtable-wrap"><table class="rtable"><thead><tr>
+    <th>Recurso</th><th>Ruta</th><th>Temática</th><th>Estado</th><th>Actualizado</th><th>Acciones</th></tr></thead><tbody>
+    ${res.map(r=>{const rt=RM[r.ruta];return `<tr class="${rt.cls}">
+      <td><div class="rt-title"><span class="rt-thumb">${r.imagen?`<img src="${r.imagen}" alt="">`:svgImg(r.tema,rt.cls,40)}</span>
+        <span style="min-width:0"><span style="display:block">${esc(r.titulo)}</span><span class="rt-sub">${esc(r.tipo)} · ${esc(r.autor||'—')} · ${esc(r.anio||'')}</span></span></div></td>
+      <td><span class="rpill route ${rt.cls}"><span class="pd"></span>${rt.label}</span></td>
+      <td>${TM[r.tema]?.label||'—'}</td>
+      <td><span class="st ${r.estado}"><span class="sdot"></span>${r.estado.charAt(0).toUpperCase()+r.estado.slice(1)}</span></td>
+      <td class="rt-sub">${esc(r.fecha||'—')}</td>
+      <td><div class="rowacts">
+        <button class="iact" title="Editar" onclick="navigate('create');setTimeout(()=>viewCreate('${r.id}'),0)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z" stroke-linejoin="round"/></svg></button>
+        <button class="iact" title="Reemplazar archivo / imagen / enlace" onclick="openReplace('${r.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 2v6h-6M3 22v-6h6" /><path d="M3.5 9a9 9 0 0114.9-3.4L21 8M20.5 15A9 9 0 015.6 18.4L3 16" stroke-linecap="round"/></svg></button>
+        ${r.estado==='publicado'
+          ?`<button class="iact" title="Ocultar" onclick="setEstado('${r.id}','oculto')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M17.9 17.9A10 10 0 016 6M1 1l22 22M9.9 4.2A9 9 0 0112 4c7 0 10 8 10 8a18 18 0 01-2.2 3.2" stroke-linecap="round"/></svg></button>`
+          :`<button class="iact" title="Volver a publicar" onclick="setEstado('${r.id}','publicado')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>`}
+        <button class="iact" title="Previsualizar" onclick="openPreviewId('${r.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg></button>
+        <button class="iact danger" title="Eliminar" onclick="delResource('${r.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M6 6l1 14a2 2 0 002 2h6a2 2 0 002-2l1-14" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div></td></tr>`;}).join('')}
+  </tbody></table></div>`;
+}
+async function setEstado(id,estado){if(!requirePerm('resources'))return;
+  try{ await API.resources.setEstado(id,estado); await refreshResources(); syncPortal(); if(typeof renderPubTable==='function')renderPubTable(); renderNav();
+    toast(estado==='publicado'?'Recurso publicado en la portada':'Recurso ocultado de la portada',estado==='publicado'?'ok':'warn'); }
+  catch(e){ toast((e&&e.message)||'No se pudo actualizar','crit'); } }
+function delResource(id){if(!requirePerm('resources'))return;const r=DB.get('resources',[]).find(x=>x.id===id);if(!r)return;
+  confirmModal({icon:'crit',color:'var(--crit)',title:'Eliminar recurso',
+    body:`<p style="color:var(--ink-2)">¿Seguro que deseas eliminar “<b>${esc(r.titulo)}</b>”? Esta acción no se puede deshacer y lo quitará de la portada pública.</p>`,
+    okLabel:'Eliminar definitivamente',okClass:'btn-crit',onOk:async()=>{ try{ await API.resources.remove(id); await refreshResources(); syncPortal(); if(typeof renderPubTable==='function')renderPubTable(); renderNav(); toast('Recurso eliminado','crit'); }catch(e){ toast((e&&e.message)||'No se pudo eliminar','crit'); } }});}
+function openReplace(id){if(!requirePerm('resources'))return;const r=DB.get('resources',[]).find(x=>x.id===id);if(!r)return;
+  modal({title:'Reemplazar archivo, imagen o enlace',wide:true,body:`
+    <div class="field" style="margin-bottom:16px"><label>Imagen de portada</label>
+      <div class="drop"><div class="dico" style="background:var(--azul)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5L5 20" stroke-linecap="round"/></svg></div><b>Cambiar imagen</b><small>JPG, PNG</small><input type="file" accept="image/*" id="rp-img"></div>
+      <div id="rp-imgPrev">${r.imagen?`<div class="cover-prev"><img src="${r.imagen}"></div>`:''}</div></div>
+    <div class="field" style="margin-bottom:16px"><label>Archivo</label>
+      <div class="drop"><div class="dico" style="background:var(--coral)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v5h5"/><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V8z" stroke-linejoin="round"/></svg></div><b>Reemplazar archivo</b><small>PDF, Word, PowerPoint, Audio, Video</small><input type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,audio/*,video/*" id="rp-file"></div>
+      <div id="rp-filePrev">${r.archivo?`<div class="filechip"><span class="fx">${fileExt(r.archivo.type)}</span><span><b>${esc(r.archivo.name)}</b></span></div>`:''}</div></div>
+    <div class="field"><label>Modificar enlace</label><input class="input" id="rp-link" value="${esc(r.enlace)}" placeholder="https://…"></div>
+    <div class="field" style="margin-top:14px"><label>Modificar YouTube</label><input class="input" id="rp-yt" value="${esc(r.youtube)}" placeholder="https://youtube.com/…"></div>`,
+    foot:`<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn btn-primary" id="rp-save">Guardar cambios</button>`});
+  let img=r.imagen,file=r.archivo,oldFileId=r.archivo&&r.archivo.id;
+  $('#rp-img').onchange=e=>{const f=e.target.files[0];if(!f)return;
+    if(!/^image\//.test(f.type||'')){toast('El archivo no es una imagen','warn');e.target.value='';return;}
+    if(f.size>3*1024*1024){toast('Imagen demasiado grande (máx 3 MB)','warn');e.target.value='';return;}
+    toast('Subiendo imagen…'); API.files.upload(f).then(ref=>{ img=ref.url; $('#rp-imgPrev').innerHTML='<div class="cover-prev"><img src="'+img+'"></div>'; toast('Imagen cargada','ok'); }).catch(err=>toast((err&&err.message)||'No se pudo subir la imagen','crit'));};
+  $('#rp-file').onchange=e=>{const f=e.target.files[0];if(!f)return;
+    if(!validFileType(f)){toast('Tipo no permitido. Usa PDF, Word, PowerPoint, imagen, audio o video.','warn');e.target.value='';return;}
+    if(f.size>3*1024*1024){toast('Archivo demasiado grande (máx 3 MB)','warn');e.target.value='';return;}
+    toast('Subiendo archivo…');
+    API.files.upload(f).then(ref=>{ file={id:ref.id,name:ref.name,type:ref.type,size:ref.size,url:ref.url}; $('#rp-filePrev').innerHTML='<div class="filechip"><span class="fx">'+fileExt(ref.type)+'</span><span><b>'+esc(ref.name)+'</b><small>'+(ref.size/1024).toFixed(0)+' KB · cargado</small></span></div>'; toast('Archivo cargado','ok'); }).catch(err=>toast((err&&err.message)||'No se pudo subir el archivo','crit'));};
+  $('#rp-save').onclick=async()=>{ try{ await API.resources.update(id,{imagen:img,archivo:file,enlace:$('#rp-link').value.trim(),youtube:$('#rp-yt').value.trim()}); await refreshResources(); syncPortal(); closeModal(); if(typeof renderPubTable==='function')renderPubTable(); toast('Cambios guardados','ok'); }catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); } };
+}
+window.openPreviewId=id=>{const r=DB.get('resources',[]).find(x=>x.id===id);if(r)openPreview(r);};
+function openPreview(r){const rt=RM[r.ruta]||RM.aprender;
+  modal({title:'Vista previa en la portada',body:`
+    <p class="hint" style="margin-bottom:14px">Así se verá la tarjeta en el Centro público:</p>
+    <div class="pvcard ${rt.cls}"><div class="pvimg">${r.imagen?`<img src="${r.imagen}" style="width:100%;height:140px;object-fit:cover">`:svgImg(r.tema,rt.cls,140)}<span class="pvtype">${esc(r.tipo||'Recurso')}</span></div>
+      <div class="pvbody"><span class="pvtopic">${TM[r.tema]?.label||''} · ${rt.label}</span><h3>${esc(r.titulo||'Sin título')}</h3>
+      <p class="pvd">${esc(r.descripcion||'')}</p><button class="pvbtn">Abrir recurso →</button></div></div>
+    <div class="drow" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+      ${r.enlace?`<span class="dpill">🔗 Enlace web</span>`:''}${r.youtube?`<span class="dpill">▶ YouTube</span>`:''}${r.archivo?`<span class="dpill">📎 ${esc(r.archivo.name)}</span>`:''}
+      ${r.aprendizaje?`<span class="dpill">${APM[r.aprendizaje].ico} ${APM[r.aprendizaje].label}</span>`:''}</div>`,
+    foot:`<button class="btn btn-primary" onclick="closeModal()">Cerrar</button>`});}
+
+/* ================= VIEW: WEEKLY ================= */
+function viewWeekly(){
+  const w=DB.get('weekly',{});const res=DB.get('resources',[]).filter(r=>r.estado==='publicado');
+  $('#adminMain').innerHTML=`
+  <div class="view">
+    <div class="view-head"><div><span class="eyebrow">Evidencia semanal</span><h2>Evidencia destacada de la semana</h2>
+      <p>Selecciona un recurso ya publicado o crea una evidencia nueva para destacar en la portada.</p></div></div>
+    <div class="two-col">
+      <div class="panel"><div class="panel-head"><h3>1 · Seleccionar recurso publicado</h3></div>
+        <select class="select" id="w-ref"><option value="">— Crear evidencia nueva (abajo) —</option>
+          ${res.map(r=>`<option value="${r.id}" ${w.ref===r.id?'selected':''}>${esc(r.titulo)}</option>`).join('')}</select>
+        <div id="w-refprev" style="margin-top:16px"></div>
+      </div>
+      <div class="panel"><div class="panel-head"><h3>2 · O crear evidencia nueva</h3></div>
+        <div class="field" style="margin-bottom:12px"><label>Título</label><input class="input" id="w-titulo" value="${esc(w.titulo)}" placeholder="Título de la evidencia"></div>
+        <div class="field" style="margin-bottom:12px"><label>Resumen</label><textarea class="textarea" id="w-resumen" placeholder="Resumen breve de la evidencia…">${esc(w.resumen)}</textarea></div>
+        <div class="form-grid">
+          <div class="field"><label>Autor o institución</label><input class="input" id="w-autor" value="${esc(w.autor)}"></div>
+          <div class="field"><label>Año</label><input class="input" id="w-anio" type="number" value="${esc(w.anio)}"></div>
+          <div class="field"><label>Tipo de evidencia</label><select class="select" id="w-tipo">${['Guía','Revisión sistemática','Ensayo clínico','Norma','Consenso','Recomendación'].map(t=>`<option ${w.tipo===t?'selected':''}>${t}</option>`).join('')}</select></div>
+          <div class="field"><label>Temática</label><select class="select" id="w-tema">${TEMAS.map(t=>`<option value="${t.key}" ${w.tema===t.key?'selected':''}>${t.label}</option>`).join('')}</select></div>
+          <div class="field col-2"><label>Archivo o enlace</label><input class="input" id="w-enlace" value="${esc(w.enlace)}" placeholder="https://… o nombre del archivo"></div>
+          <div class="field col-2"><label>Imagen</label><div class="drop"><div class="dico" style="background:var(--ambar)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5L5 20" stroke-linecap="round"/></svg></div><b>Subir imagen</b><input type="file" accept="image/*" id="w-img"></div><div id="w-imgPrev">${w.imagen?`<div class="cover-prev"><img src="${w.imagen}"></div>`:''}</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:20px"><div class="field"><label>Fecha de publicación</label><input class="input" id="w-fecha" type="text" value="${esc(w.fecha||now())}"></div>
+      <div class="form-actions"><div class="spacer"></div><button class="btn btn-primary btn-lg" id="w-save"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3l2.4 5 5.6.5-4.2 3.8 1.3 5.5L12 15l-5.1 2.8 1.3-5.5L4 8.5 9.6 8 12 3z" stroke-linejoin="round"/></svg> Guardar evidencia de la semana</button></div></div>
+  </div>`;
+  const refPrev=()=>{const id=$('#w-ref').value;const r=res.find(x=>x.id===id);
+    $('#w-refprev').innerHTML=r?`<div class="pvcard ${RM[r.ruta].cls}"><div class="pvimg">${r.imagen?`<img src="${r.imagen}" style="height:140px;width:100%;object-fit:cover">`:svgImg(r.tema,RM[r.ruta].cls,140)}<span class="pvtype">${esc(r.tipo)}</span></div><div class="pvbody"><span class="pvtopic">${TM[r.tema].label}</span><h3>${esc(r.titulo)}</h3><p class="pvd">${esc(r.descripcion)}</p></div></div>`:'<div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg>Elige un recurso publicado o completa el formulario de la derecha.</div>';};
+  $('#w-ref').onchange=refPrev;refPrev();
+  $('#w-img').onchange=e=>{const f=e.target.files[0];if(!f)return;
+    if(!/^image\//.test(f.type||'')){toast('El archivo no es una imagen','warn');e.target.value='';return;}
+    if(f.size>3*1024*1024){toast('Imagen demasiado grande (máx 3 MB)','warn');e.target.value='';return;}
+    toast('Subiendo imagen…'); API.files.upload(f).then(ref=>{ $('#w-imgPrev').innerHTML='<div class="cover-prev"><img src="'+ref.url+'"></div>'; $('#w-imgPrev').dataset.img=ref.url; toast('Imagen cargada','ok'); }).catch(err=>toast((err&&err.message)||'No se pudo subir la imagen','crit'));};
+  $('#w-save').onclick=async()=>{if(!requirePerm('content'))return;const nw={ref:$('#w-ref').value,titulo:$('#w-titulo').value.trim(),resumen:$('#w-resumen').value.trim(),
+    autor:$('#w-autor').value.trim(),anio:$('#w-anio').value,tipo:$('#w-tipo').value,tema:$('#w-tema').value,enlace:$('#w-enlace').value.trim(),
+    imagen:$('#w-imgPrev').dataset.img||w.imagen||null,fecha:$('#w-fecha').value.trim()};
+    if(!nw.ref&&!nw.titulo){toast('Selecciona un recurso o escribe un título','warn');return;}
+    try{ await API.weekly.set(nw); S.weekly=nw; syncPortal(); toast('Evidencia de la semana guardada','ok'); }catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); } };
+}
+
+/* ================= VIEW: EXPERIENCE ================= */
+function viewExperience(){
+  const exp=DB.get('experience',{});
+  const br=DB.get('branding',{});
+  const brIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5L5 20" stroke-linecap="round"/></svg>';
+  const brandingPanel=can('content')?`
+    <div class="panel" style="margin-bottom:18px">
+      <h4 style="margin:0 0 4px">Identidad visual del Centro</h4>
+      <p class="note" style="margin:0 0 14px">Logo e imagen principal de la portada. Se guardan en Vercel Blob y se reflejan de inmediato. Deja vacío para usar la imagen institucional por defecto.</p>
+      <div class="form-grid">
+        <div class="field"><label>Logo institucional</label>
+          <div class="drop"><div class="dico" style="background:var(--violeta)">${brIcon}</div><b>Subir logo</b><small>PNG o JPG · se optimiza solo</small><input type="file" accept="image/*" id="br-logo"></div>
+          <div id="br-logoPrev">${br.logo?`<div class="cover-prev"><img src="${esc(br.logo)}"></div><button class="btn btn-ghost btn-sm" style="margin-top:8px" id="br-logoDel">Quitar logo</button>`:''}</div>
+        </div>
+        <div class="field"><label>Imagen principal (encabezado)</label>
+          <div class="drop"><div class="dico" style="background:var(--azul)">${brIcon}</div><b>Subir imagen principal</b><small>JPG o PNG · se optimiza solo</small><input type="file" accept="image/*" id="br-hero"></div>
+          <div id="br-heroPrev">${br.heroImage?`<div class="cover-prev"><img src="${esc(br.heroImage)}"></div><button class="btn btn-ghost btn-sm" style="margin-top:8px" id="br-heroDel">Quitar imagen</button>`:''}</div>
+        </div>
+      </div>
+    </div>`:'';
+  $('#adminMain').innerHTML=`
+  <div class="view">
+    <div class="view-head"><div><span class="eyebrow">Experiencia pública</span><h2>Textos y bloques de la portada</h2>
+      <p>Edita los contenidos de cada bloque. Cada uno tiene edición y vista previa; los cambios se reflejan en la portada.</p></div></div>
+    ${brandingPanel}
+    <div class="exp-grid">
+      ${Object.entries(exp).map(([k,b])=>`<div class="exp-card"><h4>${b.label}</h4>
+        <div class="exp-txt">${esc(b.value)}</div>
+        <div class="exp-acts"><button class="btn btn-primary btn-sm" onclick="editExp('${k}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z" stroke-linejoin="round"/></svg> Editar</button>
+        <button class="btn btn-ghost btn-sm" onclick="previewExp('${k}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> Vista previa</button></div></div>`).join('')}
+    </div>
+  </div>`;
+  const saveBranding=async(patch)=>{ const nb=Object.assign({},DB.get('branding',{}),patch); try{ await API.branding.set(nb); S.branding=nb; if(typeof applyBranding==='function')applyBranding(); toast('Identidad visual actualizada','ok'); }catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); } };
+  const bindBrandImg=(inputId,key,prevId)=>{ const el=$('#'+inputId); if(!el)return; el.onchange=e=>{ const f=e.target.files[0]; if(!f)return;
+    if(!/^image\//.test(f.type||'')){toast('El archivo no es una imagen','warn');e.target.value='';return;}
+    if(f.size>25*1024*1024){toast('Imagen demasiado grande (máx 25 MB)','warn');e.target.value='';return;}
+    toast('Subiendo imagen…'); API.files.upload(f).then(ref=>{ const p=$('#'+prevId); if(p)p.innerHTML='<div class="cover-prev"><img src="'+ref.url+'"></div>'; saveBranding({[key]:ref.url}); setTimeout(()=>navigate('experience'),400); }).catch(err=>toast((err&&err.message)||'No se pudo subir la imagen','crit')); }; };
+  bindBrandImg('br-logo','logo','br-logoPrev'); bindBrandImg('br-hero','heroImage','br-heroPrev');
+  if($('#br-logoDel'))$('#br-logoDel').onclick=async()=>{ await saveBranding({logo:null}); navigate('experience'); };
+  if($('#br-heroDel'))$('#br-heroDel').onclick=async()=>{ await saveBranding({heroImage:null}); navigate('experience'); };
+}
+window.editExp=k=>{if(!requirePerm('content'))return;const exp=DB.get('experience',{});const b=exp[k];
+  modal({title:'Editar · '+b.label,body:`<div class="field"><label>Contenido del bloque</label><textarea class="textarea" id="exp-txt" style="min-height:150px">${esc(b.value)}</textarea></div>`,
+    foot:`<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn btn-primary" id="exp-save">Guardar y reflejar en portada</button>`});
+  $('#exp-save').onclick=async()=>{exp[k].value=$('#exp-txt').value.trim(); try{ await API.experience.set(exp); S.experience=exp; syncPortal(); closeModal(); navigate('experience'); toast('Bloque actualizado','ok'); }catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); } };};
+window.previewExp=k=>{const b=DB.get('experience',{})[k];
+  modal({title:'Vista previa · '+b.label,body:`<div style="background:linear-gradient(135deg,#0a2540,#0e4e8a);border-radius:14px;padding:26px;color:#fff"><div class="eyebrow" style="color:#9fe9ff">${esc(b.label)}</div><p style="font-size:1.1rem;font-weight:600;margin-top:8px;color:#fff">${esc(b.value)}</p></div>`,
+    foot:`<button class="btn btn-primary" onclick="closeModal()">Cerrar</button>`});};
+
+/* ================= VIEW: USAGE ================= */
+function viewUsage(){
+  const a=DB.get('analytics',{});const res=DB.get('resources',[]);
+  const top=Object.entries(a.aperturas||{}).sort((x,y)=>y[1]-x[1]).slice(0,6);
+  const nombre=id=>res.find(r=>r.id===id)?.titulo||'Recurso';
+  const stat=(color,num,label)=>`<div class="stat"><div class="snum">${num.toLocaleString('es-CL')}</div><div class="slabel">${label}</div><span class="strend" style="background:${color}22;color:${color}">●</span></div>`;
+  $('#adminMain').innerHTML=`
+  <div class="view">
+    <div class="view-head"><div><span class="eyebrow">Uso del Centro</span><h2>Estadísticas de uso</h2>
+      <p>Cómo los funcionarios encuentran y usan el conocimiento clínico.</p></div>
+      ${can('stats')?`<button class="btn btn-crit" id="resetStats"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 2v6h6M21 12A9 9 0 106 5.3L3 8" stroke-linecap="round" stroke-linejoin="round"/></svg> Reiniciar estadísticas a cero</button>`:`<span class="note" style="align-self:center">Solo el Administrador principal puede reiniciar estadísticas</span>`}</div>
+    <div class="stats">
+      ${stat('#0e4e8a',a.visitas||0,'Visitas generales')}
+      ${stat('#0d9488',Object.values(a.aperturas||{}).reduce((s,v)=>s+v,0),'Aperturas por recurso')}
+      ${stat('#d98514',a.descargas||0,'Descargas')}
+      ${stat('#7c5cfc',a.eviAperturas||0,'Recursos abiertos desde EVI')}
+    </div>
+    <div class="two-col" style="margin-top:20px">
+      <div class="panel"><div class="panel-head"><h3>Recursos más consultados</h3></div>
+        <div class="mini-list">${top.map(([id,v],i)=>`<div class="mini-row"><span class="mrank">${i+1}</span><b>${esc(nombre(id))}</b><span class="mval">${v}</span></div>`).join('')||emptyMini()}</div></div>
+      <div class="panel"><div class="panel-head"><h3>Búsquedas frecuentes</h3></div>
+        <div class="mini-list">${(a.busquedas||[]).map(([q,v])=>`<div class="mini-row"><span class="mrank">🔍</span><b>“${esc(q)}”</b><span class="mval">${v}</span></div>`).join('')||emptyMini()}</div></div>
+    </div>
+    <div class="two-col" style="margin-top:20px">
+      <div class="panel"><div class="panel-head"><h3>Búsquedas sin resultados</h3><p>Oportunidades de contenido nuevo.</p></div>
+        <div class="mini-list">${(a.sinResultado||[]).map(([q,v])=>`<div class="mini-row empty-q"><span class="mrank">∅</span><b>“${esc(q)}”</b><span class="mval">${v}</span></div>`).join('')||emptyMini()}</div></div>
+      <div class="panel"><div class="panel-head"><h3>Uso por temática</h3></div>
+        <div class="rdist">${distBars(a.usoTema||{},TM)}</div></div>
+    </div>
+    <div class="two-col" style="margin-top:20px">
+      <div class="panel"><div class="panel-head"><h3>Uso por rol</h3></div>
+        <div class="rdist">${distBars(a.usoRol||{},ROLM)}</div></div>
+      <div class="panel"><div class="panel-head"><h3>Fecha y hora de las interacciones</h3></div>
+        <div class="timeline">${(a.interacciones&&a.interacciones.length?a.interacciones:defaultTimeline()).slice(0,14).map(it=>`<div class="tl"><span class="tt">${esc(it.t)}</span><span class="ta">${esc(it.a)}</span></div>`).join('')}</div></div>
+    </div>
+  </div>`;
+  const rb=$('#resetStats'); if(rb) rb.onclick=()=>{ if(!requirePerm('stats'))return; confirmModal({icon:'crit',color:'var(--crit)',title:'Reiniciar estadísticas a cero',
+    body:`<p style="color:var(--ink-2)">Se borrarán <b>todas las estadísticas de uso</b> (visitas, aperturas, descargas, búsquedas e interacciones). Esta acción no se puede deshacer.</p>`,
+    okLabel:'Sí, reiniciar a cero',okClass:'btn-crit',onOk:async()=>{
+      try{ S.analytics=await API.stats.reset(); toast('Estadísticas reiniciadas a cero','crit'); viewUsage(); }catch(e){ toast((e&&e.message)||'No se pudo reiniciar','crit'); } }}); };
+}
+function distBars(obj,map){const max=Math.max(1,...Object.values(obj));const keys=Object.keys(map);
+  return keys.map(k=>`<div class="rdist-row"><div class="rl">${map[k].label}</div><div class="rdist-bar"><i style="width:${(obj[k]||0)/max*100}%;background:var(--brand)"></i></div><div class="rv">${obj[k]||0}</div></div>`).join('');}
+function emptyMini(){return `<div class="mini-row" style="color:var(--ink-3)"><span class="mrank" style="background:var(--ink-3)">—</span>Sin datos registrados</div>`;}
+function defaultTimeline(){return[{t:now(),a:'Apertura de “Norma de higiene de manos”'},{t:now(),a:'Búsqueda: “braden”'},{t:now(),a:'Descarga de infografía LPP'},{t:now(),a:'EVI recomendó “Escala EVA y ESCID”'}];}
+
+/* ================= VIEW: USERS ================= */
+function viewUsers(){
+  const users=DB.get('users',[]);const audit=DB.get('audit',[]);const isPrincipal=session.rol==='principal';
+  $('#adminMain').innerHTML=`
+  <div class="view">
+    <div class="view-head"><div><span class="eyebrow">Usuarios y permisos</span><h2>Administradores del Centro</h2>
+      <p>${isPrincipal?'Como Administrador principal puedes gestionar usuarios, roles y accesos.':'Solo el Administrador principal puede modificar usuarios. Vista de solo lectura.'}</p></div>
+      ${isPrincipal?`<button class="btn btn-primary" onclick="editUser()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg> Agregar administrador</button>`:''}</div>
+    ${!isPrincipal?`<div class="note" style="margin-bottom:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg>Tu rol es ${ADMIN_ROLES[session.rol].label}. La gestión de usuarios está reservada al Administrador principal.</div>`:''}
+    <div class="panel"><div class="panel-head"><h3>Usuarios (${users.length})</h3></div>
+      ${users.map(u=>`<div class="user-card">
+        <span class="uc-av" style="background:${u.color}">${esc(u.nombre.split(' ').slice(-1)[0][0])}</span>
+        <span class="uc-i"><b>${esc(u.nombre)}</b><small>${esc(u.correo)}</small></span>
+        <span class="uc-role ${ADMIN_ROLES[u.rol].cls}">${ADMIN_ROLES[u.rol].label}</span>
+        ${isPrincipal?`<span class="uc-acts">
+          <label class="switch" title="${u.activo?'Activo':'Inactivo'}"><input type="checkbox" ${u.activo?'checked':''} onchange="toggleUser('${u.id}')"><span class="track"></span><span class="knob"></span></label>
+          <button class="iact" title="Modificar" onclick="editUser('${u.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z" stroke-linejoin="round"/></svg></button>
+          <button class="iact danger" title="Eliminar autorización" onclick="delUser('${u.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M6 6l1 14a2 2 0 002 2h6a2 2 0 002-2l1-14" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </span>`:`<span class="st ${u.activo?'publicado':'oculto'}"><span class="sdot"></span>${u.activo?'Activo':'Inactivo'}</span>`}
+      </div>`).join('')}
+    </div>
+    <div class="panel" style="margin-top:20px"><div class="panel-head"><div><h3>Historial de modificaciones</h3><p>Quién realizó cada cambio en el Centro.</p></div></div>
+      <div class="timeline">${audit.slice(0,20).map(x=>`<div class="tl"><span class="tt">${esc(x.t)}</span><span class="ta"><b>${esc(x.who)}</b> · ${esc(x.what)}</span></div>`).join('')}</div></div>
+  </div>`;
+}
+window.toggleUser=async id=>{if(!requirePerm('users')){viewUsers();return;}const u=DB.get('users',[]).find(x=>x.id===id);if(!u)return;
+  try{ await API.users.update(id,{activo:!u.activo}); S.users=await API.users.list(); toast('Acceso '+(!u.activo?'activado':'desactivado')+': '+u.nombre,!u.activo?'ok':'warn'); viewUsers(); }catch(e){ toast((e&&e.message)||'No se pudo actualizar','crit'); viewUsers(); } };
+window.editUser=id=>{if(!requirePerm('users'))return;const u=id?DB.get('users',[]).find(x=>x.id===id):null;
+  modal({title:u?'Modificar administrador':'Agregar administrador',body:`
+    <div class="field" style="margin-bottom:14px"><label>Nombre <span class="req">*</span></label><input class="input" id="u-nombre" value="${esc(u?u.nombre:'')}" placeholder="Nombre y apellido"></div>
+    <div class="field" style="margin-bottom:14px"><label>Correo <span class="req">*</span></label><input class="input" id="u-correo" type="email" value="${esc(u?u.correo:'')}" placeholder="nombre@huap.cl"></div>
+    <div class="field" style="margin-bottom:14px"><label>Rol</label>
+      <select class="select" id="u-rol">${Object.entries(ADMIN_ROLES).map(([k,v])=>`<option value="${k}" ${u&&u.rol===k?'selected':''}>${v.label} — ${v.desc}</option>`).join('')}</select></div>
+    <div class="field"><label>Contraseña ${u?'(opcional)':'<span class="req">*</span>'}</label><input class="input" id="u-pass" type="password" placeholder="${u?'Dejar en blanco para no cambiar':'Mínimo 6 caracteres'}"></div>`,
+    foot:`<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn btn-primary" id="u-save">${u?'Guardar cambios':'Agregar usuario'}</button>`});
+  $('#u-save').onclick=async()=>{const nombre=$('#u-nombre').value.trim(),correo=$('#u-correo').value.trim(),rol=$('#u-rol').value,pass=$('#u-pass').value;
+    if(!nombre||!correo){toast('Completa nombre y correo','warn');return;}
+    try{ if(u){ const patch={nombre,correo,rol}; if(pass)patch.password=pass; await API.users.update(u.id,patch); } else { if(!pass||pass.length<6){toast('La contraseña debe tener al menos 6 caracteres','warn');return;} await API.users.create({nombre,correo,rol,password:pass}); }
+      S.users=await API.users.list(); closeModal(); viewUsers(); toast(u?'Usuario actualizado':'Administrador agregado','ok'); }
+    catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); } };};
+window.delUser=id=>{if(!requirePerm('users'))return;const u=DB.get('users',[]).find(x=>x.id===id);if(!u)return;
+  confirmModal({icon:'crit',color:'var(--crit)',title:'Eliminar autorización',body:`<p style="color:var(--ink-2)">¿Eliminar el acceso de “<b>${esc(u.nombre)}</b>”?</p>`,
+    okLabel:'Eliminar autorización',okClass:'btn-crit',onOk:async()=>{ try{ await API.users.remove(id); S.users=await API.users.list(); viewUsers(); toast('Autorización eliminada','crit'); }catch(e){ toast((e&&e.message)||'No se pudo eliminar','crit'); } }});};
+
+/* ================= PORTAL SYNC (refleja los cambios en la portada en vivo) ================= */
+function syncPortal(){ if(!$('#viewPublic').hidden) renderPublic(); }
+function onStoreChange(key){
+  // Cambios provenientes de la base de datos (esta u otra sesión): refresca lo visible.
+  if(!$('#viewPublic').hidden) renderPublic();
+  if(!$('#app').hidden){ renderNav(); if(currentView!=='create') try{navigate(currentView);}catch(e){} }
+  if(!$('#login').hidden) renderLoginUsers();
+}
+/* ---- permisos por rol (demo: en el cliente; en producción los valida la API) ---- */
+const PERMS={principal:['resources','content','users','stats'],biblioteca:['resources','content'],editor:['resources']};
+function can(action){ return session && PERMS[session.rol] && PERMS[session.rol].includes(action); }
+function requirePerm(action){ if(!can(action)){ toast('Tu rol no tiene permiso para esta acción','crit'); return false; } return true; }
+
+/* ================= VISTA PÚBLICA EN VIVO (portada organizada) ================= */
+let pubState={route:'',tema:'',rol:'',q:''};
+function pubPublished(){ return (S.resources||[]).filter(r=>r.estado==='publicado'); }
+const RUTA_DESC={aprender:'Evidencia, guías, normas y recomendaciones.',aplicar:'Procedimientos, algoritmos, checklists y herramientas clínicas.',ensenar:'Cápsulas, infografías, presentaciones, videos y actividades.',implementar:'Recursos por guía RNAO, unidad, rol y brecha.',evaluar:'Auditorías, indicadores, pautas y seguimiento.'};
+const TEMA_DOT={lesiones:'var(--violeta)',accesos:'var(--turquesa)',dolor:'var(--coral)',iaas:'var(--azul)',seguridad:'var(--ambar)',otras:'var(--ink-3)'};
+const ROLE_NOTE={enfermeria:'Cuidado directo',tens:'Apoyo asistencial',kine:'Rehabilitación',auxiliares:'Apoyo clínico',jefaturas:'Gestión del cuidado',champions:'Referentes de práctica'};
+const ROLE_ICON={enfermeria:'<path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z" stroke-linejoin="round"/><path d="M12 8v6M9 11h6" stroke-linecap="round"/>',tens:'<circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" stroke-linecap="round"/>',kine:'<circle cx="12" cy="5" r="2"/><path d="M12 7v6m0 0l-3 5m3-5l3 5M7 10h10" stroke-linecap="round" stroke-linejoin="round"/>',auxiliares:'<path d="M6 21V9l6-4 6 4v12" stroke-linejoin="round"/><path d="M10 21v-5h4v5" stroke-linecap="round"/>',jefaturas:'<path d="M4 20h16M6 20V9l6-5 6 5v11" stroke-linejoin="round"/>',champions:'<path d="M8 4h8v3a4 4 0 01-8 0V4z"/><path d="M12 11v4m-3 4h6l-1-4H10l-1 4z" stroke-linecap="round" stroke-linejoin="round"/>'};
+const ACC_ICON={saber:'<path d="M4 5.5A2.5 2.5 0 016.5 3H12v16H6.5A2.5 2.5 0 004 21V5.5z"/><path d="M20 5.5A2.5 2.5 0 0017.5 3H12v16h5.5A2.5 2.5 0 0120 21V5.5z"/>',hacer:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke-linecap="round"/>',ensenar:'<path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M7 9.5V15c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5V9.5" stroke-linecap="round"/>'};
+
+function fmtOf(r){ if(r.archivo)return fileExt(r.archivo.type); if(r.youtube)return 'YouTube'; if(r.enlace)return 'Enlace web'; return r.tipo||'Ficha'; }
+function rolesLabel(r){ if(!r.roles||!r.roles.length)return 'Todos los roles'; const f=ROLM[r.roles[0]]?ROLM[r.roles[0]].label:r.roles[0]; return r.roles.length>1?(f+' +'+(r.roles.length-1)):f; }
+function resCard(r){ const rt=RM[r.ruta]; const ap=APM[r.aprendizaje];
+  return '<article class="ps-card '+rt.cls+'" onclick="openPublicResource(\''+r.id+'\')">'
+    +'<div class="pc-img">'+(r.imagen?'<img src="'+r.imagen+'" alt="">':svgImg(r.tema,rt.cls,120))+'<span class="pc-fmt">'+esc(fmtOf(r))+'</span></div>'
+    +'<div class="pc-body"><span class="pc-eye">'+rt.full+' · '+(TM[r.tema]?TM[r.tema].label:'')+'</span>'
+    +'<h3>'+esc(r.titulo)+'</h3><p class="pc-desc">'+esc(r.descripcion)+'</p>'
+    +'<div class="pc-meta"><span class="ps-chip">👤 '+esc(rolesLabel(r))+'</span>'
+    +(ap?('<span class="ps-chip">'+ap.ico+' '+ap.label+'</span>'):'')
+    +'<span class="ps-chip">🕓 '+esc(r.tiempo||'—')+'</span></div>'
+    +'<button class="pc-btn">Abrir recurso →</button></div></article>'; }
+
+function secHead(e,t,d,extra){ return '<div class="ps-head"><div><span class="ps-eyebrow">'+e+'</span><h2>'+t+'</h2>'+(d?('<p>'+d+'</p>'):'')+'</div>'+(extra||'')+'</div>'; }
+
+function renderPublic(){
+  const B=document.getElementById('pubBody'); if(!B)return;
+  const exp=S.experience||{}; const T=(k,d)=>esc((exp[k]&&exp[k].value)||d);
+  const pub=pubPublished();
+  const turno=pub.filter(r=>['aplicar','evaluar'].includes(r.ruta)&&/min/i.test(r.tiempo||''));
+  let grid=pub.slice();
+  if(pubState.route)grid=grid.filter(r=>r.ruta===pubState.route);
+  if(pubState.tema)grid=grid.filter(r=>r.tema===pubState.tema);
+  if(pubState.rol)grid=grid.filter(r=>(r.roles||[]).includes(pubState.rol));
+  const q=(pubState.q||'').toLowerCase();
+  if(q)grid=grid.filter(r=>(r.titulo+' '+r.descripcion+' '+r.tipo+' '+(r.autor||'')+' '+(r.keywords||'')+' '+(TM[r.tema]?TM[r.tema].label:'')+' '+RM[r.ruta].full).toLowerCase().includes(q));
+
+  // 1) Accesos rápidos
+  const acc=[['saber','Necesito saber','Encontrar evidencia y respuestas confiables.','aprender','var(--azul)'],['hacer','Necesito hacer','Aplicar procedimientos y listas de verificación.','aplicar','var(--turquesa)'],['ensenar','Necesito enseñar','Capacitar al equipo con material listo para usar.','ensenar','var(--coral)']];
+  let html='<section class="ps-sec" style="--sec:var(--brand)"><div class="ps-in">'
+    +secHead('Tres accesos rápidos','¿Cómo quieres empezar hoy?','Elige un punto de partida y te llevamos directo a los recursos.')
+    +'<div class="ps-access">'+acc.map(i=>'<button class="ps-acc" onclick="pubSetRoute(\''+i[3]+'\')"><span class="ai" style="background:linear-gradient(135deg,'+i[4]+',color-mix(in srgb,'+i[4]+' 60%,#fff))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">'+ACC_ICON[i[0]]+'</svg></span><span><h3>'+i[1]+'</h3><p>'+i[2]+'</p></span><span class="ar">→</span></button>').join('')+'</div></div></section>';
+
+  // 2) Cinco rutas
+  html+='<section class="ps-sec alt" style="--sec:var(--brand)"><div class="ps-in">'
+    +secHead('Cinco rutas principales','Elige tu ruta según lo que necesitas resolver','Cada ruta te lleva del conocimiento a la acción, con su propio color.')
+    +'<div class="ps-routes">'+RUTAS.map(r=>'<button class="ps-route '+r.cls+'" onclick="pubSetRoute(\''+r.key+'\')"><span class="rk">'+r.label+'</span><h3>'+r.full+'</h3><p>'+RUTA_DESC[r.key]+'</p><span class="rgo">Ver recursos →</span></button>').join('')+'</div></div></section>';
+
+  // 3) Evidencia destacada de la semana
+  html+='<section class="ps-sec" style="--sec:var(--azul)"><div class="ps-in">'
+    +secHead('Evidencia destacada de la semana','Lo más relevante para tu práctica ahora','La mejor evidencia seleccionada para este período.')
+    +weeklyBlock()+'</div></section>';
+
+  // 4) Lo necesito para el turno
+  html+='<section class="ps-sec alt" style="--sec:var(--coral)"><div class="ps-in">'
+    +secHead('Lo necesito para el turno','Acción rápida junto a la cama del paciente','Recursos breves para resolver en segundos durante el turno.')
+    +(turno.length?('<div class="ps-shift">'+turno.map(resCard).join('')+'</div>'):'<div class="empty-state">Aún no hay recursos breves de turno publicados.</div>')
+    +'</div></section>';
+
+  // 5) Recursos permanentes por temática (chips + filtros activos + grilla)
+  const chips='<div class="ps-chips">'+TEMAS.map(t=>'<button class="ps-tchip '+(pubState.tema===t.key?'on':'')+'" style="--td:'+(TEMA_DOT[t.key]||'var(--ink-3)')+'" onclick="pubSetTema(\''+t.key+'\')"><span class="d"></span>'+t.label+'</button>').join('')+'</div>';
+  const tags=[]; if(pubState.route)tags.push(['route',RM[pubState.route].full]); if(pubState.tema)tags.push(['tema',TM[pubState.tema].label]); if(pubState.rol)tags.push(['rol',ROLM[pubState.rol].label]); if(pubState.q)tags.push(['q','“'+pubState.q+'”']);
+  const active=tags.length?('<div class="ps-active">'+tags.map(t=>'<span class="ps-atag">'+esc(t[1])+' <button onclick="pubClear(\''+t[0]+'\')" aria-label="Quitar">✕</button></span>').join('')+'</div>'):'';
+  html+='<section class="ps-sec tint" id="ps-tematica" style="--sec:var(--turquesa)"><div class="ps-in">'
+    +secHead('Recursos permanentes por temática','Explora y filtra el conocimiento clínico',T('tematica','Filtra por temática, ruta o rol. Usa el buscador del encabezado para afinar.'),'<span class="ps-count">'+grid.length+' recurso'+(grid.length===1?'':'s')+'</span>')
+    +chips+active
+    +'<div class="ps-grid">'+(grid.length?grid.map(resCard).join(''):'<div class="empty-state" style="grid-column:1/-1"><b>Sin recursos publicados que coincidan.</b><br>Prueba con otra temática, ruta o palabra clave.</div>')+'</div>'
+    +'</div></section>';
+
+  // 6) Recursos según rol
+  html+='<section class="ps-sec alt" style="--sec:var(--violeta)"><div class="ps-in">'
+    +secHead('Recursos según rol','Contenido pensado para tu función clínica',T('roles','Selecciona tu rol para ver los recursos priorizados para tu labor diaria.'))
+    +'<div class="ps-roles">'+ROLES.map(r=>{const n=pub.filter(x=>(x.roles||[]).includes(r.key)).length;return '<button class="ps-role '+(pubState.rol===r.key?'on':'')+'" onclick="pubSetRol(\''+r.key+'\')"><span class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">'+ROLE_ICON[r.key]+'</svg></span><h4>'+r.label+'</h4><small>'+n+' recursos · '+ROLE_NOTE[r.key]+'</small></button>';}).join('')+'</div></div></section>';
+
+  // 7) De la evidencia a la práctica
+  const js=[['1','Necesidad clínica','Identifica el problema real del paciente o del equipo en el turno.'],['2','Recurso','Accede a la evidencia, guía o herramienta que responde a esa necesidad.'],['3','Aplicación práctica','Lleva la recomendación a la acción con procedimientos y checklists.'],['4','Evaluación','Mide el resultado con auditorías e indicadores y cierra la brecha.']];
+  html+='<section class="ps-sec" style="--sec:var(--brand)"><div class="ps-in"><div class="ps-journey"><span class="ps-eyebrow">De la evidencia a la práctica</span><h2>Un recorrido claro, de la necesidad al resultado</h2><p>'+T('practica','Cada recurso sigue el mismo camino para que el conocimiento se transforme en cuidado seguro y medible.')+'</p><div class="ps-jsteps">'+js.map(x=>'<div class="ps-jstep"><div class="num">'+x[0]+'</div><h4>'+x[1]+'</h4><p>'+x[2]+'</p></div>').join('')+'</div></div></div></section>';
+
+  // 8) Oportunidades de mejora
+  const gaps=[['iaas','Prioritaria','var(--crit)','Adherencia a higiene de manos bajo la meta','La observación del último mes muestra 68% de adherencia en el turno de noche.',68,'Meta 85%'],['lesiones','En seguimiento','var(--warn)','Registro incompleto de la escala de Braden','Falta valoración de riesgo al ingreso en un tercio de los pacientes de riesgo.',74,'Meta 95%'],['dolor','Oportunidad','var(--turquesa)','Reevaluación del dolor tras analgesia','Buena valoración inicial, pero la reevaluación sistemática aún es baja.',59,'Meta 90%']];
+  html+='<section class="ps-sec alt" style="--sec:var(--ambar)"><div class="ps-in">'
+    +secHead('Oportunidades de mejora','Brechas detectadas que podemos cerrar juntos',T('mejora','Del monitoreo de indicadores a la acción concreta por unidad y rol.'))
+    +'<div class="ps-gaps">'+gaps.map(g=>'<div class="ps-gap" style="--gc:'+g[2]+'"><span class="gl">'+g[1]+'</span> <span class="ps-chip">'+TM[g[0]].label+'</span><h4>'+g[3]+'</h4><p>'+g[4]+'</p><div class="gbar"><i style="width:'+g[5]+'%"></i></div><div class="gf"><span>Actual '+g[5]+'%</span><span>'+g[6]+'</span></div><button class="pc-btn" style="--accent:'+g[2]+';--accent-soft:color-mix(in srgb,'+g[2]+' 14%,transparent);--accent-ink:'+g[2]+';margin-top:12px;width:100%" onclick="pubSetTema(\''+g[0]+'\')">Ver recursos para cerrar la brecha →</button></div>').join('')+'</div></div></section>';
+
+  // 9) Últimas actualizaciones
+  const upd=pub.slice(0,6);
+  html+='<section class="ps-sec" style="--sec:var(--azul)"><div class="ps-in">'
+    +secHead('Últimas actualizaciones','Novedades del Centro',T('updates','Nuevos recursos, evidencias y herramientas publicadas.'))
+    +'<div class="ps-updates">'+(upd.length?upd.map(r=>{const rt=RM[r.ruta];const parts=(r.fecha||'').split(' · ')[0].split(' ');return '<button class="ps-upd '+rt.cls+'" onclick="openPublicResource(\''+r.id+'\')"><span class="ud">'+(parts[0]||'')+'<br>'+(parts[1]||'')+'</span><span><span class="ut">'+esc(r.titulo)+'</span><span class="um">'+rt.full+' · '+(TM[r.tema]?TM[r.tema].label:'')+' · '+esc(r.tipo)+'</span></span></button>';}).join(''):'<div class="empty-state">Aún no hay recursos publicados.</div>')+'</div></div></section>';
+
+  // 10) Asistente EVI
+  html+='<section class="ps-sec alt" style="--sec:var(--turquesa)"><div class="ps-in"><div class="ps-evi"><div><span class="ps-eyebrow">Asistente EVI</span><h2>EVI te orienta según tu necesidad, rol y propósito</h2><p>Evidencia · Vínculo · Implementación. Cuéntale a EVI qué necesitas resolver y te lleva directo al recurso correcto y a su aplicación práctica.</p><div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:18px"><button class="btn" style="background:#fff;color:var(--brand-ink)" onclick="openEvi()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z" stroke-linecap="round" stroke-linejoin="round"/></svg> Conversar con EVI</button></div></div><div class="ev-av"><div class="ev-blob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r="1.3" fill="currentColor" stroke="none"/><path d="M8.5 14.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8" stroke-linecap="round"/></svg></div></div></div></div></section>';
+
+  B.innerHTML=html;
+}
+function weeklyBlock(){
+  const w=S.weekly||{}; let wr=null,data=null,cls='r-aprender',tema='lesiones';
+  if(w.ref) wr=pubPublished().find(r=>r.id===w.ref);
+  if(wr){ data={titulo:wr.titulo,desc:wr.descripcion,tema:wr.tema,autor:wr.autor,anio:wr.anio,tipo:wr.tipo,img:wr.imagen,id:wr.id}; cls=RM[wr.ruta].cls; tema=wr.tema; }
+  else if(w.titulo){ data={titulo:w.titulo,desc:w.resumen,tema:w.tema,autor:w.autor,anio:w.anio,tipo:w.tipo,img:w.imagen,id:null}; tema=w.tema||'lesiones'; }
+  else { const p=pubPublished()[0]; if(p){ data={titulo:p.titulo,desc:p.descripcion,tema:p.tema,autor:p.autor,anio:p.anio,tipo:p.tipo,img:p.imagen,id:p.id}; cls=RM[p.ruta].cls; tema=p.tema; } }
+  if(!data) return '<div class="empty-state">Aún no hay evidencia destacada.</div>';
+  return '<div class="ps-weekly '+cls+'"><div class="pw-img">'+(data.img?'<img src="'+data.img+'" alt="">':svgImg(tema,cls,240))+'</div><div class="pw-b"><span class="pw-badge">★ Evidencia de la semana</span><h3>'+esc(data.titulo)+'</h3><p>'+esc(data.desc||'')+'</p><div class="pw-m">'+esc(TM[tema]?TM[tema].label:'')+' · '+esc(data.tipo||'')+' · '+esc(data.autor||'')+' '+esc(data.anio||'')+'</div>'+(data.id?('<button class="btn" style="background:#fff;color:var(--accent-ink);margin-top:16px;align-self:flex-start" onclick="openPublicResource(\''+data.id+'\')">Abrir recurso</button>'):'')+'</div></div>';
+}
+function scrollToGrid(){ const el=document.getElementById('ps-tematica'); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
+window.pubSetRoute=k=>{ pubState.route=(pubState.route===k?'':k); renderPublic(); scrollToGrid(); };
+window.pubSetTema=k=>{ pubState.tema=(pubState.tema===k?'':k); renderPublic(); scrollToGrid(); };
+window.pubSetRol=k=>{ pubState.rol=(pubState.rol===k?'':k); renderPublic(); scrollToGrid(); };
+window.pubClear=f=>{ pubState[f==='route'?'route':f==='tema'?'tema':f==='rol'?'rol':'q']=''; if(f==='q'){const si=document.getElementById('pubSearchInput'); if(si)si.value='';} renderPublic(); };
+
+window.openPublicResource=async id=>{
+  const r=pubPublished().find(x=>x.id===id); if(!r)return; const rt=RM[r.ruta]; const ap=APM[r.aprendizaje];
+  trackOpen(r);
+  const cell=(l,v)=>'<div class="mcell" style="background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:11px 13px"><small style="font-size:.68rem;font-weight:800;text-transform:uppercase;color:var(--ink-3)">'+l+'</small><b style="display:block;margin-top:3px;font-size:.9rem">'+v+'</b></div>';
+  const fileBtns = r.archivo?('<button class="btn btn-primary btn-sm" onclick="openFile(\''+r.archivo.url+'\')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> Abrir archivo</button><button class="btn btn-ghost btn-sm" onclick="downloadFile(\''+r.archivo.url+'\',\''+esc(r.archivo.name||'')+'\')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16" stroke-linecap="round" stroke-linejoin="round"/></svg> Descargar</button>'):'';
+  const linkBtns = (r.enlace?('<button class="btn btn-ghost btn-sm" onclick="window.open(\''+encodeURI(r.enlace)+'\',\'_blank\')">🔗 Abrir enlace</button>'):'')+(r.youtube?('<button class="btn btn-ghost btn-sm" onclick="window.open(\''+encodeURI(r.youtube)+'\',\'_blank\')">▶ Ver en YouTube</button>'):'');
+  modal({title:'Recurso publicado',wide:true,body:''
+    +'<div class="pvcard '+rt.cls+'" style="max-width:none;box-shadow:none;border:0"><div class="pvimg" style="border-radius:14px;overflow:hidden">'+(r.imagen?'<img src="'+r.imagen+'" style="height:150px;width:100%;object-fit:cover">':svgImg(r.tema,rt.cls,150))+'<span class="pvtype">'+esc(r.tipo)+'</span></div></div>'
+    +'<div style="margin-top:8px"><span style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--accent-ink)">'+rt.full+' · '+(TM[r.tema]?TM[r.tema].label:'')+'</span></div>'
+    +'<h3 style="font-size:1.4rem;margin-top:8px">'+esc(r.titulo)+'</h3><p style="color:var(--ink-2);margin-top:8px">'+esc(r.descripcion)+'</p>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:16px">'
+    +cell('Ruta',rt.full)+cell('Temática',TM[r.tema]?TM[r.tema].label:'—')
+    +cell('Rol destinatario',(r.roles||[]).map(x=>ROLM[x]?ROLM[x].label:x).join(', ')||'Todos')
+    +cell('Tipo de aprendizaje',ap?(ap.ico+' '+ap.label):'—')
+    +cell('Formato',esc(fmtOf(r)))+cell('Tiempo estimado',esc(r.tiempo||'—'))
+    +cell('Autor o institución',esc((r.autor||'—')+' '+(r.anio||'')))+cell('Tipo de recurso',esc(r.tipo||'—'))+'</div>'
+    +'<div style="display:flex;flex-wrap:wrap;gap:9px;margin-top:18px">'+fileBtns+linkBtns+((!fileBtns&&!linkBtns)?'<span class="tagpill">Recurso de referencia (sin archivo adjunto en la demo)</span>':'')+'</div>',
+    foot:'<button class="btn btn-primary" onclick="closeModal()">Cerrar</button>'});
+};
+
+/* ---- Asistente EVI ---- */
+const evi={necesidad:null,rol:null,proposito:null};
+function eviMsg(html,who){ const l=document.getElementById('eviLog'); const d=document.createElement('div'); d.className='emsg '+(who||'bot'); d.innerHTML=html; l.appendChild(d); l.scrollTop=l.scrollHeight; }
+window.openEvi=function(){ try{API.stats.track({type:'evi'});}catch(e){} document.getElementById('eviPanel').hidden=false; if(!document.getElementById('eviLog').childElementCount) eviStart(); };
+window.eviStart=function(){ document.getElementById('eviLog').innerHTML=''; evi.necesidad=evi.rol=evi.proposito=null; eviMsg('Hola 👋 soy <b>EVI</b>. Te ayudo a pasar de la <b>necesidad clínica</b> al recurso y su aplicación. <b>¿Qué necesitas resolver hoy?</b>'); eviStep(); };
+function eviStep(){ const c=document.getElementById('eviChoices');
+  if(!evi.necesidad){ c.innerHTML='<span class="cl">¿Cuál es tu necesidad?</span>'+RUTAS.map(r=>'<button class="echip2" onclick="eviPick(\'necesidad\',\''+r.key+'\')">'+r.full+'</button>').join(''); }
+  else if(!evi.rol){ c.innerHTML='<span class="cl">¿Cuál es tu rol?</span>'+ROLES.map(r=>'<button class="echip2" onclick="eviPick(\'rol\',\''+r.key+'\')">'+r.label+'</button>').join('')+'<button class="ereset" onclick="eviStart()">Reiniciar</button>'; }
+  else if(!evi.proposito){ c.innerHTML='<span class="cl">¿Sobre qué temática?</span>'+TEMAS.map(t=>'<button class="echip2" onclick="eviPick(\'proposito\',\''+t.key+'\')">'+t.label+'</button>').join('')+'<button class="ereset" onclick="eviStart()">Reiniciar</button>'; }
+  else { c.innerHTML='<button class="echip2" style="background:var(--brand);color:#fff;border-color:var(--brand)" onclick="eviApply()">Ver estos recursos en la portada</button><button class="ereset" onclick="eviStart()">Nueva consulta</button>'; }
+}
+window.eviPick=function(kind,val){ evi[kind]=val;
+  const label=kind==='necesidad'?RM[val].full:kind==='rol'?ROLM[val].label:TM[val].label; eviMsg(esc(label),'user');
+  if(kind==='necesidad') eviMsg('Perfecto. Para <b>'+RM[val].full.toLowerCase()+'</b> tengo buen material. ¿Cuál es tu rol?');
+  else if(kind==='rol') eviMsg('Anotado, <b>'+ROLM[val].label+'</b>. ¿Sobre qué temática necesitas resolver?');
+  else eviRecommend();
+  eviStep();
+};
+function eviRecommend(){
+  let pool=pubPublished().filter(x=>x.ruta===evi.necesidad&&x.tema===evi.proposito&&(x.roles||[]).includes(evi.rol));
+  if(!pool.length)pool=pubPublished().filter(x=>x.tema===evi.proposito&&(x.roles||[]).includes(evi.rol));
+  if(!pool.length)pool=pubPublished().filter(x=>x.ruta===evi.necesidad&&x.tema===evi.proposito);
+  if(!pool.length)pool=pubPublished().filter(x=>x.tema===evi.proposito);
+  pool=pool.slice(0,3);
+  const intro='Según tu necesidad de <b>'+RM[evi.necesidad].label.toLowerCase()+'</b>, como <b>'+ROLM[evi.rol].label+'</b>, en <b>'+TM[evi.proposito].label+'</b>, te recomiendo:';
+  const recs=pool.length?('<div>'+pool.map(r=>'<button class="erec '+RM[r.ruta].cls+'" onclick="closeEviTo(\''+r.id+'\')"><span class="ed">'+RM[r.ruta].label.slice(0,3).toUpperCase()+'</span><span><span class="et">'+esc(r.titulo)+'</span><span class="em">'+esc(r.tipo)+' · '+esc(r.tiempo||'')+'</span></span></button>').join('')+'</div>'):'<i>Aún no hay recursos publicados para esa combinación. Prueba otra temática.</i>';
+  eviMsg(intro+recs);
+  eviMsg('Recuerda el recorrido: <b>necesidad → recurso → aplicación → evaluación</b>. Cuando lo apliques, vuelve a <b>Necesito evaluar</b> para medir el resultado.');
+}
+window.eviApply=function(){ document.getElementById('eviPanel').hidden=true; pubState.route=evi.necesidad||''; pubState.rol=evi.rol||''; pubState.tema=evi.proposito||''; renderPublic(); scrollToGrid(); };
+window.closeEviTo=function(id){ document.getElementById('eviPanel').hidden=true; openPublicResource(id); };
+(function(){ var ec=document.getElementById('eviClose'); if(ec) ec.onclick=function(){ document.getElementById('eviPanel').hidden=true; }; })();
+
+window.openFile=url=>{ if(!url){toast('Archivo no disponible','warn');return;} window.open(url,'_blank','noopener'); };
+window.downloadFile=(url,name)=>{ if(!url){toast('Archivo no disponible','warn');return;} const a=document.createElement('a'); a.href=url; if(name)a.download=name; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); a.remove(); trackDownload(name||'archivo'); };
+
+/* ================= MODALS / TOASTS ================= */
+function modal({title,body,foot,wide}){const o=$('#overlay');const m=$('#modal');m.className='modal'+(wide?' wide':'');
+  m.innerHTML=`<div class="modal-head"><h3>${title}</h3><button class="mclose" onclick="closeModal()" aria-label="Cerrar">✕</button></div>
+    <div class="modal-body">${body}</div>${foot?`<div class="modal-foot">${foot}</div>`:''}`;o.hidden=false;}
+function confirmModal({icon,color,title,body,okLabel,okClass,onOk}){
+  const ic={ok:'<path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/>',warn:'<path d="M12 9v4m0 4h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z" stroke-linejoin="round"/>',crit:'<path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M6 6l1 14a2 2 0 002 2h6a2 2 0 002-2l1-14"/>'}[icon];
+  modal({title,body:`<div class="confirm-ico" style="background:${color}22;color:${color}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">${ic}</svg></div>${body}`,
+    foot:`<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn ${okClass}" id="cf-ok">${okLabel}</button>`});
+  $('#cf-ok').onclick=()=>{closeModal();onOk&&onOk();};}
+function closeModal(){$('#overlay').hidden=true;}
+$('#overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeModal();});
+let toastN=0;
+function toast(msg,type){const ico={ok:'<path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/>',warn:'<path d="M12 9v4m0 4h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/>',crit:'<path d="M18 6L6 18M6 6l12 12"/>','':'<circle cx="12" cy="12" r="9"/><path d="M12 8v4m0 4h.01"/>'}[type||''];
+  const t=document.createElement('div');t.className='toast '+(type||'');t.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${ico}</svg>${esc(msg)}`;
+  $('#toasts').appendChild(t);setTimeout(()=>t.remove(),3200);}
+
+/* ================= NAVEGACIÓN ENTRE PORTADA Y ADMINISTRACIÓN (rutas internas) ================= */
+function applyBranding(){ const b=(typeof S!=='undefined'&&S.branding)||{};
+  const hi=document.getElementById('pubHeroImg'); if(hi){ if(b.heroImage){ hi.src=b.heroImage; hi.hidden=false; } else { hi.hidden=true; hi.removeAttribute('src'); } }
+  const lg=document.getElementById('pubLogo'); if(lg){ if(b.logo){ lg.src=b.logo; lg.hidden=false; } else { lg.hidden=true; lg.removeAttribute('src'); } } }
+function showPublic(){ $('#login').hidden=true; $('#app').hidden=true; $('#viewPublic').hidden=false;
+  try{history.replaceState(null,'','#/');}catch(e){} renderPublic(); applyBranding(); trackVisit(); window.scrollTo(0,0); }
+function showLogin(){ $('#viewPublic').hidden=true; $('#app').hidden=true; $('#login').hidden=false; renderLoginUsers();
+  try{history.replaceState(null,'','#/admin');}catch(e){} window.scrollTo(0,0); }
+function showAdmin(){ if(session){ $('#viewPublic').hidden=true; $('#login').hidden=true; $('#app').hidden=false;
+    try{history.replaceState(null,'','#/admin');}catch(e){} paintUser(); navigate(currentView||'overview'); } else showLogin(); }
+function goPortal(){ showPublic(); }
+$('#verCentro').onclick=goPortal;$('#verCentroSide').onclick=goPortal;
+$('#pubAdminBtn').onclick=showAdmin;
+$('#pubSearchInput').addEventListener('input',e=>{ pubState.q=e.target.value; renderPublic();
+  if(pubState.q.trim()){ const sec=document.getElementById('ps-tematica'); if(sec){ const top=sec.getBoundingClientRect().top; if(top>140) sec.scrollIntoView({behavior:'smooth',block:'start'}); } } });
+$('#pubSearchInput').addEventListener('change',e=>{ const q=e.target.value.trim(); if(q.length>=2){ let l=pubPublished(); if(pubState.route)l=l.filter(r=>r.ruta===pubState.route); const hits=l.filter(r=>(r.titulo+' '+r.descripcion+' '+(r.keywords||'')).toLowerCase().includes(q.toLowerCase())).length; trackSearch(q,hits);} });
+$('#logout').onclick=()=>confirmModal({icon:'warn',color:'var(--warn)',title:'Cerrar sesión',body:'<p style="color:var(--ink-2)">¿Deseas cerrar la sesión del Centro de Control?</p>',okLabel:'Cerrar sesión',okClass:'btn-warn',onOk:async()=>{await logout();showPublic();}});
+$('#switchUser').onclick=async()=>{await logout();showLogin();};
+$('#hamburger').onclick=()=>$('#sidebar').classList.toggle('open');
+$('#loginBtn').onclick=doLogin;
+if($('#loginPass'))$('#loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+if($('#loginEmail'))$('#loginEmail').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+/* ================= ANALÍTICA (persistida en la base de datos) ================= */
+let lastVisit=0;
+function trackVisit(){ const t=Date.now(); if(t-lastVisit<4000)return; lastVisit=t; API.stats.track({type:'visit'}); }
+function trackOpen(r){ API.stats.track({type:'open',resourceId:r.id,tema:r.tema,titulo:r.titulo}); }
+function trackDownload(name){ API.stats.track({type:'download',name:name}); }
+function trackSearch(q,hits){ if(!q||q.length<2)return; API.stats.track({type:'search',q:q,hits:hits}); }
+function updateClock(){ const el=document.getElementById('pubClock'); if(!el)return; const d=new Date();
+  const f=d.toLocaleDateString('es-CL',{weekday:'short',day:'2-digit',month:'short'});
+  const h=d.toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'});
+  el.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="opacity:.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg>'+f+' · '+h; }
+let clockTimer=null;
+function startClock(){ updateClock(); if(!clockTimer) clockTimer=setInterval(updateClock,30000); }
+
+/* ================= INIT ================= */
+async function boot(){
+  $('#bootLoader').hidden=false;
+  startClock();
+  await loadPublic();
+  try{ const me=await API.auth.me(); if(me&&me.user){ session=me.user; AUTH_STATE='ok'; } }catch(e){}
+  $('#bootLoader').hidden=true;
+  const start=window.__BOOT__||'public';
+  if(start==='admin'){ if(session){ await loadAdmin(); showAdmin(); } else { showLogin(); } }
+  else { showPublic(); }
+  const mt=$('#modeTag'); if(mt){ mt.textContent='Datos en vivo · Neon + Vercel Blob'; mt.className='mode-tag ok'; }
+}
+boot();
+</script>
+
+</body>
+</html>
