@@ -134,8 +134,8 @@ module.exports = handler(async (req, res) => {
     return json(res, 405, { error: 'method_not_allowed' });
   }
 
-  // ---------- SINGLETONS: weekly / experience ----------
-  if (a === 'weekly' || a === 'experience') {
+  // ---------- SINGLETONS: weekly / experience / branding ----------
+  if (a === 'weekly' || a === 'experience' || a === 'branding') {
     await ensureSchema();
     if (req.method === 'GET') {
       const { rows } = await sql`SELECT data FROM singletons WHERE key = ${a}`;
@@ -144,8 +144,13 @@ module.exports = handler(async (req, res) => {
     if (req.method === 'PUT' || req.method === 'POST') {
       const u = requirePerm(req, res, 'content'); if (!u) return;
       const body = await readJson(req);
-      await sql`UPDATE singletons SET data = ${JSON.stringify(body || {})} WHERE key = ${a}`;
-      await addAudit(u.nombre, a === 'weekly' ? 'Actualizó la evidencia destacada de la semana' : 'Editó los textos de la portada (Experiencia pública)');
+      // 'branding' puede no existir aún si la base se creó antes de esta función: upsert.
+      await sql`INSERT INTO singletons (key, data) VALUES (${a}, ${JSON.stringify(body || {})})
+        ON CONFLICT (key) DO UPDATE SET data = ${JSON.stringify(body || {})}`;
+      const msg = a === 'weekly' ? 'Actualizó la evidencia destacada de la semana'
+        : a === 'branding' ? 'Actualizó la identidad visual (logo e imagen principal)'
+        : 'Editó los textos de la portada (Experiencia pública)';
+      await addAudit(u.nombre, msg);
       return json(res, 200, { [a]: body || {} });
     }
     return json(res, 405, { error: 'method_not_allowed' });

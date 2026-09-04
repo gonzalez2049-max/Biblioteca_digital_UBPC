@@ -70,6 +70,10 @@
       get: () => req('GET', '/api/experience').then((d) => d.experience),
       set: (e) => req('PUT', '/api/experience', e).then((d) => d.experience),
     },
+    branding: {
+      get: () => req('GET', '/api/branding').then((d) => d.branding),
+      set: (b) => req('PUT', '/api/branding', b).then((d) => d.branding),
+    },
     users: {
       list: () => req('GET', '/api/users').then((d) => d.users),
       create: (u) => req('POST', '/api/users', u).then((d) => d.user),
