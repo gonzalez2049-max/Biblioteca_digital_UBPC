@@ -1,10 +1,11 @@
 const bcrypt = require('bcryptjs');
 const { json, readJson, handler } = require('../../lib/http');
 const { sql, ensureSchema, addAudit } = require('../../lib/db');
-const { sign, setAuthCookie } = require('../../lib/auth');
+const { sign, setAuthCookie, authConfigured } = require('../../lib/auth');
 
 module.exports = handler(async (req, res) => {
   if (req.method !== 'POST') return json(res, 405, { error: 'method_not_allowed' });
+  if (!authConfigured()) return json(res, 503, { error: 'auth_not_configured', message: 'Autenticación no configurada: falta definir AUTH_SECRET, ADMIN_EMAIL y ADMIN_PASSWORD en Vercel.' });
   await ensureSchema();
   const { email, password } = await readJson(req);
   if (!email || !password) return json(res, 400, { error: 'bad_request', message: 'Correo y contraseña son obligatorios' });

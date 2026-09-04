@@ -5,7 +5,7 @@ const { sql, ensureSchema } = require('../../lib/db');
 const { requirePerm } = require('../../lib/auth');
 const { resolveBlobToken } = require('../../lib/env');
 
-const MAX = 25 * 1024 * 1024; // 25 MB
+const MAX = 4 * 1024 * 1024; // ~3 MB util (limite de cuerpo de funcion serverless ~4.5 MB)
 const ALLOWED_EXT = /\.(pdf|docx?|pptx?|png|jpe?g|gif|webp|mp3|wav|m4a|ogg|mp4|webm|mov)$/i;
 
 module.exports = handler(async (req, res) => {
@@ -23,7 +23,7 @@ module.exports = handler(async (req, res) => {
 
   const raw = dataBase64.includes(',') ? dataBase64.split(',')[1] : dataBase64;
   const buf = Buffer.from(raw, 'base64');
-  if (buf.length > MAX) return json(res, 413, { error: 'too_large', message: 'El archivo supera el máximo de 25 MB' });
+  if (buf.length > MAX) return json(res, 413, { error: 'too_large', message: 'El archivo supera el máximo (~3 MB por el límite de la función serverless)' });
 
   const id = 'f' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   const safeName = filename.replace(/[^\w.\-]+/g, '_');
