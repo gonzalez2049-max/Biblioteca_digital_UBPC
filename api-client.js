@@ -9,6 +9,35 @@
  *   await NexAPI.auth.login(correo, clave);                  // panel
  */
 (function (global) {
+  // Redimensiona y comprime una imagen en el navegador (canvas → JPEG).
+  // Mantiene la proporción, limita el lado mayor a maxDim y devuelve un File JPEG.
+  // Si el navegador no puede decodificar el formato (p. ej. HEIC de iPhone),
+  // el que llama captura el error y sube el archivo original.
+  function downscaleImage(file, maxDim, quality) {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        let w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+        if (!w || !h) { reject(new Error('sin dimensiones')); return; }
+        const m = Math.max(w, h);
+        if (m > maxDim) { const s = maxDim / m; w = Math.round(w * s); h = Math.round(h * s); }
+        const c = document.createElement('canvas'); c.width = w; c.height = h;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h); // fondo blanco para PNG/transparencias
+        ctx.drawImage(img, 0, 0, w, h);
+        c.toBlob((b) => {
+          if (!b) { reject(new Error('sin blob')); return; }
+          const name = (file.name || 'imagen').replace(/\.[^.]+$/, '') + '.jpg';
+          resolve(new File([b], name, { type: 'image/jpeg' }));
+        }, 'image/jpeg', quality);
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('no se pudo decodificar')); };
+      img.src = url;
+    });
+  }
+
   async function req(method, path, body) {
     const opts = { method, headers: {}, credentials: 'same-origin' };
     if (body !== undefined) { opts.headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(body); }
@@ -55,9 +84,16 @@
     audit: () => req('GET', '/api/audit').then((d) => d.audit),
     files: {
       // file: objeto File del navegador. Devuelve {id,name,type,size,url}.
+      // Las imágenes rasterizadas se redimensionan y comprimen en el navegador antes
+      // de subir, para que una foto de celular (que suele pesar varios MB) siempre
+      // quepa en el límite de cuerpo del servidor. SVG y GIF se suben tal cual.
       upload: async (file) => {
-        const dataBase64 = await new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = no; r.readAsDataURL(file); });
-        return req('POST', '/api/files', { filename: file.name, contentType: file.type, dataBase64 }).then((d) => d.file);
+        let toSend = file;
+        if (file && /^image\//.test(file.type || '') && !/svg|gif/.test(file.type)) {
+          try { toSend = await downscaleImage(file, 1600, 0.82); } catch (_) { toSend = file; }
+        }
+        const dataBase64 = await new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = no; r.readAsDataURL(toSend); });
+        return req('POST', '/api/files', { filename: toSend.name || file.name, contentType: toSend.type || file.type, dataBase64 }).then((d) => d.file);
       },
       meta: (id) => req('GET', '/api/files/' + id).then((d) => d.file),
       remove: (id) => req('DELETE', '/api/files/' + id),
