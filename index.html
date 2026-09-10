@@ -413,8 +413,8 @@ select,option{color:var(--ink);background:var(--surface)}
 .ps-sec.alt{background:linear-gradient(180deg,var(--surface) 0%,var(--surface-2) 100%)}
 .ps-sec.tint{background:linear-gradient(180deg,color-mix(in srgb,var(--sec) 9%,var(--surface)) 0%,var(--surface) 100%)}
 .ps-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:22px}
-.ps-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--sec)}
-.ps-eyebrow::before{content:"";width:26px;height:4px;border-radius:3px;background:var(--sec)}
+.ps-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.95rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--sec)}
+.ps-eyebrow::before{content:"";width:34px;height:5px;border-radius:3px;background:var(--sec)}
 .ps-head h2{font-size:clamp(1.4rem,2.8vw,2.05rem);font-weight:800;margin-top:9px;color:var(--ink)}
 .ps-head p{color:var(--ink-2);font-size:.95rem;margin-top:6px;max-width:66ch}
 .ps-count{font-weight:800;color:var(--sec);font-size:.84rem;background:color-mix(in srgb,var(--sec) 15%,transparent);padding:6px 12px;border-radius:999px;white-space:nowrap;align-self:flex-end}
@@ -1469,6 +1469,7 @@ function renderPublic(){
   html+='<section class="ps-sec alt" style="--sec:var(--brand)"><div class="ps-in">'
     +secHead('Cinco rutas principales','Elige tu ruta según lo que necesitas resolver','Cada ruta te lleva del conocimiento a la acción, con su propio color.')
     +'<div class="ps-routes">'+RUTAS.map(r=>'<button class="ps-route '+r.cls+'" onclick="pubSetRoute(\''+r.key+'\')"><span class="rk">'+r.label+'</span><h3>'+r.full+'</h3><p>'+RUTA_DESC[r.key]+'</p><span class="rgo">Ver recursos →</span></button>').join('')+'</div></div></section>';
+  html+='<section class="ps-sec alt" style="--sec:var(--turquesa)"><div class="ps-in"><div class="ps-evi"><div><span class="ps-eyebrow">Asistente EVI</span><h2>EVI te orienta según tu necesidad, rol y propósito</h2><p>Evidencia · Vínculo · Implementación. Cuéntale a EVI qué necesitas resolver y te lleva directo al recurso correcto y a su aplicación práctica.</p><div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:18px"><button class="btn" style="background:#fff;color:var(--brand-ink)" onclick="openEvi()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z" stroke-linecap="round" stroke-linejoin="round"/></svg> Conversar con EVI</button></div></div>'+eviAvatar()+'</div></div></section>';
 
   // 3) Evidencia destacada de la semana
   html+='<section class="ps-sec" style="--sec:var(--azul)"><div class="ps-in">'
@@ -1512,8 +1513,7 @@ function renderPublic(){
     +secHead('Últimas actualizaciones','Novedades del Centro',T('updates','Nuevos recursos, evidencias y herramientas publicadas.'))
     +'<div class="ps-updates">'+(upd.length?upd.map(r=>{const rt=RM[r.ruta];const parts=(r.fecha||'').split(' · ')[0].split(' ');return '<button class="ps-upd '+rt.cls+'" onclick="openPublicResource(\''+r.id+'\')"><span class="ud">'+(parts[0]||'')+'<br>'+(parts[1]||'')+'</span><span><span class="ut">'+esc(r.titulo)+'</span><span class="um">'+rt.full+' · '+(TM[r.tema]?TM[r.tema].label:'')+' · '+esc(r.tipo)+'</span></span></button>';}).join(''):'<div class="empty-state">Aún no hay recursos publicados.</div>')+'</div></div></section>';
 
-  // 10) Asistente EVI
-  html+='<section class="ps-sec alt" style="--sec:var(--turquesa)"><div class="ps-in"><div class="ps-evi"><div><span class="ps-eyebrow">Asistente EVI</span><h2>EVI te orienta según tu necesidad, rol y propósito</h2><p>Evidencia · Vínculo · Implementación. Cuéntale a EVI qué necesitas resolver y te lleva directo al recurso correcto y a su aplicación práctica.</p><div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:18px"><button class="btn" style="background:#fff;color:var(--brand-ink)" onclick="openEvi()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z" stroke-linecap="round" stroke-linejoin="round"/></svg> Conversar con EVI</button></div></div>'+eviAvatar()+'</div></div></section>';
+  // (El asistente EVI se muestra más arriba, después de las 5 rutas)
 
   B.innerHTML=html;
 }
