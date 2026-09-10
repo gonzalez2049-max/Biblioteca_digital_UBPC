@@ -1229,14 +1229,9 @@ function viewWeekly(){
   $('#adminMain').innerHTML=`
   <div class="view">
     <div class="view-head"><div><span class="eyebrow">Evidencia semanal</span><h2>Evidencia destacada de la semana</h2>
-      <p>Selecciona un recurso ya publicado o crea una evidencia nueva para destacar en la portada.</p></div></div>
-    <div class="two-col">
-      <div class="panel"><div class="panel-head"><h3>1 · Seleccionar recurso publicado</h3></div>
-        <select class="select" id="w-ref"><option value="">— Crear evidencia nueva (abajo) —</option>
-          ${res.map(r=>`<option value="${r.id}" ${w.ref===r.id?'selected':''}>${esc(r.titulo)}</option>`).join('')}</select>
-        <div id="w-refprev" style="margin-top:16px"></div>
-      </div>
-      <div class="panel"><div class="panel-head"><h3>2 · O crear evidencia nueva</h3></div>
+      <p>Crea la evidencia destacada de la semana. Es <b>independiente</b> del resto de recursos: tiene su propio título, imagen y textos.</p></div></div>
+    <div class="panel">
+      <div class="panel-head"><h3>Datos de la evidencia de la semana</h3></div>
         <div class="field" style="margin-bottom:12px"><label>Título</label><input class="input" id="w-titulo" value="${esc(w.titulo)}" placeholder="Título de la evidencia"></div>
         <div class="field" style="margin-bottom:12px"><label>Resumen</label><textarea class="textarea" id="w-resumen" placeholder="Resumen breve de la evidencia…">${esc(w.resumen)}</textarea></div>
         <div class="field" style="margin-bottom:12px"><label>¿Por qué importa?</label><textarea class="textarea" id="w-porque" placeholder="Por qué esta evidencia es relevante para la práctica clínica…">${esc(w.porque||'')}</textarea></div>
@@ -1246,25 +1241,21 @@ function viewWeekly(){
           <div class="field"><label>Año</label><input class="input" id="w-anio" type="number" value="${esc(w.anio)}"></div>
           <div class="field"><label>Tipo de evidencia</label><select class="select" id="w-tipo">${['Guía','Revisión sistemática','Ensayo clínico','Norma','Consenso','Recomendación'].map(t=>`<option ${w.tipo===t?'selected':''}>${t}</option>`).join('')}</select></div>
           <div class="field"><label>Temática</label><select class="select" id="w-tema">${TEMAS.map(t=>`<option value="${t.key}" ${w.tema===t.key?'selected':''}>${t.label}</option>`).join('')}</select></div>
-          <div class="field col-2"><label>Archivo o enlace</label><input class="input" id="w-enlace" value="${esc(w.enlace)}" placeholder="https://… o nombre del archivo"></div>
+          <div class="field col-2"><label>Enlace de respaldo (opcional)</label><input class="input" id="w-enlace" value="${esc(w.enlace)}" placeholder="https://… (se abre con el botón “Ver recurso”)"></div>
           <div class="field col-2"><label>Imagen</label><div class="drop"><div class="dico" style="background:var(--ambar)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5L5 20" stroke-linecap="round"/></svg></div><b>Subir imagen</b><input type="file" accept="image/*" id="w-img"></div><div id="w-imgPrev">${w.imagen?`<div class="cover-prev"><img src="${w.imagen}"></div>`:''}</div></div>
         </div>
-      </div>
     </div>
     <div class="panel" style="margin-top:20px"><div class="field"><label>Fecha de publicación</label><input class="input" id="w-fecha" type="text" value="${esc(w.fecha||now())}"></div>
       <div class="form-actions"><div class="spacer"></div><button class="btn btn-primary btn-lg" id="w-save"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3l2.4 5 5.6.5-4.2 3.8 1.3 5.5L12 15l-5.1 2.8 1.3-5.5L4 8.5 9.6 8 12 3z" stroke-linejoin="round"/></svg> Guardar evidencia de la semana</button></div></div>
   </div>`;
-  const refPrev=()=>{const id=$('#w-ref').value;const r=res.find(x=>x.id===id);
-    $('#w-refprev').innerHTML=r?`<div class="pvcard ${RM[r.ruta].cls}"><div class="pvimg">${r.imagen?`<img src="${r.imagen}" style="height:140px;width:100%;object-fit:cover">`:svgImg(r.tema,RM[r.ruta].cls,140)}<span class="pvtype">${esc(r.tipo)}</span></div><div class="pvbody"><span class="pvtopic">${TM[r.tema].label}</span><h3>${esc(r.titulo)}</h3><p class="pvd">${esc(r.descripcion)}</p></div></div>`:'<div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/></svg>Elige un recurso publicado o completa el formulario de la derecha.</div>';};
-  $('#w-ref').onchange=refPrev;refPrev();
   $('#w-img').onchange=e=>{const f=e.target.files[0];if(!f)return;
     if(!/^image\//.test(f.type||'')){toast('El archivo no es una imagen','warn');e.target.value='';return;}
     if(f.size>3*1024*1024){toast('Imagen demasiado grande (máx 3 MB)','warn');e.target.value='';return;}
     toast('Subiendo imagen…'); API.files.upload(f).then(ref=>{ $('#w-imgPrev').innerHTML='<div class="cover-prev"><img src="'+ref.url+'"></div>'; $('#w-imgPrev').dataset.img=ref.url; toast('Imagen cargada','ok'); }).catch(err=>toast((err&&err.message)||'No se pudo subir la imagen','crit'));};
-  $('#w-save').onclick=async()=>{if(!requirePerm('content'))return;const nw={ref:$('#w-ref').value,titulo:$('#w-titulo').value.trim(),resumen:$('#w-resumen').value.trim(),porque:($('#w-porque')?$('#w-porque').value.trim():''),practica:($('#w-practica')?$('#w-practica').value.trim():''),
+  $('#w-save').onclick=async()=>{if(!requirePerm('content'))return;const nw={titulo:$('#w-titulo').value.trim(),resumen:$('#w-resumen').value.trim(),porque:($('#w-porque')?$('#w-porque').value.trim():''),practica:($('#w-practica')?$('#w-practica').value.trim():''),
     autor:$('#w-autor').value.trim(),anio:$('#w-anio').value,tipo:$('#w-tipo').value,tema:$('#w-tema').value,enlace:$('#w-enlace').value.trim(),
     imagen:$('#w-imgPrev').dataset.img||w.imagen||null,fecha:$('#w-fecha').value.trim()};
-    if(!nw.ref&&!nw.titulo){toast('Selecciona un recurso o escribe un título','warn');return;}
+    if(!nw.titulo){toast('Escribe un título para la evidencia de la semana','warn');return;}
     try{ await API.weekly.set(nw); S.weekly=nw; syncPortal(); toast('Evidencia de la semana guardada','ok'); }catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); } };
 }
 
@@ -1540,19 +1531,18 @@ function renderPublic(){
   B.innerHTML=html;
 }
 function weeklyBlock(){
-  const w=S.weekly||{}; let wr=null,data=null,cls='r-aprender',tema='lesiones';
-  if(w.ref) wr=pubPublished().find(r=>r.id===w.ref);
-  if(wr){ data={titulo:wr.titulo,desc:wr.descripcion,tema:wr.tema,autor:wr.autor,anio:wr.anio,tipo:wr.tipo,img:wr.imagen,id:wr.id}; cls=RM[wr.ruta].cls; tema=wr.tema; }
-  else if(w.titulo){ data={titulo:w.titulo,desc:w.resumen,tema:w.tema,autor:w.autor,anio:w.anio,tipo:w.tipo,img:w.imagen,id:null}; tema=w.tema||'lesiones'; }
-  else { const p=pubPublished()[0]; if(p){ data={titulo:p.titulo,desc:p.descripcion,tema:p.tema,autor:p.autor,anio:p.anio,tipo:p.tipo,img:p.imagen,id:p.id}; cls=RM[p.ruta].cls; tema=p.tema; } }
-  if(!data) return '<div class="empty-state">Aún no hay evidencia destacada.</div>';
-  const porque=(w.porque&&w.porque.trim())?w.porque:(data.desc||'');
+  const w=S.weekly||{};
+  const titulo=(w.titulo||'').trim();
+  if(!titulo) return '<div class="empty-state">Aún no se ha definido la evidencia destacada. Créala en Administración → Evidencia semanal.</div>';
+  const tema=w.tema||'lesiones', cls='r-aplicar', img=w.imagen||'';
+  const porque=(w.porque&&w.porque.trim())?w.porque:((w.resumen&&w.resumen.trim())?w.resumen:'');
   const practica=(w.practica&&w.practica.trim())?w.practica:'';
-  return '<div class="ps-weekly '+cls+'"><div class="pw-img">'+(data.img?'<img src="'+data.img+'" alt="">':svgImg(tema,cls,240))+'</div><div class="pw-b"><span class="pw-badge">★ Evidencia de la semana</span><h3>'+esc(data.titulo)+'</h3>'
+  const enlace=(w.enlace||'').trim(); const hasLink=/^https?:\/\//i.test(enlace);
+  return '<div class="ps-weekly '+cls+'"><div class="pw-img">'+(img?'<img src="'+img+'" alt="">':svgImg(tema,cls,240))+'</div><div class="pw-b"><span class="pw-badge">★ Evidencia de la semana</span><h3>'+esc(titulo)+'</h3>'
     +(porque?('<div class="pw-blk"><span class="pw-lbl">¿Por qué importa?</span><p>'+esc(porque)+'</p></div>'):'')
     +(practica?('<div class="pw-blk"><span class="pw-lbl">¿Cómo se lleva a la práctica?</span><p>'+esc(practica)+'</p></div>'):'')
-    +'<div class="pw-m">'+esc(TM[tema]?TM[tema].label:'')+' · '+esc(data.tipo||'')+' · '+esc(data.autor||'')+' '+esc(data.anio||'')+'</div>'
-    +(data.id?('<button class="btn pw-open" onclick="openPublicResource(\''+data.id+'\')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> Ver recurso (respaldo)</button>'):'')
+    +'<div class="pw-m">'+esc(TM[tema]?TM[tema].label:'')+' · '+esc(w.tipo||'')+' · '+esc(w.autor||'')+' '+esc(w.anio||'')+'</div>'
+    +(hasLink?('<button class="btn pw-open" onclick="window.open(\''+encodeURI(enlace)+'\',\'_blank\')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> Ver recurso (respaldo)</button>'):'')
     +'</div></div>';
 }
 function scrollToGrid(){ const el=document.getElementById('ps-tematica'); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
