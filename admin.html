@@ -528,6 +528,7 @@ select,option{color:var(--ink);background:var(--surface)}
   <header class="pub-top">
     <div class="pt-in">
       <div class="pub-brand">
+        <img id="pubLogoTop" alt="Logo institucional" hidden style="height:44px;width:auto;max-width:180px;border-radius:9px;object-fit:contain">
         <span class="pb"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 8v6M9 11h6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></span>
         <span><b>Centro de Transferencia del Conocimiento</b><small>Unidad de Buenas Prácticas Clínicas – HUAP</small></span>
       </div>
@@ -557,8 +558,7 @@ select,option{color:var(--ink);background:var(--surface)}
     </div>
     <div class="ph-ov" aria-hidden="true"></div>
     <div class="ph-in">
-      <img id="pubLogo" alt="Logo institucional" hidden style="height:56px;width:auto;margin-bottom:16px;display:block">
-      <span class="ph-tag"><span style="width:8px;height:8px;border-radius:50%;background:#5ff3d6;display:inline-block"></span> Hospital de Urgencia Asistencia Pública · Edificio Monseñor Valech</span>
+      <span class="ph-tag"><span style="width:8px;height:8px;border-radius:50%;background:#5ff3d6;display:inline-block"></span> Hospital de Urgencia Asistencia Pública</span>
       <h1 id="pubHeroTitle">Centro de Transferencia del Conocimiento</h1>
       <p class="ph-sub">Unidad de Buenas Prácticas Clínicas – HUAP</p>
       <div class="ph-inst"><span></span> Seguridad · Evidencia y Cuidado</div>
@@ -1599,7 +1599,8 @@ function toast(msg,type){const ico={ok:'<path d="M9 12l2 2 4-4"/><circle cx="12"
 /* ================= NAVEGACIÓN ENTRE PORTADA Y ADMINISTRACIÓN (rutas internas) ================= */
 function applyBranding(){ const b=(typeof S!=='undefined'&&S.branding)||{};
   const hi=document.getElementById('pubHeroImg'); if(hi){ if(b.heroImage){ hi.src=b.heroImage; hi.hidden=false; } else { hi.hidden=true; hi.removeAttribute('src'); } }
-  const lg=document.getElementById('pubLogo'); if(lg){ if(b.logo){ lg.src=b.logo; lg.hidden=false; } else { lg.hidden=true; lg.removeAttribute('src'); } } }
+  const lg=document.getElementById('pubLogoTop'); const pb=document.querySelector('.pub-brand .pb');
+  if(lg){ if(b.logo){ lg.src=b.logo; lg.hidden=false; if(pb)pb.hidden=true; } else { lg.hidden=true; lg.removeAttribute('src'); if(pb)pb.hidden=false; } } }
 function showPublic(){ $('#login').hidden=true; $('#app').hidden=true; $('#viewPublic').hidden=false;
   try{history.replaceState(null,'','#/');}catch(e){} renderPublic(); applyBranding(); trackVisit(); window.scrollTo(0,0); }
 function showLogin(){ $('#viewPublic').hidden=true; $('#app').hidden=true; $('#login').hidden=false; renderLoginUsers();
