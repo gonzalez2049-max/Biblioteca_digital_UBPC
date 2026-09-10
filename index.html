@@ -691,12 +691,14 @@ async function loadPublic(){
   try{ S.weekly=await API.weekly.get(); }catch(e){ S.weekly=S.weekly||{}; }
   try{ S.experience=await API.experience.get(); }catch(e){ S.experience=S.experience||{}; }
   try{ S.branding=await API.branding.get(); }catch(e){ S.branding=S.branding||{}; }
+  try{ S.gaps=await API.gaps.get(); }catch(e){ S.gaps=S.gaps||[]; }
 }
 async function loadAdmin(){
   try{ S.resources=normRes(await API.resources.listAll()); }catch(e){}
   try{ S.weekly=await API.weekly.get(); }catch(e){}
   try{ S.experience=await API.experience.get(); }catch(e){}
   try{ S.branding=await API.branding.get(); }catch(e){ S.branding=S.branding||{}; }
+  try{ S.gaps=await API.gaps.get(); }catch(e){ S.gaps=S.gaps||[]; }
   try{ S.users=await API.users.list(); }catch(e){ S.users=[]; }
   try{ S.analytics=await API.stats.get(); }catch(e){ S.analytics={}; }
   try{ S.audit=await API.audit(); }catch(e){ S.audit=[]; }
@@ -726,6 +728,7 @@ const ROLM=Object.fromEntries(ROLES.map(r=>[r.key,r]));
 const TIPOS=['Guía','Algoritmo','Checklist','Norma','Cápsula','Video','Infografía','Presentación','Auditoría','Indicador','Pauta','Herramienta','Escala','Actividad','Recomendación'];
 const APREND=[{key:'leer',label:'Leer',ico:'📖'},{key:'ver',label:'Ver',ico:'👁'},{key:'escuchar',label:'Escuchar',ico:'🎧'},{key:'practicar',label:'Practicar',ico:'✋'}];
 const APM=Object.fromEntries(APREND.map(a=>[a.key,a]));
+const GAP_NIV={prioritaria:['Prioritaria','var(--crit)'],seguimiento:['En seguimiento','var(--warn)'],oportunidad:['Oportunidad','var(--turquesa)']};
 const ADMIN_ROLES={principal:{label:'Administrador principal',desc:'Control completo',cls:'role-principal'},
   biblioteca:{label:'Administrador de biblioteca',desc:'Gestión general de contenidos',cls:'role-biblioteca'},
   editor:{label:'Editor de contenidos',desc:'Crea y modifica contenidos autorizados',cls:'role-editor'}};
@@ -1301,6 +1304,11 @@ function viewExperience(){
         <div class="exp-acts"><button class="btn btn-primary btn-sm" onclick="editExp('${k}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z" stroke-linejoin="round"/></svg> Editar</button>
         <button class="btn btn-ghost btn-sm" onclick="previewExp('${k}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> Vista previa</button></div></div>`).join('')}
     </div>
+    ${can('content')?`<div class="panel" style="margin-top:18px">
+      <div class="panel-head" style="display:flex;align-items:center;gap:10px"><h3>Oportunidades de mejora (brechas)</h3><button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="gapEdit(null)">+ Agregar brecha</button></div>
+      <p class="note" style="margin:6px 0 12px">Estas tarjetas aparecen en la portada. Si no hay ninguna, la sección no se muestra.</p>
+      <div id="gapList">${gapListHtml()}</div>
+    </div>`:''}
   </div>`;
   const saveBranding=async(patch)=>{ const nb=Object.assign({},DB.get('branding',{}),patch); try{ await API.branding.set(nb); S.branding=nb; if(typeof applyBranding==='function')applyBranding(); toast('Identidad visual actualizada','ok'); }catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); } };
   const bindBrandImg=(inputId,key,prevId)=>{ const el=$('#'+inputId); if(!el)return; el.onchange=e=>{ const f=e.target.files[0]; if(!f)return;
@@ -1319,6 +1327,27 @@ window.editExp=k=>{if(!requirePerm('content'))return;const exp=DB.get('experienc
 window.previewExp=k=>{const b=DB.get('experience',{})[k];
   modal({title:'Vista previa · '+b.label,body:`<div style="background:linear-gradient(135deg,#0a2540,#0e4e8a);border-radius:14px;padding:26px;color:#fff"><div class="eyebrow" style="color:#9fe9ff">${esc(b.label)}</div><p style="font-size:1.1rem;font-weight:600;margin-top:8px;color:#fff">${esc(b.value)}</p></div>`,
     foot:`<button class="btn btn-primary" onclick="closeModal()">Cerrar</button>`});};
+
+/* ---- Editor de Oportunidades de mejora (brechas) ---- */
+function gapListHtml(){ const gaps=DB.get('gaps',[]);
+  if(!gaps.length) return '<div class="note">Aún no hay brechas cargadas. Pulsa “+ Agregar brecha” para crear la primera.</div>';
+  return '<div class="mini-list">'+gaps.map((g,i)=>{const n=GAP_NIV[g.nivel]||GAP_NIV.oportunidad;return '<div class="mini-row"><span class="mrank" style="background:'+n[1]+'">'+(parseInt(g.actual,10)||0)+'</span><b style="min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(g.titulo||'(sin título)')+'</b><span class="mval" style="color:'+n[1]+'">'+esc(n[0])+'</span><button class="iact" title="Editar" onclick="gapEdit('+i+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z" stroke-linejoin="round"/></svg></button><button class="iact danger" title="Eliminar" onclick="gapDel('+i+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M6 6l1 14a2 2 0 002 2h6a2 2 0 002-2l1-14" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>';}).join('')+'</div>'; }
+async function saveGaps(items){ try{ await API.gaps.set(items); S.gaps=items; syncPortal(); const gl=document.getElementById('gapList'); if(gl)gl.innerHTML=gapListHtml(); toast('Oportunidades de mejora actualizadas','ok'); }catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); } }
+window.gapDel=i=>{ if(!requirePerm('content'))return; confirmModal({icon:'crit',color:'var(--crit)',title:'Eliminar brecha',body:'<p style="color:var(--ink-2)">¿Eliminar esta oportunidad de mejora de la portada?</p>',okLabel:'Eliminar',okClass:'btn-crit',onOk:()=>{ const g=DB.get('gaps',[]).slice(); g.splice(i,1); saveGaps(g); }}); };
+window.gapEdit=i=>{ if(!requirePerm('content'))return; const gaps=DB.get('gaps',[]); const nuevo=(i===null||i===undefined); const g=nuevo?{nivel:'oportunidad',tema:'lesiones',titulo:'',texto:'',actual:'',meta:''}:gaps[i];
+  modal({title:nuevo?'Agregar brecha':'Editar brecha',wide:true,body:`
+    <div class="form-grid">
+      <div class="field col-2"><label>Título</label><input class="input" id="g-titulo" value="${esc(g.titulo||'')}" placeholder="Ej: Adherencia a higiene de manos bajo la meta"></div>
+      <div class="field col-2"><label>Descripción</label><textarea class="textarea" id="g-texto" placeholder="Qué se observó / contexto de la brecha…">${esc(g.texto||'')}</textarea></div>
+      <div class="field"><label>Nivel</label><select class="select" id="g-nivel">${Object.entries(GAP_NIV).map(([k,v])=>`<option value="${k}" ${g.nivel===k?'selected':''}>${v[0]}</option>`).join('')}</select></div>
+      <div class="field"><label>Temática</label><select class="select" id="g-tema">${TEMAS.map(t=>`<option value="${t.key}" ${g.tema===t.key?'selected':''}>${t.label}</option>`).join('')}</select></div>
+      <div class="field"><label>% actual</label><input class="input" id="g-actual" type="number" min="0" max="100" value="${esc(g.actual||'')}"></div>
+      <div class="field"><label>Meta (texto)</label><input class="input" id="g-meta" value="${esc(g.meta||'')}" placeholder="Ej: Meta 85%"></div>
+    </div>`,
+    foot:`<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn btn-primary" id="g-save">Guardar</button>`});
+  $('#g-save').onclick=()=>{ const ng={nivel:$('#g-nivel').value,tema:$('#g-tema').value,titulo:$('#g-titulo').value.trim(),texto:$('#g-texto').value.trim(),actual:$('#g-actual').value,meta:$('#g-meta').value.trim()};
+    if(!ng.titulo){toast('Falta el título','warn');return;}
+    const g2=DB.get('gaps',[]).slice(); if(nuevo)g2.push(ng); else g2[i]=ng; closeModal(); saveGaps(g2); }; };
 
 /* ================= VIEW: USAGE ================= */
 function viewUsage(){
@@ -1531,11 +1560,13 @@ function renderPublic(){
   const js=[['1','Necesidad clínica','Identifica el problema real del paciente o del equipo en el turno.'],['2','Recurso','Accede a la evidencia, guía o herramienta que responde a esa necesidad.'],['3','Aplicación práctica','Lleva la recomendación a la acción con procedimientos y checklists.'],['4','Evaluación','Mide el resultado con auditorías e indicadores y cierra la brecha.']];
   html+='<section class="ps-sec" style="--sec:var(--brand)"><div class="ps-in"><div class="ps-journey"><span class="ps-eyebrow">De la evidencia a la práctica</span><h2>Un recorrido claro, de la necesidad al resultado</h2><p>'+T('practica','Cada recurso sigue el mismo camino para que el conocimiento se transforme en cuidado seguro y medible.')+'</p><div class="ps-jsteps">'+js.map(x=>'<div class="ps-jstep"><div class="num">'+x[0]+'</div><h4>'+x[1]+'</h4><p>'+x[2]+'</p></div>').join('')+'</div></div></div></section>';
 
-  // 8) Oportunidades de mejora
-  const gaps=[['iaas','Prioritaria','var(--crit)','Adherencia a higiene de manos bajo la meta','La observación del último mes muestra 68% de adherencia en el turno de noche.',68,'Meta 85%'],['lesiones','En seguimiento','var(--warn)','Registro incompleto de la escala de Braden','Falta valoración de riesgo al ingreso en un tercio de los pacientes de riesgo.',74,'Meta 95%'],['dolor','Oportunidad','var(--turquesa)','Reevaluación del dolor tras analgesia','Buena valoración inicial, pero la reevaluación sistemática aún es baja.',59,'Meta 90%']];
-  html+='<section class="ps-sec alt" style="--sec:var(--ambar)"><div class="ps-in">'
-    +secHead('Oportunidades de mejora','Brechas detectadas que podemos cerrar juntos',T('mejora','Del monitoreo de indicadores a la acción concreta por unidad y rol.'))
-    +'<div class="ps-gaps">'+gaps.map(g=>'<div class="ps-gap" style="--gc:'+g[2]+'"><span class="gl">'+g[1]+'</span> <span class="ps-chip">'+TM[g[0]].label+'</span><h4>'+g[3]+'</h4><p>'+g[4]+'</p><div class="gbar"><i style="width:'+g[5]+'%"></i></div><div class="gf"><span>Actual '+g[5]+'%</span><span>'+g[6]+'</span></div><button class="pc-btn" style="--accent:'+g[2]+';--accent-soft:color-mix(in srgb,'+g[2]+' 14%,transparent);--accent-ink:'+g[2]+';margin-top:12px;width:100%" onclick="pubSetTema(\''+g[0]+'\')">Ver recursos para cerrar la brecha →</button></div>').join('')+'</div></div></section>';
+  // 8) Oportunidades de mejora (editables desde Administración; se oculta si no hay)
+  const gaps=(S.gaps||[]);
+  if(gaps.length){
+    html+='<section class="ps-sec alt" style="--sec:var(--ambar)"><div class="ps-in">'
+      +secHead('Oportunidades de mejora','Brechas detectadas que podemos cerrar juntos',T('mejora','Del monitoreo de indicadores a la acción concreta por unidad y rol.'))
+      +'<div class="ps-gaps">'+gaps.map(g=>{const n=GAP_NIV[g.nivel]||GAP_NIV.oportunidad;const col=n[1];const pct=Math.max(0,Math.min(100,parseInt(g.actual,10)||0));return '<div class="ps-gap" style="--gc:'+col+'"><span class="gl">'+esc(n[0])+'</span> <span class="ps-chip">'+esc(TM[g.tema]?TM[g.tema].label:'')+'</span><h4>'+esc(g.titulo||'')+'</h4><p>'+esc(g.texto||'')+'</p><div class="gbar"><i style="width:'+pct+'%"></i></div><div class="gf"><span>Actual '+pct+'%</span><span>'+esc(g.meta||'')+'</span></div><button class="pc-btn" style="--accent:'+col+';--accent-soft:color-mix(in srgb,'+col+' 14%,transparent);--accent-hi:'+col+';margin-top:12px;width:100%" onclick="pubSetTema(\''+esc(g.tema||'')+'\')">Ver recursos para cerrar la brecha →</button></div>';}).join('')+'</div></div></section>';
+  }
 
   // 9) Últimas actualizaciones
   const upd=pub.slice(0,6);

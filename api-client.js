@@ -89,6 +89,10 @@
       get: () => req('GET', '/api/branding').then((d) => d.branding),
       set: (b) => req('PUT', '/api/branding', b).then((d) => d.branding),
     },
+    gaps: {
+      get: () => req('GET', '/api/gaps').then((d) => (d.gaps && d.gaps.items) || []),
+      set: (items) => req('PUT', '/api/gaps', { items }).then((d) => (d.gaps && d.gaps.items) || []),
+    },
     users: {
       list: () => req('GET', '/api/users').then((d) => d.users),
       create: (u) => req('POST', '/api/users', u).then((d) => d.user),
