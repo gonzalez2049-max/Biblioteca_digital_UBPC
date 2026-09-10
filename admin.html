@@ -25,15 +25,17 @@
   --azul-hi:#1a45b0;--turquesa-hi:#0a6d64;--coral-hi:#b23140;--violeta-hi:#5a3fd6;--ambar-hi:#a8630a;
   --ok:#0d9488;--ok-soft:#cbf5ee;--warn:#d98514;--warn-soft:#fce6c6;--crit:#e64b5c;--crit-soft:#ffe0e2;
   --font-d:'Bricolage Grotesque',system-ui,sans-serif;--font-b:'Public Sans',system-ui,sans-serif;
+  color-scheme:light;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
   --bg:#0b141d;--surface:#111e2b;--surface-2:#0e1a26;--surface-3:#16283a;--ink:#eaf2fa;--ink-2:#a9bccd;--ink-3:#7b91a5;
   --line:#22384a;--brand:#4a94d6;--brand-ink:#8fc0ea;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 34px rgba(0,0,0,.45);
   --shadow-lg:0 22px 60px rgba(0,0,0,.55);--azul-soft:#16294d;--turquesa-soft:#0c342f;--coral-soft:#3d1d22;
   --violeta-soft:#241d47;--ambar-soft:#3a2a10;--ok-soft:#0c342f;--warn-soft:#3a2a10;--crit-soft:#3d1d22;
   --azul-hi:#7ba9f5;--turquesa-hi:#43d3c0;--coral-hi:#ff8f9b;--violeta-hi:#b3a0ff;--ambar-hi:#f0b357;
 }}
-:root[data-theme="dark"]{--bg:#0b141d;--surface:#111e2b;--surface-2:#0e1a26;--surface-3:#16283a;--ink:#eaf2fa;--ink-2:#a9bccd;
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0b141d;--surface:#111e2b;--surface-2:#0e1a26;--surface-3:#16283a;--ink:#eaf2fa;--ink-2:#a9bccd;
   --ink-3:#7b91a5;--line:#22384a;--brand:#4a94d6;--brand-ink:#8fc0ea;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 34px rgba(0,0,0,.45);
   --shadow-lg:0 22px 60px rgba(0,0,0,.55);--azul-soft:#16294d;--turquesa-soft:#0c342f;--coral-soft:#3d1d22;--violeta-soft:#241d47;
   --ambar-soft:#3a2a10;--ok-soft:#0c342f;--warn-soft:#3a2a10;--crit-soft:#3d1d22;
@@ -44,6 +46,7 @@ h1,h2,h3,h4{font-family:var(--font-d);margin:0;line-height:1.12;letter-spacing:-
 p{margin:0}button{font-family:inherit;cursor:pointer}input,select,textarea{font-family:inherit}
 img,svg{display:block;max-width:100%}
 [hidden]{display:none!important}
+select,option{color:var(--ink);background:var(--surface)}
 :focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:6px}
 .r-aprender{--accent:var(--azul);--accent-soft:var(--azul-soft);--accent-ink:var(--azul-ink);--accent-hi:var(--azul-hi)}
 .r-aplicar{--accent:var(--turquesa);--accent-soft:var(--turquesa-soft);--accent-ink:var(--turquesa-ink);--accent-hi:var(--turquesa-hi)}
