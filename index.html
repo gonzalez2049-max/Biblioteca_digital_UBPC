@@ -52,6 +52,8 @@ select,option{color:var(--ink);background:var(--surface)}
 .qa-ic{font-size:1.15rem;line-height:1.25;flex:none}
 .qa-q{display:block;font-size:.82rem;font-weight:800;color:var(--brand);margin-bottom:2px}
 .qa-a{font-size:.94rem;color:var(--ink);line-height:1.45}
+.qlab{display:block;font-weight:700;color:var(--brand);font-size:.82rem;margin:9px 0 3px}
+.qta{min-height:52px}
 :focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:6px}
 .r-aprender{--accent:var(--azul);--accent-soft:var(--azul-soft);--accent-ink:var(--azul-ink);--accent-hi:var(--azul-hi)}
 .r-aplicar{--accent:var(--turquesa);--accent-soft:var(--turquesa-soft);--accent-ink:var(--turquesa-ink);--accent-hi:var(--turquesa-hi)}
@@ -949,8 +951,13 @@ function viewCreate(editId){
         <div class="form-grid">
           <div class="field col-2"><label>Título <span class="req">*</span></label>
             <input class="input" id="f-titulo" placeholder="Ej: Guía de prevención de lesiones por presión" value="${esc(d.titulo)}"></div>
-          <div class="field col-2"><label>Descripción breve <span class="req">*</span></label>
-            <textarea class="textarea" id="f-desc" placeholder="Describe el recurso y para qué sirve en la práctica clínica…">${esc(d.descripcion)}</textarea></div>
+          <div class="field col-2"><label>Contenido operativo <span class="req">*</span></label>
+            <p class="hint" style="margin:2px 0 10px">Rellena las respuestas; en la ficha pública se muestran como lista (🔍 ✅ 📝 ✔️). Deja en blanco las que no apliquen.</p>
+            <label class="qlab">🔍 ¿Qué revisar?</label><textarea class="textarea qta" id="f-q-revisar" placeholder="Qué observar o valorar…">${esc(qaAnswer(d.descripcion,'revisar'))}</textarea>
+            <label class="qlab">✅ ¿Qué hacer?</label><textarea class="textarea qta" id="f-q-hacer" placeholder="La acción o intervención…">${esc(qaAnswer(d.descripcion,'hacer'))}</textarea>
+            <label class="qlab">📝 ¿Qué registrar?</label><textarea class="textarea qta" id="f-q-registrar" placeholder="Qué documentar…">${esc(qaAnswer(d.descripcion,'registrar'))}</textarea>
+            <label class="qlab">✔️ ¿Cómo verifico?</label><textarea class="textarea qta" id="f-q-verifico" placeholder="Cómo confirmar el resultado…">${esc(qaAnswer(d.descripcion,'verific'))}</textarea>
+            <label class="qlab" style="color:var(--ink-3)">Descripción libre (opcional)</label><textarea class="textarea qta" id="f-desc-libre" placeholder="Solo si el recurso NO usa el formato de preguntas.">${esc(qaLibre(d.descripcion))}</textarea></div>
           <div class="field"><label>Autor o institución</label>
             <input class="input" id="f-autor" placeholder="Ej: RNAO · MINSAL · UBPC HUAP" value="${esc(d.autor)}"></div>
           <div class="field"><label>Año</label>
@@ -1047,7 +1054,7 @@ window.renderWzPreview=function(){ collectDraft(); const el=$('#wzPreview'); if(
   const rt=draft.ruta?RM[draft.ruta]:RM.aprender; const ap=APM[draft.aprendizaje];
   const fmt = draft.archivo?fileExt(draft.archivo.type):(draft.youtube?'YouTube':(draft.enlace?'Enlace web':(draft.tipo||'Ficha')));
   el.innerHTML='<div style="display:grid;grid-template-columns:1fr;gap:16px;align-items:start">'
-    +'<div class="pvcard '+rt.cls+'" style="max-width:340px"><div class="pvimg">'+(draft.imagen?'<img src="'+draft.imagen+'" style="height:140px;width:100%;object-fit:cover">':svgImg(draft.tema||'otras',rt.cls,140))+'<span class="pvtype">'+esc(draft.tipo||'Recurso')+'</span></div><div class="pvbody"><span class="pvtopic">'+(draft.tema?TM[draft.tema].label:'—')+' · '+rt.label+'</span><h3>'+esc(draft.titulo||'Sin título')+'</h3><p class="pvd">'+esc(draft.descripcion||'')+'</p><button class="pvbtn">Abrir recurso →</button></div></div>'
+    +'<div class="pvcard '+rt.cls+'" style="max-width:340px"><div class="pvimg">'+(draft.imagen?'<img src="'+draft.imagen+'" style="height:140px;width:100%;object-fit:cover">':svgImg(draft.tema||'otras',rt.cls,140))+'<span class="pvtype">'+esc(draft.tipo||'Recurso')+'</span></div><div class="pvbody"><span class="pvtopic">'+(draft.tema?TM[draft.tema].label:'—')+' · '+rt.label+'</span><h3>'+esc(draft.titulo||'Sin título')+'</h3><p class="pvd">'+esc(cardTeaser(draft))+'</p><button class="pvbtn">Abrir recurso →</button></div></div>'
     +'<div class="wz-prevcard"><b style="color:var(--ink)">Ubicación en la portada:</b> '+(draft.estado==='publicado'?('Ruta <b style="color:var(--ink)">'+rt.full+'</b> · sección <b style="color:var(--ink)">Recursos permanentes por temática</b>'):('Estado <b style="color:var(--ink)">'+draft.estado+'</b> — no se mostrará hasta publicarlo'))
     +'<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px">'
     +'<span class="ps-chip">👤 '+((draft.roles||[]).map(x=>ROLM[x]?ROLM[x].label:x).join(', ')||'Todos los roles')+'</span>'
@@ -1055,7 +1062,7 @@ window.renderWzPreview=function(){ collectDraft(); const el=$('#wzPreview'); if(
     +'<span class="ps-chip">📎 '+fmt+'</span><span class="ps-chip">🕓 '+esc(draft.tiempo||'—')+'</span></div></div></div>';
 };
 function collectDraft(){
-  draft.titulo=$('#f-titulo').value.trim();draft.descripcion=$('#f-desc').value.trim();
+  draft.titulo=$('#f-titulo').value.trim();draft.descripcion=composeDesc();
   draft.tema=$('#f-tema').value;draft.tipo=$('#f-tipo').value;draft.tiempo=$('#f-tiempo').value.trim();
   draft.autor=$('#f-autor').value.trim();draft.anio=$('#f-anio').value;draft.keywords=$('#f-keys').value.trim();
   draft.enlace=$('#f-enlace').value.trim();draft.youtube=$('#f-youtube').value.trim();
@@ -1443,6 +1450,16 @@ function qaIcon(q){ const t=q.toLowerCase(); if(t.indexOf('revisar')>=0)return '
 function qaBlock(desc){ const qa=parseQA(desc);
   if(!qa) return '<p style="color:var(--ink-2);margin-top:8px">'+esc(desc||'')+'</p>';
   return '<div class="qa-list">'+qa.map(x=>'<div class="qa-item"><span class="qa-ic">'+qaIcon(x.q)+'</span><div><b class="qa-q">'+esc(x.q)+'</b><span class="qa-a">'+esc(x.a)+'</span></div></div>').join('')+'</div>'; }
+
+// Respuesta ya escrita de una pregunta (por palabra clave), para pre-cargar el editor.
+function qaAnswer(desc,kw){ const qa=parseQA(desc); if(!qa)return ''; const m=qa.find(x=>x.q.toLowerCase().indexOf(kw)>=0); return m?m.a:''; }
+// Texto libre = la descripción cuando NO viene en formato de preguntas.
+function qaLibre(desc){ return parseQA(desc)?'':(desc||''); }
+// Arma la descripción final a partir de los 4 campos de preguntas (o el texto libre).
+function composeDesc(){ const gv=id=>{const el=document.getElementById(id);return el?el.value.trim():'';};
+  const parts=[]; const r=gv('f-q-revisar'),h=gv('f-q-hacer'),g=gv('f-q-registrar'),v=gv('f-q-verifico');
+  if(r)parts.push('¿Qué revisar? '+r); if(h)parts.push('¿Qué hacer? '+h); if(g)parts.push('¿Qué registrar? '+g); if(v)parts.push('¿Cómo verifico? '+v);
+  return parts.length?parts.join(' · '):gv('f-desc-libre'); }
 
 function resCard(r){ const rt=RM[r.ruta]; const ap=APM[r.aprendizaje];
   return '<article class="ps-card '+rt.cls+'" onclick="openPublicResource(\''+r.id+'\')">'
