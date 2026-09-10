@@ -47,6 +47,11 @@ p{margin:0}button{font-family:inherit;cursor:pointer}input,select,textarea{font-
 img,svg{display:block;max-width:100%}
 [hidden]{display:none!important}
 select,option{color:var(--ink);background:var(--surface)}
+.qa-list{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.qa-item{display:flex;gap:11px;align-items:flex-start;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:11px 13px}
+.qa-ic{font-size:1.15rem;line-height:1.25;flex:none}
+.qa-q{display:block;font-size:.82rem;font-weight:800;color:var(--brand);margin-bottom:2px}
+.qa-a{font-size:.94rem;color:var(--ink);line-height:1.45}
 :focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:6px}
 .r-aprender{--accent:var(--azul);--accent-soft:var(--azul-soft);--accent-ink:var(--azul-ink);--accent-hi:var(--azul-hi)}
 .r-aplicar{--accent:var(--turquesa);--accent-soft:var(--turquesa-soft);--accent-ink:var(--turquesa-ink);--accent-hi:var(--turquesa-hi)}
@@ -1431,11 +1436,28 @@ const ACC_ICON={saber:'<path d="M4 5.5A2.5 2.5 0 016.5 3H12v16H6.5A2.5 2.5 0 004
 
 function fmtOf(r){ if(r.archivo)return fileExt(r.archivo.type); if(r.youtube)return 'YouTube'; if(r.enlace)return 'Enlace web'; return r.tipo||'Ficha'; }
 function rolesLabel(r){ if(!r.roles||!r.roles.length)return 'Todos los roles'; const f=ROLM[r.roles[0]]?ROLM[r.roles[0]].label:r.roles[0]; return r.roles.length>1?(f+' +'+(r.roles.length-1)):f; }
+// Separa un texto tipo "¿Qué revisar? A · ¿Qué hacer? B · …" en pares {q,a}.
+function parseQA(desc){ const s=String(desc||''); const marks=[...s.matchAll(/¿[^?]*\?/g)];
+  if(marks.length<2) return null;
+  const out=[];
+  for(let i=0;i<marks.length;i++){ const q=marks[i][0]; const st=marks[i].index+q.length;
+    const en=(i+1<marks.length)?marks[i+1].index:s.length;
+    let a=s.slice(st,en).replace(/^[·•\-–:\s]+/,'').replace(/[·•\s]+$/,'').trim();
+    if(a) out.push({q:q.trim(),a:a}); }
+  return out.length?out:null; }
+// Texto corto para la tarjeta: primera respuesta si hay formato de preguntas.
+function cardTeaser(r){ const qa=parseQA(r.descripcion); return (qa&&qa[0]&&qa[0].a)?qa[0].a:(r.descripcion||''); }
+// Bloque con las preguntas como lista con íconos (para la ficha del recurso).
+function qaIcon(q){ const t=q.toLowerCase(); if(t.indexOf('revisar')>=0)return '🔍'; if(t.indexOf('hacer')>=0)return '✅'; if(t.indexOf('registrar')>=0)return '📝'; if(t.indexOf('verific')>=0)return '✔️'; return '•'; }
+function qaBlock(desc){ const qa=parseQA(desc);
+  if(!qa) return '<p style="color:var(--ink-2);margin-top:8px">'+esc(desc||'')+'</p>';
+  return '<div class="qa-list">'+qa.map(x=>'<div class="qa-item"><span class="qa-ic">'+qaIcon(x.q)+'</span><div><b class="qa-q">'+esc(x.q)+'</b><span class="qa-a">'+esc(x.a)+'</span></div></div>').join('')+'</div>'; }
+
 function resCard(r){ const rt=RM[r.ruta]; const ap=APM[r.aprendizaje];
   return '<article class="ps-card '+rt.cls+'" onclick="openPublicResource(\''+r.id+'\')">'
     +'<div class="pc-img">'+(r.imagen?'<img src="'+r.imagen+'" alt="">':svgImg(r.tema,rt.cls,120))+'<span class="pc-fmt">'+esc(fmtOf(r))+'</span></div>'
     +'<div class="pc-body"><span class="pc-eye">'+rt.full+' · '+(TM[r.tema]?TM[r.tema].label:'')+'</span>'
-    +'<h3>'+esc(r.titulo)+'</h3><p class="pc-desc">'+esc(r.descripcion)+'</p>'
+    +'<h3>'+esc(r.titulo)+'</h3><p class="pc-desc">'+esc(cardTeaser(r))+'</p>'
     +'<div class="pc-meta"><span class="ps-chip">👤 '+esc(rolesLabel(r))+'</span>'
     +(ap?('<span class="ps-chip">'+ap.ico+' '+ap.label+'</span>'):'')
     +'<span class="ps-chip">🕓 '+esc(r.tiempo||'—')+'</span></div>'
@@ -1548,7 +1570,7 @@ window.openPublicResource=async id=>{
   modal({title:'Recurso publicado',wide:true,body:''
     +'<div class="pvcard '+rt.cls+'" style="max-width:none;box-shadow:none;border:0"><div class="pvimg" style="border-radius:14px;overflow:hidden">'+(r.imagen?'<img src="'+r.imagen+'" style="height:150px;width:100%;object-fit:cover">':svgImg(r.tema,rt.cls,150))+'<span class="pvtype">'+esc(r.tipo)+'</span></div></div>'
     +'<div style="margin-top:8px"><span style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--accent-ink)">'+rt.full+' · '+(TM[r.tema]?TM[r.tema].label:'')+'</span></div>'
-    +'<h3 style="font-size:1.4rem;margin-top:8px">'+esc(r.titulo)+'</h3><p style="color:var(--ink-2);margin-top:8px">'+esc(r.descripcion)+'</p>'
+    +'<h3 style="font-size:1.4rem;margin-top:8px">'+esc(r.titulo)+'</h3>'+qaBlock(r.descripcion)
     +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:16px">'
     +cell('Ruta',rt.full)+cell('Temática',TM[r.tema]?TM[r.tema].label:'—')
     +cell('Rol destinatario',(r.roles||[]).map(x=>ROLM[x]?ROLM[x].label:x).join(', ')||'Todos')
