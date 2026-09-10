@@ -491,6 +491,11 @@ select,option{color:var(--ink);background:var(--surface)}
 .ps-weekly .pw-img{position:relative;min-height:180px}.ps-weekly .pw-img svg,.ps-weekly .pw-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ps-weekly .pw-b{background:linear-gradient(135deg,var(--accent-ink),var(--accent));padding:clamp(20px,3vw,30px);display:flex;flex-direction:column;justify-content:center}
 .ps-weekly .pw-badge{align-self:flex-start;background:#fff;color:var(--accent-ink);font-weight:800;font-size:.7rem;padding:6px 12px;border-radius:999px;text-transform:uppercase}
+.ps-weekly .pw-blk{margin-top:14px}
+.ps-weekly .pw-lbl{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#bff0ff;margin-bottom:3px}
+.ps-weekly .pw-blk p{color:#eef6ff;font-size:.96rem;line-height:1.5;margin:0}
+.ps-weekly .pw-open{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.45);margin-top:18px;align-self:flex-start;display:inline-flex;align-items:center;gap:8px}
+.ps-weekly .pw-open:hover{background:rgba(255,255,255,.24)}
 .ps-weekly h3{color:#fff;margin-top:12px;font-size:clamp(1.3rem,2.3vw,1.7rem)}.ps-weekly p{color:#eef6ff;margin-top:9px;font-size:.93rem}
 .ps-weekly .pw-m{margin-top:12px;font-size:.79rem;font-weight:700;color:#dff0ff}
 .ps-shift{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(232px,264px);gap:14px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x mandatory}
@@ -1229,6 +1234,8 @@ function viewWeekly(){
       <div class="panel"><div class="panel-head"><h3>2 · O crear evidencia nueva</h3></div>
         <div class="field" style="margin-bottom:12px"><label>Título</label><input class="input" id="w-titulo" value="${esc(w.titulo)}" placeholder="Título de la evidencia"></div>
         <div class="field" style="margin-bottom:12px"><label>Resumen</label><textarea class="textarea" id="w-resumen" placeholder="Resumen breve de la evidencia…">${esc(w.resumen)}</textarea></div>
+        <div class="field" style="margin-bottom:12px"><label>¿Por qué importa?</label><textarea class="textarea" id="w-porque" placeholder="Por qué esta evidencia es relevante para la práctica clínica…">${esc(w.porque||'')}</textarea></div>
+        <div class="field" style="margin-bottom:12px"><label>¿Cómo se lleva a la práctica?</label><textarea class="textarea" id="w-practica" placeholder="Cómo se aplica junto a la cama o durante el turno…">${esc(w.practica||'')}</textarea></div>
         <div class="form-grid">
           <div class="field"><label>Autor o institución</label><input class="input" id="w-autor" value="${esc(w.autor)}"></div>
           <div class="field"><label>Año</label><input class="input" id="w-anio" type="number" value="${esc(w.anio)}"></div>
@@ -1249,7 +1256,7 @@ function viewWeekly(){
     if(!/^image\//.test(f.type||'')){toast('El archivo no es una imagen','warn');e.target.value='';return;}
     if(f.size>25*1024*1024){toast('Imagen demasiado grande (máx 25 MB)','warn');e.target.value='';return;}
     toast('Subiendo imagen…'); API.files.upload(f).then(ref=>{ $('#w-imgPrev').innerHTML='<div class="cover-prev"><img src="'+ref.url+'"></div>'; $('#w-imgPrev').dataset.img=ref.url; toast('Imagen cargada','ok'); }).catch(err=>toast((err&&err.message)||'No se pudo subir la imagen','crit'));};
-  $('#w-save').onclick=async()=>{if(!requirePerm('content'))return;const nw={ref:$('#w-ref').value,titulo:$('#w-titulo').value.trim(),resumen:$('#w-resumen').value.trim(),
+  $('#w-save').onclick=async()=>{if(!requirePerm('content'))return;const nw={ref:$('#w-ref').value,titulo:$('#w-titulo').value.trim(),resumen:$('#w-resumen').value.trim(),porque:($('#w-porque')?$('#w-porque').value.trim():''),practica:($('#w-practica')?$('#w-practica').value.trim():''),
     autor:$('#w-autor').value.trim(),anio:$('#w-anio').value,tipo:$('#w-tipo').value,tema:$('#w-tema').value,enlace:$('#w-enlace').value.trim(),
     imagen:$('#w-imgPrev').dataset.img||w.imagen||null,fecha:$('#w-fecha').value.trim()};
     if(!nw.ref&&!nw.titulo){toast('Selecciona un recurso o escribe un título','warn');return;}
@@ -1517,7 +1524,14 @@ function weeklyBlock(){
   else if(w.titulo){ data={titulo:w.titulo,desc:w.resumen,tema:w.tema,autor:w.autor,anio:w.anio,tipo:w.tipo,img:w.imagen,id:null}; tema=w.tema||'lesiones'; }
   else { const p=pubPublished()[0]; if(p){ data={titulo:p.titulo,desc:p.descripcion,tema:p.tema,autor:p.autor,anio:p.anio,tipo:p.tipo,img:p.imagen,id:p.id}; cls=RM[p.ruta].cls; tema=p.tema; } }
   if(!data) return '<div class="empty-state">Aún no hay evidencia destacada.</div>';
-  return '<div class="ps-weekly '+cls+'"><div class="pw-img">'+(data.img?'<img src="'+data.img+'" alt="">':svgImg(tema,cls,240))+'</div><div class="pw-b"><span class="pw-badge">★ Evidencia de la semana</span><h3>'+esc(data.titulo)+'</h3><p>'+esc(data.desc||'')+'</p><div class="pw-m">'+esc(TM[tema]?TM[tema].label:'')+' · '+esc(data.tipo||'')+' · '+esc(data.autor||'')+' '+esc(data.anio||'')+'</div>'+(data.id?('<button class="btn" style="background:#fff;color:var(--accent-ink);margin-top:16px;align-self:flex-start" onclick="openPublicResource(\''+data.id+'\')">Abrir recurso</button>'):'')+'</div></div>';
+  const porque=(w.porque&&w.porque.trim())?w.porque:(data.desc||'');
+  const practica=(w.practica&&w.practica.trim())?w.practica:'';
+  return '<div class="ps-weekly '+cls+'"><div class="pw-img">'+(data.img?'<img src="'+data.img+'" alt="">':svgImg(tema,cls,240))+'</div><div class="pw-b"><span class="pw-badge">★ Evidencia de la semana</span><h3>'+esc(data.titulo)+'</h3>'
+    +(porque?('<div class="pw-blk"><span class="pw-lbl">¿Por qué importa?</span><p>'+esc(porque)+'</p></div>'):'')
+    +(practica?('<div class="pw-blk"><span class="pw-lbl">¿Cómo se lleva a la práctica?</span><p>'+esc(practica)+'</p></div>'):'')
+    +'<div class="pw-m">'+esc(TM[tema]?TM[tema].label:'')+' · '+esc(data.tipo||'')+' · '+esc(data.autor||'')+' '+esc(data.anio||'')+'</div>'
+    +(data.id?('<button class="btn pw-open" onclick="openPublicResource(\''+data.id+'\')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> Ver recurso (respaldo)</button>'):'')
+    +'</div></div>';
 }
 function scrollToGrid(){ const el=document.getElementById('ps-tematica'); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
 window.pubSetRoute=k=>{ pubState.route=(pubState.route===k?'':k); renderPublic(); scrollToGrid(); };
