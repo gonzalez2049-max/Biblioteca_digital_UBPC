@@ -1273,6 +1273,10 @@ function viewExperience(){
           <div class="drop"><div class="dico" style="background:var(--azul)">${brIcon}</div><b>Subir imagen principal</b><small>JPG o PNG · se optimiza solo</small><input type="file" accept="image/*" id="br-hero"></div>
           <div id="br-heroPrev">${br.heroImage?`<div class="cover-prev"><img src="${esc(br.heroImage)}"></div><button class="btn btn-ghost btn-sm" style="margin-top:8px" id="br-heroDel">Quitar imagen</button>`:''}</div>
         </div>
+        <div class="field"><label>Imagen del asistente EVI (opcional)</label>
+          <div class="drop"><div class="dico" style="background:var(--turquesa)">${brIcon}</div><b>Subir imagen de EVI</b><small>reemplaza la carita del recuadro</small><input type="file" accept="image/*" id="br-evi"></div>
+          <div id="br-eviPrev">${br.eviImage?`<div class="cover-prev"><img src="${esc(br.eviImage)}"></div><button class="btn btn-ghost btn-sm" style="margin-top:8px" id="br-eviDel">Quitar imagen</button>`:''}</div>
+        </div>
       </div>
     </div>`:'';
   $('#adminMain').innerHTML=`
@@ -1292,9 +1296,10 @@ function viewExperience(){
     if(!/^image\//.test(f.type||'')){toast('El archivo no es una imagen','warn');e.target.value='';return;}
     if(f.size>25*1024*1024){toast('Imagen demasiado grande (máx 25 MB)','warn');e.target.value='';return;}
     toast('Subiendo imagen…'); API.files.upload(f).then(ref=>{ const p=$('#'+prevId); if(p)p.innerHTML='<div class="cover-prev"><img src="'+ref.url+'"></div>'; saveBranding({[key]:ref.url}); setTimeout(()=>navigate('experience'),400); }).catch(err=>toast((err&&err.message)||'No se pudo subir la imagen','crit')); }; };
-  bindBrandImg('br-logo','logo','br-logoPrev'); bindBrandImg('br-hero','heroImage','br-heroPrev');
+  bindBrandImg('br-logo','logo','br-logoPrev'); bindBrandImg('br-hero','heroImage','br-heroPrev'); bindBrandImg('br-evi','eviImage','br-eviPrev');
   if($('#br-logoDel'))$('#br-logoDel').onclick=async()=>{ await saveBranding({logo:null}); navigate('experience'); };
   if($('#br-heroDel'))$('#br-heroDel').onclick=async()=>{ await saveBranding({heroImage:null}); navigate('experience'); };
+  if($('#br-eviDel'))$('#br-eviDel').onclick=async()=>{ await saveBranding({eviImage:null}); navigate('experience'); };
 }
 window.editExp=k=>{if(!requirePerm('content'))return;const exp=DB.get('experience',{});const b=exp[k];
   modal({title:'Editar · '+b.label,body:`<div class="field"><label>Contenido del bloque</label><textarea class="textarea" id="exp-txt" style="min-height:150px">${esc(b.value)}</textarea></div>`,
@@ -1428,6 +1433,10 @@ function resCard(r){ const rt=RM[r.ruta]; const ap=APM[r.aprendizaje];
     +'<span class="ps-chip">🕓 '+esc(r.tiempo||'—')+'</span></div>'
     +'<button class="pc-btn">Abrir recurso →</button></div></article>'; }
 
+function eviAvatar(){ const im=(S.branding&&S.branding.eviImage)||'';
+  if(im) return '<div class="ev-av"><img src="'+esc(im)+'" alt="EVI" style="width:100%;height:100%;object-fit:cover;border-radius:22px"></div>';
+  return '<div class="ev-av"><div class="ev-blob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r="1.3" fill="currentColor" stroke="none"/><path d="M8.5 14.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8" stroke-linecap="round"/></svg></div></div>'; }
+
 function secHead(e,t,d,extra){ return '<div class="ps-head"><div><span class="ps-eyebrow">'+e+'</span><h2>'+t+'</h2>'+(d?('<p>'+d+'</p>'):'')+'</div>'+(extra||'')+'</div>'; }
 
 function renderPublic(){
@@ -1496,7 +1505,7 @@ function renderPublic(){
     +'<div class="ps-updates">'+(upd.length?upd.map(r=>{const rt=RM[r.ruta];const parts=(r.fecha||'').split(' · ')[0].split(' ');return '<button class="ps-upd '+rt.cls+'" onclick="openPublicResource(\''+r.id+'\')"><span class="ud">'+(parts[0]||'')+'<br>'+(parts[1]||'')+'</span><span><span class="ut">'+esc(r.titulo)+'</span><span class="um">'+rt.full+' · '+(TM[r.tema]?TM[r.tema].label:'')+' · '+esc(r.tipo)+'</span></span></button>';}).join(''):'<div class="empty-state">Aún no hay recursos publicados.</div>')+'</div></div></section>';
 
   // 10) Asistente EVI
-  html+='<section class="ps-sec alt" style="--sec:var(--turquesa)"><div class="ps-in"><div class="ps-evi"><div><span class="ps-eyebrow">Asistente EVI</span><h2>EVI te orienta según tu necesidad, rol y propósito</h2><p>Evidencia · Vínculo · Implementación. Cuéntale a EVI qué necesitas resolver y te lleva directo al recurso correcto y a su aplicación práctica.</p><div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:18px"><button class="btn" style="background:#fff;color:var(--brand-ink)" onclick="openEvi()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z" stroke-linecap="round" stroke-linejoin="round"/></svg> Conversar con EVI</button></div></div><div class="ev-av"><div class="ev-blob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r="1.3" fill="currentColor" stroke="none"/><path d="M8.5 14.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8" stroke-linecap="round"/></svg></div></div></div></div></section>';
+  html+='<section class="ps-sec alt" style="--sec:var(--turquesa)"><div class="ps-in"><div class="ps-evi"><div><span class="ps-eyebrow">Asistente EVI</span><h2>EVI te orienta según tu necesidad, rol y propósito</h2><p>Evidencia · Vínculo · Implementación. Cuéntale a EVI qué necesitas resolver y te lleva directo al recurso correcto y a su aplicación práctica.</p><div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:18px"><button class="btn" style="background:#fff;color:var(--brand-ink)" onclick="openEvi()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z" stroke-linecap="round" stroke-linejoin="round"/></svg> Conversar con EVI</button></div></div>'+eviAvatar()+'</div></div></section>';
 
   B.innerHTML=html;
 }
