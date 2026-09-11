@@ -260,7 +260,7 @@ module.exports = handler(async (req, res) => {
       const { rows } = await sql`SELECT data FROM singletons WHERE key = 'stats'`;
       const s = (rows[0] && rows[0].data) || {};
       s.interacciones = s.interacciones || []; s.aperturas = s.aperturas || {}; s.usoTema = s.usoTema || {}; s.usoRol = s.usoRol || {};
-      s.busquedas = s.busquedas || []; s.sinResultado = s.sinResultado || [];
+      s.busquedas = s.busquedas || []; s.sinResultado = s.sinResultado || []; s.utilidad = s.utilidad || {};
       const push = (txt) => { s.interacciones.unshift({ t: ts(), a: txt }); s.interacciones = s.interacciones.slice(0, 80); };
       if (type === 'visit') { s.visitas = (s.visitas || 0) + 1; push('Visita al Centro público'); }
       else if (type === 'open') {
@@ -268,6 +268,14 @@ module.exports = handler(async (req, res) => {
         if (bd.tema) s.usoTema[bd.tema] = (s.usoTema[bd.tema] || 0) + 1;
         if (bd.rol) s.usoRol[bd.rol] = (s.usoRol[bd.rol] || 0) + 1;
         push('Apertura de “' + String(bd.titulo || 'recurso') + '”');
+      } else if (type === 'feedback') {
+        const rid = String(bd.resourceId || '');
+        const val = bd.value === 'si' ? 'si' : bd.value === 'no' ? 'no' : '';
+        if (rid && val) {
+          const u = s.utilidad[rid] = s.utilidad[rid] || { si: 0, no: 0 };
+          u[val] = (u[val] || 0) + 1;
+          push('Valoración “' + (val === 'si' ? 'sí me sirvió' : 'no del todo') + '” en “' + String(bd.titulo || 'recurso') + '”');
+        }
       } else if (type === 'download') { s.descargas = (s.descargas || 0) + 1; push('Descarga de “' + String(bd.name || 'archivo') + '”'); }
       else if (type === 'evi') { s.eviAperturas = (s.eviAperturas || 0) + 1; push('Recurso abierto desde EVI'); }
       else if (type === 'search') {
