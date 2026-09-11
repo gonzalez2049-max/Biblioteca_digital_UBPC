@@ -146,8 +146,8 @@ module.exports = handler(async (req, res) => {
     return json(res, 405, { error: 'method_not_allowed' });
   }
 
-  // ---------- SINGLETONS: weekly / experience / branding / gaps ----------
-  if (a === 'weekly' || a === 'experience' || a === 'branding' || a === 'gaps') {
+  // ---------- SINGLETONS: weekly / experience / branding / gaps / featured ----------
+  if (a === 'weekly' || a === 'experience' || a === 'branding' || a === 'gaps' || a === 'featured') {
     await ensureSchema();
     if (req.method === 'GET') {
       const { rows } = await sql`SELECT data FROM singletons WHERE key = ${a}`;
@@ -162,6 +162,7 @@ module.exports = handler(async (req, res) => {
       const msg = a === 'weekly' ? 'Actualizó la evidencia destacada de la semana'
         : a === 'branding' ? 'Actualizó la identidad visual (logo e imagen principal)'
         : a === 'gaps' ? 'Actualizó las oportunidades de mejora (brechas)'
+        : a === 'featured' ? 'Actualizó “Lo esencial del turno” (recursos destacados)'
         : 'Editó los textos de la portada (Experiencia pública)';
       await addAudit(u.nombre, msg);
       return json(res, 200, { [a]: body || {} });

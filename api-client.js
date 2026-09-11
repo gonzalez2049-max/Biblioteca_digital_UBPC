@@ -93,6 +93,10 @@
       get: () => req('GET', '/api/gaps').then((d) => (d.gaps && d.gaps.items) || []),
       set: (items) => req('PUT', '/api/gaps', { items }).then((d) => (d.gaps && d.gaps.items) || []),
     },
+    featured: {
+      get: () => req('GET', '/api/featured').then((d) => d.featured || {}),
+      set: (f) => req('PUT', '/api/featured', f).then((d) => d.featured || {}),
+    },
     users: {
       list: () => req('GET', '/api/users').then((d) => d.users),
       create: (u) => req('POST', '/api/users', u).then((d) => d.user),

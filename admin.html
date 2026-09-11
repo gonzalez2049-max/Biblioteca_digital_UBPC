@@ -398,6 +398,9 @@ select,option{color:var(--ink);background:var(--surface)}
 .rc-fbtn{display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:8px 15px;font-weight:700;font-size:.88rem;cursor:pointer;transition:.15s}
 .rc-fbtn:hover{border-color:var(--brand)}
 .rc-thanks{font-size:.88rem;color:#16a34a;font-weight:700}
+.ps-essential{background:linear-gradient(180deg,color-mix(in srgb,var(--brand) 9%,transparent),transparent)}
+.ps-essential .ps-eyebrow{color:var(--brand)}
+.ps-essential h2{color:var(--ink)}
 .pub-wrap{max-width:1600px;margin:0 auto;padding:clamp(26px,4vw,46px) clamp(16px,4vw,40px)}
 .pub-filter{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:22px}
 .pub-chip{border:1.5px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:9px 15px;font-weight:700;font-size:.86rem;display:inline-flex;align-items:center;gap:8px;transition:.15s}
@@ -715,6 +718,7 @@ async function loadPublic(){
   try{ S.experience=await API.experience.get(); }catch(e){ S.experience=S.experience||{}; }
   try{ S.branding=await API.branding.get(); }catch(e){ S.branding=S.branding||{}; }
   try{ S.gaps=await API.gaps.get(); }catch(e){ S.gaps=S.gaps||[]; }
+  try{ S.featured=await API.featured.get(); }catch(e){ S.featured=S.featured||{}; }
 }
 async function loadAdmin(){
   try{ S.resources=normRes(await API.resources.listAll()); }catch(e){}
@@ -722,6 +726,7 @@ async function loadAdmin(){
   try{ S.experience=await API.experience.get(); }catch(e){}
   try{ S.branding=await API.branding.get(); }catch(e){ S.branding=S.branding||{}; }
   try{ S.gaps=await API.gaps.get(); }catch(e){ S.gaps=S.gaps||[]; }
+  try{ S.featured=await API.featured.get(); }catch(e){ S.featured=S.featured||{}; }
   try{ S.users=await API.users.list(); }catch(e){ S.users=[]; }
   try{ S.analytics=await API.stats.get(); }catch(e){ S.analytics={}; }
   try{ S.audit=await API.audit(); }catch(e){ S.audit=[]; }
@@ -1334,6 +1339,13 @@ function viewExperience(){
         <button class="btn btn-ghost btn-sm" onclick="previewExp('${k}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> Vista previa</button></div></div>`).join('')}
     </div>
     ${can('content')?`<div class="panel" style="margin-top:18px">
+      <div class="panel-head"><h3>⭐ Lo esencial del turno</h3></div>
+      <p class="note" style="margin:6px 0 12px">Elige hasta <b>4 recursos publicados</b> para destacarlos en una franja al inicio de la portada (para quien llega con prisa). Si no eliges ninguno, la franja no se muestra.</p>
+      <div class="field" style="max-width:520px;margin-bottom:14px"><label>Título de la franja</label><input class="input" id="feat-titulo" value="${esc((DB.get('featured',{})||{}).titulo||'Lo esencial del turno')}" placeholder="Lo esencial del turno"></div>
+      <div id="featList">${featListHtml()}</div>
+      <div style="margin-top:14px"><button class="btn btn-primary" id="feat-save"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg> Guardar “Lo esencial”</button></div>
+    </div>`:''}
+    ${can('content')?`<div class="panel" style="margin-top:18px">
       <div class="panel-head" style="display:flex;align-items:center;gap:10px"><h3>Oportunidades de mejora (brechas)</h3><button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="gapEdit(null)">+ Agregar brecha</button></div>
       <p class="note" style="margin:6px 0 12px">Estas tarjetas aparecen en la portada. Si no hay ninguna, la sección no se muestra.</p>
       <div id="gapList">${gapListHtml()}</div>
@@ -1348,7 +1360,21 @@ function viewExperience(){
   if($('#br-logoDel'))$('#br-logoDel').onclick=async()=>{ await saveBranding({logo:null}); navigate('experience'); };
   if($('#br-heroDel'))$('#br-heroDel').onclick=async()=>{ await saveBranding({heroImage:null}); navigate('experience'); };
   if($('#br-eviDel'))$('#br-eviDel').onclick=async()=>{ await saveBranding({eviImage:null}); navigate('experience'); };
+  document.querySelectorAll('.feat-cb').forEach(cb=>cb.addEventListener('change',()=>{ if(document.querySelectorAll('.feat-cb:checked').length>4){ cb.checked=false; toast('Puedes destacar hasta 4 recursos','warn'); } }));
+  if($('#feat-save'))$('#feat-save').onclick=featSave;
 }
+function featListHtml(){
+  const ids=((S.featured&&S.featured.ids)||[]); const pub=pubPublished();
+  if(!pub.length) return '<div class="note">No hay recursos publicados todavía. Publica recursos para poder destacarlos.</div>';
+  return '<div class="mini-list">'+pub.map(r=>{const on=ids.includes(r.id);return '<label class="mini-row" style="cursor:pointer"><input type="checkbox" class="feat-cb" value="'+r.id+'" '+(on?'checked':'')+' style="width:18px;height:18px;flex:none;accent-color:var(--brand)"><span style="flex:1;min-width:0"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.titulo)+'</b><small style="color:var(--ink-3)">'+esc(RM[r.ruta]?RM[r.ruta].full:'')+' · '+esc(TM[r.tema]?TM[r.tema].label:'')+'</small></span></label>';}).join('')+'</div>';
+}
+window.featSave=async()=>{ if(!requirePerm('content'))return;
+  const ids=Array.from(document.querySelectorAll('.feat-cb:checked')).map(c=>c.value);
+  if(ids.length>4){ toast('Puedes destacar hasta 4 recursos','warn'); return; }
+  const titulo=(($('#feat-titulo')&&$('#feat-titulo').value)||'').trim()||'Lo esencial del turno';
+  const f={titulo,ids};
+  try{ await API.featured.set(f); S.featured=f; syncPortal(); toast('“Lo esencial del turno” actualizado','ok'); }catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); }
+};
 window.editExp=k=>{if(!requirePerm('content'))return;const exp=DB.get('experience',{});const b=exp[k];
   modal({title:'Editar · '+b.label,body:`<div class="field"><label>Contenido del bloque</label><textarea class="textarea" id="exp-txt" style="min-height:150px">${esc(b.value)}</textarea></div>`,
     foot:`<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn btn-primary" id="exp-save">Guardar y reflejar en portada</button>`});
@@ -1539,6 +1565,19 @@ function eviAvatar(){ const im=(S.branding&&S.branding.eviImage)||'';
   return '<div class="ev-av"><div class="ev-blob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r="1.3" fill="currentColor" stroke="none"/><path d="M8.5 14.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8" stroke-linecap="round"/></svg></div></div>'; }
 
 function secHead(e,t,d,extra){ return '<div class="ps-head"><div><span class="ps-eyebrow">'+e+'</span><h2>'+t+'</h2>'+(d?('<p>'+d+'</p>'):'')+'</div>'+(extra||'')+'</div>'; }
+// "Lo esencial del turno": franja destacada, curada por el administrador (recursos que él elige mostrar).
+function featuredBlock(){
+  const f=S.featured||{}; const ids=Array.isArray(f.ids)?f.ids:[];
+  if(!ids.length)return '';
+  const byId={}; pubPublished().forEach(r=>{ byId[r.id]=r; });
+  const list=ids.map(id=>byId[id]).filter(Boolean).slice(0,4);
+  if(!list.length)return '';
+  const titulo=esc(f.titulo||'Lo esencial del turno');
+  return '<section class="ps-sec ps-essential" style="--sec:var(--brand)"><div class="ps-in">'
+    +secHead('Empieza por aquí','⭐ '+titulo,'Una selección corta para resolver rápido lo más importante del turno.')
+    +'<div class="ps-shift">'+list.map(resCard).join('')+'</div>'
+    +'</div></section>';
+}
 
 function renderPublic(){
   const B=document.getElementById('pubBody'); if(!B)return;
@@ -1557,6 +1596,9 @@ function renderPublic(){
   let html='<section class="ps-sec" style="--sec:var(--brand)"><div class="ps-in">'
     +secHead('Tres accesos rápidos','¿Cómo quieres empezar hoy?','Elige un punto de partida y te llevamos directo a los recursos.')
     +'<div class="ps-access">'+acc.map(i=>'<button class="ps-acc" onclick="pubSetRoute(\''+i[3]+'\')"><span class="ai" style="background:linear-gradient(135deg,'+i[4]+',color-mix(in srgb,'+i[4]+' 60%,#fff))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">'+ACC_ICON[i[0]]+'</svg></span><span><h3>'+i[1]+'</h3><p>'+i[2]+'</p></span><span class="ar">→</span></button>').join('')+'</div></div></section>';
+
+  // 1b) Lo esencial del turno (curado por el administrador)
+  html+=featuredBlock();
 
   // 2) Cinco rutas
   html+='<section class="ps-sec alt" style="--sec:var(--brand)"><div class="ps-in">'
