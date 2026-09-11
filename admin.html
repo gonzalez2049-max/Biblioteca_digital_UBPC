@@ -1268,7 +1268,7 @@ function viewWeekly(){
     autor:$('#w-autor').value.trim(),anio:$('#w-anio').value,tipo:$('#w-tipo').value,tema:$('#w-tema').value,enlace:$('#w-enlace').value.trim(),
     imagen:$('#w-imgPrev').dataset.img||w.imagen||null,fecha:$('#w-fecha').value.trim()};
     if(!nw.titulo){toast('Escribe un título para la evidencia de la semana','warn');return;}
-    try{ await API.weekly.set(nw); S.weekly=nw; syncPortal(); toast('Evidencia de la semana guardada','ok'); }catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); } };
+    try{ await API.weekly.set(nw); S.weekly=nw; syncPortal(); toast('Evidencia de la semana guardada','ok'); navigate('overview'); }catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); } };
 }
 
 /* ================= VIEW: EXPERIENCE ================= */
