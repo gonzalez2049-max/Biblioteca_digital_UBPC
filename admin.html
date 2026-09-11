@@ -1463,6 +1463,8 @@ function viewUsage(){
   const top=Object.entries(a.aperturas||{}).sort((x,y)=>y[1]-x[1]).slice(0,6);
   const util=Object.entries(a.utilidad||{}).map(([id,v])=>[id,(v&&v.si)||0,(v&&v.no)||0]).sort((x,y)=>(y[1]+y[2])-(x[1]+x[2])).slice(0,8);
   const totalSi=Object.values(a.utilidad||{}).reduce((s,v)=>s+((v&&v.si)||0),0);
+  const prog=Object.entries(a.progreso||{}).map(([id,v])=>[id,(v&&v.revisar)||0,(v&&v.aplicar)||0,(v&&v.registrar)||0]).sort((x,y)=>(y[1]+y[2]+y[3])-(x[1]+x[2]+x[3])).slice(0,8);
+  const totalAplico=Object.values(a.progreso||{}).reduce((s,v)=>s+((v&&v.aplicar)||0),0);
   const nombre=id=>res.find(r=>r.id===id)?.titulo||'Recurso';
   const stat=(color,num,label)=>`<div class="stat"><div class="snum">${num.toLocaleString('es-CL')}</div><div class="slabel">${label}</div><span class="strend" style="background:${color}22;color:${color}">●</span></div>`;
   $('#adminMain').innerHTML=`
@@ -1476,6 +1478,7 @@ function viewUsage(){
       ${stat('#d98514',a.descargas||0,'Descargas')}
       ${stat('#7c5cfc',a.eviAperturas||0,'Recursos abiertos desde EVI')}
       ${stat('#16a34a',totalSi,'«Sí, me sirvió»')}
+      ${stat('#c026d3',totalAplico,'Llevados a la práctica')}
     </div>
     <div class="two-col" style="margin-top:20px">
       <div class="panel"><div class="panel-head"><h3>Recursos más consultados</h3></div>
@@ -1491,6 +1494,8 @@ function viewUsage(){
     </div>
     <div class="panel" style="margin-top:20px"><div class="panel-head"><h3>¿Les sirvió? — valoración por recurso</h3><p>Respuestas de quienes abrieron la ficha (👍 sí me sirvió · 👎 no del todo).</p></div>
       <div class="mini-list">${util.map(([id,si,no])=>`<div class="mini-row"><span class="mrank">${si+no}</span><b>${esc(nombre(id))}</b><span class="mval">👍 ${si} · 👎 ${no}</span></div>`).join('')||emptyMini()}</div></div>
+    <div class="panel" style="margin-top:20px"><div class="panel-head"><h3>Recursos llevados a la práctica</h3><p>Cuántas personas marcaron su avance en la ficha (👁 revisó · ✋ aplicó · 📝 registró).</p></div>
+      <div class="mini-list">${prog.map(([id,rv,ap,rg])=>`<div class="mini-row"><span class="mrank">${rv+ap+rg}</span><b>${esc(nombre(id))}</b><span class="mval">👁 ${rv} · ✋ ${ap} · 📝 ${rg}</span></div>`).join('')||emptyMini()}</div></div>
     <div class="two-col" style="margin-top:20px">
       <div class="panel"><div class="panel-head"><h3>Uso por rol</h3></div>
         <div class="rdist">${distBars(a.usoRol||{},ROLM)}</div></div>
@@ -1776,7 +1781,9 @@ window.openPublicResource=async id=>{
 /* ---- Compromiso con el recurso: micro-checklist (por dispositivo) + valoración de utilidad ---- */
 function pubGetCheck(id){ try{ return JSON.parse(localStorage.getItem('nex_check_'+id)||'{}')||{}; }catch(e){ return {}; } }
 function pubGetVote(id){ try{ return localStorage.getItem('nex_fb_'+id)||''; }catch(e){ return ''; } }
-window.pubToggleCheck=(id,k,btn)=>{ const c=pubGetCheck(id); c[k]=!c[k]; try{localStorage.setItem('nex_check_'+id,JSON.stringify(c));}catch(e){} if(btn){ btn.classList.toggle('on',!!c[k]); const b=btn.querySelector('.rc-box'); if(b)b.textContent=c[k]?'✓':''; } };
+window.pubToggleCheck=(id,k,btn)=>{ const c=pubGetCheck(id); c[k]=!c[k]; try{localStorage.setItem('nex_check_'+id,JSON.stringify(c));}catch(e){}
+  if(c[k]){ let sent=''; try{sent=localStorage.getItem('nex_prog_'+id+'_'+k)||'';}catch(e){} if(!sent){ try{localStorage.setItem('nex_prog_'+id+'_'+k,'1');}catch(e){} try{ const r=pubPublished().find(x=>x.id===id); API.stats.track({type:'progress',resourceId:id,step:k,titulo:r?r.titulo:''}); }catch(e){} } }
+  if(btn){ btn.classList.toggle('on',!!c[k]); const b=btn.querySelector('.rc-box'); if(b)b.textContent=c[k]?'✓':''; } };
 window.pubFeedback=(id,val)=>{ if(pubGetVote(id))return; try{localStorage.setItem('nex_fb_'+id,val);}catch(e){} try{ const r=pubPublished().find(x=>x.id===id); API.stats.track({type:'feedback',resourceId:id,value:val,titulo:r?r.titulo:''}); }catch(e){} const box=document.getElementById('rcfb-'+id); if(box)box.innerHTML='<span class="rc-thanks">¡Gracias por tu respuesta! 🙌</span>'; };
 function pubEngageHtml(r){
   const chk=pubGetCheck(r.id);

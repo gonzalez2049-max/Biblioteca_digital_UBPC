@@ -1715,7 +1715,9 @@ window.openPublicResource=async id=>{
 /* ---- Compromiso con el recurso: micro-checklist (por dispositivo) + valoración de utilidad ---- */
 function pubGetCheck(id){ try{ return JSON.parse(localStorage.getItem('nex_check_'+id)||'{}')||{}; }catch(e){ return {}; } }
 function pubGetVote(id){ try{ return localStorage.getItem('nex_fb_'+id)||''; }catch(e){ return ''; } }
-window.pubToggleCheck=(id,k,btn)=>{ const c=pubGetCheck(id); c[k]=!c[k]; try{localStorage.setItem('nex_check_'+id,JSON.stringify(c));}catch(e){} if(btn){ btn.classList.toggle('on',!!c[k]); const b=btn.querySelector('.rc-box'); if(b)b.textContent=c[k]?'✓':''; } };
+window.pubToggleCheck=(id,k,btn)=>{ const c=pubGetCheck(id); c[k]=!c[k]; try{localStorage.setItem('nex_check_'+id,JSON.stringify(c));}catch(e){}
+  if(c[k]){ let sent=''; try{sent=localStorage.getItem('nex_prog_'+id+'_'+k)||'';}catch(e){} if(!sent){ try{localStorage.setItem('nex_prog_'+id+'_'+k,'1');}catch(e){} try{ const r=pubPublished().find(x=>x.id===id); API.stats.track({type:'progress',resourceId:id,step:k,titulo:r?r.titulo:''}); }catch(e){} } }
+  if(btn){ btn.classList.toggle('on',!!c[k]); const b=btn.querySelector('.rc-box'); if(b)b.textContent=c[k]?'✓':''; } };
 window.pubFeedback=(id,val)=>{ if(pubGetVote(id))return; try{localStorage.setItem('nex_fb_'+id,val);}catch(e){} try{ const r=pubPublished().find(x=>x.id===id); API.stats.track({type:'feedback',resourceId:id,value:val,titulo:r?r.titulo:''}); }catch(e){} const box=document.getElementById('rcfb-'+id); if(box)box.innerHTML='<span class="rc-thanks">¡Gracias por tu respuesta! 🙌</span>'; };
 function pubEngageHtml(r){
   const chk=pubGetCheck(r.id);

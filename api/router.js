@@ -263,7 +263,7 @@ module.exports = handler(async (req, res) => {
       const { rows } = await sql`SELECT data FROM singletons WHERE key = 'stats'`;
       const s = (rows[0] && rows[0].data) || {};
       s.interacciones = s.interacciones || []; s.aperturas = s.aperturas || {}; s.usoTema = s.usoTema || {}; s.usoRol = s.usoRol || {};
-      s.busquedas = s.busquedas || []; s.sinResultado = s.sinResultado || []; s.utilidad = s.utilidad || {};
+      s.busquedas = s.busquedas || []; s.sinResultado = s.sinResultado || []; s.utilidad = s.utilidad || {}; s.progreso = s.progreso || {};
       const push = (txt) => { s.interacciones.unshift({ t: ts(), a: txt }); s.interacciones = s.interacciones.slice(0, 80); };
       if (type === 'visit') { s.visitas = (s.visitas || 0) + 1; push('Visita al Centro público'); }
       else if (type === 'open') {
@@ -278,6 +278,15 @@ module.exports = handler(async (req, res) => {
           const u = s.utilidad[rid] = s.utilidad[rid] || { si: 0, no: 0 };
           u[val] = (u[val] || 0) + 1;
           push('Valoración “' + (val === 'si' ? 'sí me sirvió' : 'no del todo') + '” en “' + String(bd.titulo || 'recurso') + '”');
+        }
+      } else if (type === 'progress') {
+        const rid = String(bd.resourceId || '');
+        const step = (bd.step === 'revisar' || bd.step === 'aplicar' || bd.step === 'registrar') ? bd.step : '';
+        if (rid && step) {
+          const p = s.progreso[rid] = s.progreso[rid] || { revisar: 0, aplicar: 0, registrar: 0 };
+          p[step] = (p[step] || 0) + 1;
+          const lbl = step === 'revisar' ? 'Revisé' : step === 'aplicar' ? 'Apliqué' : 'Registré';
+          push('Marcó “' + lbl + '” en “' + String(bd.titulo || 'recurso') + '”');
         }
       } else if (type === 'download') { s.descargas = (s.descargas || 0) + 1; push('Descarga de “' + String(bd.name || 'archivo') + '”'); }
       else if (type === 'evi') { s.eviAperturas = (s.eviAperturas || 0) + 1; push('Recurso abierto desde EVI'); }
