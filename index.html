@@ -1235,41 +1235,46 @@ function openPreview(r){const rt=RM[r.ruta]||RM.aprender;
     foot:`<button class="btn btn-primary" onclick="closeModal()">Cerrar</button>`});}
 
 /* ================= VIEW: WEEKLY ================= */
+// Normaliza el singleton 'weekly' a {items:[...], activeId}. Migra el formato antiguo (objeto único).
+function weeklyNorm(w){ w=w||{};
+  if(Array.isArray(w.items)) return {items:w.items, activeId:w.activeId||(w.items[0]&&w.items[0].id)||null};
+  if(w.titulo){ const it=Object.assign({id:'wk'+Date.now().toString(36)}, w); return {items:[it], activeId:it.id}; }
+  return {items:[], activeId:null}; }
 function viewWeekly(){
-  const w=DB.get('weekly',{});const res=DB.get('resources',[]).filter(r=>r.estado==='publicado');
   $('#adminMain').innerHTML=`
   <div class="view">
     <div class="view-head"><div><span class="eyebrow">Evidencia semanal</span><h2>Evidencia destacada de la semana</h2>
-      <p>Crea la evidencia destacada de la semana. Es <b>independiente</b> del resto de recursos: tiene su propio título, imagen y textos.</p></div></div>
-    <div class="panel">
-      <div class="panel-head"><h3>Datos de la evidencia de la semana</h3></div>
-        <div class="field" style="margin-bottom:12px"><label>Título</label><input class="input" id="w-titulo" value="${esc(w.titulo)}" placeholder="Título de la evidencia"></div>
-        <div class="field" style="margin-bottom:12px"><label>Mensaje de la semana (opcional)</label><textarea class="textarea" id="w-mensaje" placeholder="Un saludo o mensaje breve del equipo para esta semana…">${esc(w.mensaje||'')}</textarea></div>
-        <div class="field" style="margin-bottom:12px"><label>Resumen</label><textarea class="textarea" id="w-resumen" placeholder="Resumen breve de la evidencia…">${esc(w.resumen)}</textarea></div>
-        <div class="field" style="margin-bottom:12px"><label>¿Por qué importa?</label><textarea class="textarea" id="w-porque" placeholder="Por qué esta evidencia es relevante para la práctica clínica…">${esc(w.porque||'')}</textarea></div>
-        <div class="field" style="margin-bottom:12px"><label>¿Cómo se lleva a la práctica?</label><textarea class="textarea" id="w-practica" placeholder="Cómo se aplica junto a la cama o durante el turno…">${esc(w.practica||'')}</textarea></div>
-        <div class="form-grid">
-          <div class="field"><label>Autor o institución</label><input class="input" id="w-autor" value="${esc(w.autor)}"></div>
-          <div class="field"><label>Año</label><input class="input" id="w-anio" type="number" value="${esc(w.anio)}"></div>
-          <div class="field"><label>Tipo de evidencia</label><select class="select" id="w-tipo">${['Guía','Revisión sistemática','Ensayo clínico','Norma','Consenso','Recomendación'].map(t=>`<option ${w.tipo===t?'selected':''}>${t}</option>`).join('')}</select></div>
-          <div class="field"><label>Temática</label><select class="select" id="w-tema">${TEMAS.map(t=>`<option value="${t.key}" ${w.tema===t.key?'selected':''}>${t.label}</option>`).join('')}</select></div>
-          <div class="field col-2"><label>Enlace de respaldo (opcional)</label><input class="input" id="w-enlace" value="${esc(w.enlace)}" placeholder="https://… (se abre con el botón “Ver recurso”)"></div>
-          <div class="field col-2"><label>Imagen</label><div class="drop"><div class="dico" style="background:var(--ambar)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5L5 20" stroke-linecap="round"/></svg></div><b>Subir imagen</b><input type="file" accept="image/*" id="w-img"></div><div id="w-imgPrev">${w.imagen?`<div class="cover-prev"><img src="${w.imagen}"></div>`:''}</div></div>
-        </div>
-    </div>
-    <div class="panel" style="margin-top:20px"><div class="field"><label>Fecha de publicación</label><input class="input" id="w-fecha" type="text" value="${esc(w.fecha||now())}"></div>
-      <div class="form-actions"><div class="spacer"></div><button class="btn btn-primary btn-lg" id="w-save"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3l2.4 5 5.6.5-4.2 3.8 1.3 5.5L12 15l-5.1 2.8 1.3-5.5L4 8.5 9.6 8 12 3z" stroke-linejoin="round"/></svg> Guardar evidencia de la semana</button></div></div>
+      <p>Crea varias evidencias; las anteriores quedan guardadas y tú eliges cuál se muestra en la portada (⭐ = la que se ve).</p></div>
+      <button class="btn btn-primary" onclick="wkEdit(null)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg> Agregar evidencia</button></div>
+    <div class="panel"><div id="wkList">${wkListHtml()}</div></div>
   </div>`;
-  $('#w-img').onchange=e=>{const f=e.target.files[0];if(!f)return;
-    if(!/^image\//.test(f.type||'')){toast('El archivo no es una imagen','warn');e.target.value='';return;}
-    if(f.size>3*1024*1024){toast('Imagen demasiado grande (máx 3 MB)','warn');e.target.value='';return;}
-    toast('Subiendo imagen…'); API.files.upload(f).then(ref=>{ $('#w-imgPrev').innerHTML='<div class="cover-prev"><img src="'+ref.url+'"></div>'; $('#w-imgPrev').dataset.img=ref.url; toast('Imagen cargada','ok'); }).catch(err=>toast((err&&err.message)||'No se pudo subir la imagen','crit'));};
-  $('#w-save').onclick=async()=>{if(!requirePerm('content'))return;const nw={titulo:$('#w-titulo').value.trim(),mensaje:($('#w-mensaje')?$('#w-mensaje').value.trim():''),resumen:$('#w-resumen').value.trim(),porque:($('#w-porque')?$('#w-porque').value.trim():''),practica:($('#w-practica')?$('#w-practica').value.trim():''),
-    autor:$('#w-autor').value.trim(),anio:$('#w-anio').value,tipo:$('#w-tipo').value,tema:$('#w-tema').value,enlace:$('#w-enlace').value.trim(),
-    imagen:$('#w-imgPrev').dataset.img||w.imagen||null,fecha:$('#w-fecha').value.trim()};
-    if(!nw.titulo){toast('Escribe un título para la evidencia de la semana','warn');return;}
-    try{ await API.weekly.set(nw); S.weekly=nw; syncPortal(); toast('Evidencia de la semana guardada','ok'); navigate('overview'); }catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); } };
 }
+function wkListHtml(){ const wd=weeklyNorm(DB.get('weekly',{}));
+  if(!wd.items.length) return '<div class="note">Aún no hay evidencias. Pulsa “Agregar evidencia” para crear la primera.</div>';
+  return '<div class="mini-list">'+wd.items.map(it=>{const on=it.id===wd.activeId;return '<div class="mini-row"><span class="mrank" style="background:'+(on?'var(--ok)':'var(--ink-3)')+'">'+(on?'★':'·')+'</span><span style="flex:1;min-width:0"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(it.titulo||'(sin título)')+'</b><small style="color:var(--ink-3)">'+esc(TM[it.tema]?TM[it.tema].label:'')+(it.fecha?(' · '+esc(it.fecha)):'')+'</small></span>'+(on?'<span class="mval" style="color:var(--ok)">En portada</span>':'<button class="btn btn-ghost btn-sm" onclick="wkShow(\''+it.id+'\')">Mostrar</button>')+'<button class="iact" title="Editar" onclick="wkEdit(\''+it.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z" stroke-linejoin="round"/></svg></button><button class="iact danger" title="Eliminar" onclick="wkDel(\''+it.id+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M6 6l1 14a2 2 0 002 2h6a2 2 0 002-2l1-14" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>';}).join('')+'</div>'; }
+async function wkSave(wd){ try{ await API.weekly.set(wd); S.weekly=wd; syncPortal(); const el=document.getElementById('wkList'); if(el)el.innerHTML=wkListHtml(); toast('Evidencia de la semana guardada','ok'); }catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); } }
+window.wkShow=id=>{ if(!requirePerm('content'))return; const wd=weeklyNorm(DB.get('weekly',{})); wd.activeId=id; wkSave(wd); };
+window.wkDel=id=>{ if(!requirePerm('content'))return; confirmModal({icon:'crit',color:'var(--crit)',title:'Eliminar evidencia',body:'<p style="color:var(--ink-2)">¿Eliminar esta evidencia de la semana? Las demás quedan guardadas.</p>',okLabel:'Eliminar',okClass:'btn-crit',onOk:()=>{ const wd=weeklyNorm(DB.get('weekly',{})); wd.items=wd.items.filter(x=>x.id!==id); if(wd.activeId===id)wd.activeId=(wd.items[0]&&wd.items[0].id)||null; wkSave(wd); }}); };
+window.wkEdit=id=>{ if(!requirePerm('content'))return; const wd=weeklyNorm(DB.get('weekly',{})); const nuevo=!id; const it=nuevo?{id:'wk'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),titulo:'',mensaje:'',resumen:'',porque:'',practica:'',autor:'',anio:new Date().getFullYear(),tipo:'Guía',tema:'lesiones',enlace:'',imagen:null,fecha:now()}:(wd.items.find(x=>x.id===id)||{});
+  modal({title:nuevo?'Agregar evidencia de la semana':'Editar evidencia',wide:true,body:`
+    <div class="field" style="margin-bottom:12px"><label>Título</label><input class="input" id="wk-titulo" value="${esc(it.titulo||'')}" placeholder="Título de la evidencia"></div>
+    <div class="field" style="margin-bottom:12px"><label>Mensaje de la semana (opcional)</label><textarea class="textarea" id="wk-mensaje" placeholder="Un saludo o mensaje breve del equipo…">${esc(it.mensaje||'')}</textarea></div>
+    <div class="field" style="margin-bottom:12px"><label>Resumen</label><textarea class="textarea" id="wk-resumen" placeholder="Resumen breve…">${esc(it.resumen||'')}</textarea></div>
+    <div class="field" style="margin-bottom:12px"><label>¿Por qué importa?</label><textarea class="textarea" id="wk-porque" placeholder="Por qué es relevante…">${esc(it.porque||'')}</textarea></div>
+    <div class="field" style="margin-bottom:12px"><label>¿Cómo se lleva a la práctica?</label><textarea class="textarea" id="wk-practica" placeholder="Cómo se aplica…">${esc(it.practica||'')}</textarea></div>
+    <div class="form-grid">
+      <div class="field"><label>Autor o institución</label><input class="input" id="wk-autor" value="${esc(it.autor||'')}"></div>
+      <div class="field"><label>Año</label><input class="input" id="wk-anio" type="number" value="${esc(it.anio||'')}"></div>
+      <div class="field"><label>Tipo</label><select class="select" id="wk-tipo">${['Guía','Revisión sistemática','Ensayo clínico','Norma','Consenso','Recomendación'].map(t=>`<option ${it.tipo===t?'selected':''}>${t}</option>`).join('')}</select></div>
+      <div class="field"><label>Temática</label><select class="select" id="wk-tema">${TEMAS.map(t=>`<option value="${t.key}" ${it.tema===t.key?'selected':''}>${t.label}</option>`).join('')}</select></div>
+      <div class="field col-2"><label>Enlace de respaldo (opcional)</label><input class="input" id="wk-enlace" value="${esc(it.enlace||'')}" placeholder="https://…"></div>
+      <div class="field col-2"><label>Imagen</label><div class="drop"><div class="dico" style="background:var(--ambar)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5L5 20" stroke-linecap="round"/></svg></div><b>Subir imagen</b><input type="file" accept="image/*" id="wk-img"></div><div id="wk-imgPrev">${it.imagen?`<div class="cover-prev"><img src="${it.imagen}"></div>`:''}</div></div>
+    </div>`,
+    foot:`<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn btn-primary" id="wk-save">Guardar</button>`});
+  $('#wk-img').onchange=e=>{const f=e.target.files[0];if(!f)return; if(!/^image\//.test(f.type||'')){toast('El archivo no es una imagen','warn');e.target.value='';return;} if(f.size>25*1024*1024){toast('Imagen demasiado grande (máx 25 MB)','warn');e.target.value='';return;} toast('Subiendo imagen…'); API.files.upload(f).then(ref=>{ $('#wk-imgPrev').innerHTML='<div class="cover-prev"><img src="'+ref.url+'"></div>'; $('#wk-imgPrev').dataset.img=ref.url; toast('Imagen cargada','ok'); }).catch(err=>toast((err&&err.message)||'No se pudo subir la imagen','crit'));};
+  $('#wk-save').onclick=async()=>{ const ni={id:it.id,titulo:$('#wk-titulo').value.trim(),mensaje:$('#wk-mensaje').value.trim(),resumen:$('#wk-resumen').value.trim(),porque:$('#wk-porque').value.trim(),practica:$('#wk-practica').value.trim(),autor:$('#wk-autor').value.trim(),anio:$('#wk-anio').value,tipo:$('#wk-tipo').value,tema:$('#wk-tema').value,enlace:$('#wk-enlace').value.trim(),imagen:($('#wk-imgPrev').dataset.img||it.imagen||null),fecha:it.fecha||now()};
+    if(!ni.titulo){toast('Falta el título','warn');return;}
+    const wd2=weeklyNorm(DB.get('weekly',{})); const idx=wd2.items.findIndex(x=>x.id===ni.id); if(idx>=0)wd2.items[idx]=ni; else wd2.items.push(ni); if(!wd2.activeId)wd2.activeId=ni.id; closeModal(); await wkSave(wd2); }; };
 
 /* ================= VIEW: EXPERIENCE ================= */
 function viewExperience(){
@@ -1581,7 +1586,7 @@ function renderPublic(){
   B.innerHTML=html;
 }
 function weeklyBlock(){
-  const w=S.weekly||{};
+  const wd=weeklyNorm(S.weekly); const w=(wd.items.find(x=>x.id===wd.activeId)||wd.items[0]||{});
   const titulo=(w.titulo||'').trim();
   if(!titulo) return '<div class="empty-state">Aún no se ha definido la evidencia destacada. Créala en Administración → Evidencia semanal.</div>';
   const tema=w.tema||'lesiones', cls='r-aplicar', img=w.imagen||'';
