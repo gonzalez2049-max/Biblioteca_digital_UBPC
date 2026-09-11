@@ -503,6 +503,7 @@ select,option{color:var(--ink);background:var(--surface)}
 .ps-weekly .pw-blk p{color:#eef6ff;font-size:.96rem;line-height:1.5;margin:0}
 .ps-weekly .pw-open{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.45);margin-top:18px;align-self:flex-start;display:inline-flex;align-items:center;gap:8px}
 .ps-weekly .pw-open:hover{background:rgba(255,255,255,.24)}
+.ps-weekly .pw-msg{margin-top:10px;padding:10px 13px;background:rgba(255,255,255,.13);border-left:3px solid rgba(255,255,255,.6);border-radius:8px;font-style:italic;color:#fff;font-size:.96rem;line-height:1.5}
 .ps-weekly h3{color:#fff;margin-top:12px;font-size:clamp(1.3rem,2.3vw,1.7rem)}.ps-weekly p{color:#eef6ff;margin-top:9px;font-size:.93rem}
 .ps-weekly .pw-m{margin-top:12px;font-size:.79rem;font-weight:700;color:#dff0ff}
 .ps-shift{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(232px,264px);gap:14px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x mandatory}
@@ -1243,6 +1244,7 @@ function viewWeekly(){
     <div class="panel">
       <div class="panel-head"><h3>Datos de la evidencia de la semana</h3></div>
         <div class="field" style="margin-bottom:12px"><label>Título</label><input class="input" id="w-titulo" value="${esc(w.titulo)}" placeholder="Título de la evidencia"></div>
+        <div class="field" style="margin-bottom:12px"><label>Mensaje de la semana (opcional)</label><textarea class="textarea" id="w-mensaje" placeholder="Un saludo o mensaje breve del equipo para esta semana…">${esc(w.mensaje||'')}</textarea></div>
         <div class="field" style="margin-bottom:12px"><label>Resumen</label><textarea class="textarea" id="w-resumen" placeholder="Resumen breve de la evidencia…">${esc(w.resumen)}</textarea></div>
         <div class="field" style="margin-bottom:12px"><label>¿Por qué importa?</label><textarea class="textarea" id="w-porque" placeholder="Por qué esta evidencia es relevante para la práctica clínica…">${esc(w.porque||'')}</textarea></div>
         <div class="field" style="margin-bottom:12px"><label>¿Cómo se lleva a la práctica?</label><textarea class="textarea" id="w-practica" placeholder="Cómo se aplica junto a la cama o durante el turno…">${esc(w.practica||'')}</textarea></div>
@@ -1262,7 +1264,7 @@ function viewWeekly(){
     if(!/^image\//.test(f.type||'')){toast('El archivo no es una imagen','warn');e.target.value='';return;}
     if(f.size>25*1024*1024){toast('Imagen demasiado grande (máx 25 MB)','warn');e.target.value='';return;}
     toast('Subiendo imagen…'); API.files.upload(f).then(ref=>{ $('#w-imgPrev').innerHTML='<div class="cover-prev"><img src="'+ref.url+'"></div>'; $('#w-imgPrev').dataset.img=ref.url; toast('Imagen cargada','ok'); }).catch(err=>toast((err&&err.message)||'No se pudo subir la imagen','crit'));};
-  $('#w-save').onclick=async()=>{if(!requirePerm('content'))return;const nw={titulo:$('#w-titulo').value.trim(),resumen:$('#w-resumen').value.trim(),porque:($('#w-porque')?$('#w-porque').value.trim():''),practica:($('#w-practica')?$('#w-practica').value.trim():''),
+  $('#w-save').onclick=async()=>{if(!requirePerm('content'))return;const nw={titulo:$('#w-titulo').value.trim(),mensaje:($('#w-mensaje')?$('#w-mensaje').value.trim():''),resumen:$('#w-resumen').value.trim(),porque:($('#w-porque')?$('#w-porque').value.trim():''),practica:($('#w-practica')?$('#w-practica').value.trim():''),
     autor:$('#w-autor').value.trim(),anio:$('#w-anio').value,tipo:$('#w-tipo').value,tema:$('#w-tema').value,enlace:$('#w-enlace').value.trim(),
     imagen:$('#w-imgPrev').dataset.img||w.imagen||null,fecha:$('#w-fecha').value.trim()};
     if(!nw.titulo){toast('Escribe un título para la evidencia de la semana','warn');return;}
@@ -1587,6 +1589,7 @@ function weeklyBlock(){
   const practica=(w.practica&&w.practica.trim())?w.practica:'';
   const enlace=(w.enlace||'').trim(); const hasLink=/^https?:\/\//i.test(enlace);
   return '<div class="ps-weekly '+cls+'"><div class="pw-img">'+(img?'<img src="'+img+'" alt="">':svgImg(tema,cls,240))+'</div><div class="pw-b"><span class="pw-badge">★ Evidencia de la semana</span><h3>'+esc(titulo)+'</h3>'
+    +((w.mensaje&&w.mensaje.trim())?('<div class="pw-msg">'+esc(w.mensaje.trim())+'</div>'):'')
     +(porque?('<div class="pw-blk"><span class="pw-lbl">¿Por qué importa?</span><p>'+esc(porque)+'</p></div>'):'')
     +(practica?('<div class="pw-blk"><span class="pw-lbl">¿Cómo se lleva a la práctica?</span><p>'+esc(practica)+'</p></div>'):'')
     +'<div class="pw-m">'+esc(TM[tema]?TM[tema].label:'')+' · '+esc(w.tipo||'')+' · '+esc(w.autor||'')+' '+esc(w.anio||'')+'</div>'
