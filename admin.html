@@ -375,7 +375,15 @@ select,option{color:var(--ink);background:var(--surface)}
 .pub-hero .ph-sub{font-size:clamp(1rem,2vw,1.3rem);font-weight:600;color:#eaf6ff;margin-top:12px}
 .pub-hero .ph-inst{margin-top:12px;display:inline-flex;align-items:center;gap:9px;font-weight:700;color:#bff0ff}
 .pub-hero .ph-inst span{width:6px;height:6px;border-radius:50%;background:#bff0ff}
-.pub-searchbar{margin-top:26px;max-width:680px;background:var(--surface);border-radius:15px;box-shadow:var(--shadow-lg);padding:7px 7px 7px 16px;display:flex;align-items:center;gap:10px}
+.pub-searchwrap{position:relative;max-width:680px;margin-top:26px}
+.pub-searchbar{max-width:680px;background:var(--surface);border-radius:15px;box-shadow:var(--shadow-lg);padding:7px 7px 7px 16px;display:flex;align-items:center;gap:10px}
+.pub-suggest{position:absolute;left:0;right:0;top:100%;margin-top:6px;background:var(--surface);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow-lg);overflow:hidden;z-index:30}
+.pub-suggest button{display:flex;flex-direction:column;gap:2px;width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--line);padding:11px 15px;cursor:pointer;color:var(--ink)}
+.pub-suggest button:last-child{border-bottom:0}
+.pub-suggest button:hover{background:var(--surface-2)}
+.pub-suggest .sg-t{font-weight:700;font-size:.92rem}
+.pub-suggest .sg-m{font-size:.75rem;color:var(--ink-3)}
+.pub-suggest .sg-empty{padding:12px 15px;color:var(--ink-3);font-size:.85rem}
 .pub-searchbar svg{width:22px;height:22px;color:var(--brand);flex:none}
 .pub-searchbar input{flex:1;border:0;background:transparent;font-size:1.02rem;font-weight:500;color:var(--ink);padding:12px 0;min-width:0}
 .pub-searchbar input:focus{outline:none}
@@ -576,9 +584,12 @@ select,option{color:var(--ink);background:var(--surface)}
       <h1 id="pubHeroTitle">El conocimiento correcto,<br><span class="ph-accent">en el momento que importa.</span></h1>
       <p class="ph-sub">De la necesidad clínica al cuidado seguro: evidencia lista para aplicar en tu turno.</p>
       <div class="ph-inst"><span></span> Seguridad · Evidencia y Cuidado</div>
-      <div class="pub-searchbar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
-        <input id="pubSearchInput" type="search" placeholder="¿Qué necesitas resolver hoy?" aria-label="Buscar recurso" autocomplete="off">
+      <div class="pub-searchwrap">
+        <div class="pub-searchbar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+          <input id="pubSearchInput" type="search" placeholder="¿Qué necesitas resolver hoy?" aria-label="Buscar recurso" autocomplete="off">
+        </div>
+        <div id="pubSuggest" class="pub-suggest" hidden></div>
       </div>
     </div>
   </section>
@@ -1693,8 +1704,16 @@ function showAdmin(){ if(session){ $('#viewPublic').hidden=true; $('#login').hid
 function goPortal(){ showPublic(); }
 $('#verCentro').onclick=goPortal;$('#verCentroSide').onclick=goPortal;
 $('#pubAdminBtn').onclick=showAdmin;
-$('#pubSearchInput').addEventListener('input',e=>{ pubState.q=e.target.value; renderPublic();
-  if(pubState.q.trim()){ const sec=document.getElementById('ps-tematica'); if(sec){ const top=sec.getBoundingClientRect().top; if(top>140) sec.scrollIntoView({behavior:'smooth',block:'start'}); } } });
+function renderSuggest(){ const box=document.getElementById('pubSuggest'); if(!box)return; const q=(pubState.q||'').trim().toLowerCase();
+  if(q.length<2){ box.hidden=true; box.innerHTML=''; return; }
+  const list=pubPublished().filter(r=>((r.titulo||'')+' '+(r.descripcion||'')+' '+(r.keywords||'')+' '+(r.autor||'')+' '+(TM[r.tema]?TM[r.tema].label:'')).toLowerCase().includes(q)).slice(0,6);
+  if(!list.length){ box.innerHTML='<div class="sg-empty">Sin coincidencias para “'+esc(pubState.q.trim())+'”.</div>'; box.hidden=false; return; }
+  box.innerHTML=list.map(r=>'<button type="button" onclick="pubPick(\''+r.id+'\')"><span class="sg-t">'+esc(r.titulo)+'</span><span class="sg-m">'+esc(RM[r.ruta]?RM[r.ruta].full:'')+' · '+esc(TM[r.tema]?TM[r.tema].label:'')+'</span></button>').join('');
+  box.hidden=false; }
+window.pubPick=id=>{ const b=document.getElementById('pubSuggest'); if(b)b.hidden=true; openPublicResource(id); };
+$('#pubSearchInput').addEventListener('input',e=>{ pubState.q=e.target.value; renderPublic(); renderSuggest(); });
+$('#pubSearchInput').addEventListener('focus',renderSuggest);
+$('#pubSearchInput').addEventListener('blur',()=>{ setTimeout(()=>{ const b=document.getElementById('pubSuggest'); if(b)b.hidden=true; },180); });
 $('#pubSearchInput').addEventListener('change',e=>{ const q=e.target.value.trim(); if(q.length>=2){ let l=pubPublished(); if(pubState.route)l=l.filter(r=>r.ruta===pubState.route); const hits=l.filter(r=>(r.titulo+' '+r.descripcion+' '+(r.keywords||'')).toLowerCase().includes(q.toLowerCase())).length; trackSearch(q,hits);} });
 $('#logout').onclick=()=>confirmModal({icon:'warn',color:'var(--warn)',title:'Cerrar sesión',body:'<p style="color:var(--ink-2)">¿Deseas cerrar la sesión del Centro de Control?</p>',okLabel:'Cerrar sesión',okClass:'btn-warn',onOk:async()=>{await logout();showPublic();}});
 $('#switchUser').onclick=async()=>{await logout();showLogin();};
