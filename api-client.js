@@ -97,6 +97,14 @@
       get: () => req('GET', '/api/featured').then((d) => d.featured || {}),
       set: (f) => req('PUT', '/api/featured', f).then((d) => d.featured || {}),
     },
+    faq: {
+      get: () => req('GET', '/api/faq').then((d) => (d.faq && d.faq.items) || []),
+      set: (items) => req('PUT', '/api/faq', { items }).then((d) => (d.faq && d.faq.items) || []),
+    },
+    news: {
+      get: () => req('GET', '/api/news').then((d) => d.news || {}),
+      set: (n) => req('PUT', '/api/news', n).then((d) => d.news || {}),
+    },
     users: {
       list: () => req('GET', '/api/users').then((d) => d.users),
       create: (u) => req('POST', '/api/users', u).then((d) => d.user),

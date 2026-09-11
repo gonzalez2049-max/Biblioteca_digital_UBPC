@@ -401,6 +401,20 @@ select,option{color:var(--ink);background:var(--surface)}
 .ps-essential{background:linear-gradient(180deg,color-mix(in srgb,var(--brand) 9%,transparent),transparent)}
 .ps-essential .ps-eyebrow{color:var(--brand)}
 .ps-essential h2{color:var(--ink)}
+.pub-news{background:linear-gradient(90deg,color-mix(in srgb,var(--ambar) 26%,var(--surface)),var(--surface));border-bottom:1px solid var(--line)}
+.pub-news-in{max-width:1200px;margin:0 auto;padding:11px clamp(16px,4vw,40px);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.nw-badge{background:var(--ambar);color:#3a2a05;font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.nw-txt{color:var(--ink);font-size:.95rem;flex:1;min-width:200px;line-height:1.5}
+.nw-link{color:var(--brand);font-weight:700;text-decoration:none;white-space:nowrap}
+.nw-x{background:transparent;border:0;color:var(--ink-3);font-size:1.05rem;cursor:pointer;padding:2px 6px;line-height:1;flex:none}
+.ps-faq{display:grid;gap:10px;max-width:900px}
+.faq-item{border:1px solid var(--line);border-radius:13px;background:var(--surface);overflow:hidden}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;background:transparent;border:0;padding:15px 18px;text-align:left;font-weight:700;font-size:1rem;color:var(--ink);cursor:pointer}
+.faq-ar{font-size:1.35rem;color:var(--brand);flex:none;transition:transform .2s;line-height:1}
+.faq-item.open .faq-ar{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .28s ease,padding .28s ease;padding:0 18px}
+.faq-a p{margin:0;color:var(--ink-2);line-height:1.6}
+.faq-item.open .faq-a{max-height:700px;padding:0 18px 16px}
 .pub-wrap{max-width:1600px;margin:0 auto;padding:clamp(26px,4vw,46px) clamp(16px,4vw,40px)}
 .pub-filter{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:22px}
 .pub-chip{border:1.5px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:9px 15px;font-weight:700;font-size:.86rem;display:inline-flex;align-items:center;gap:8px;transition:.15s}
@@ -719,6 +733,8 @@ async function loadPublic(){
   try{ S.branding=await API.branding.get(); }catch(e){ S.branding=S.branding||{}; }
   try{ S.gaps=await API.gaps.get(); }catch(e){ S.gaps=S.gaps||[]; }
   try{ S.featured=await API.featured.get(); }catch(e){ S.featured=S.featured||{}; }
+  try{ S.faq=await API.faq.get(); }catch(e){ S.faq=S.faq||[]; }
+  try{ S.news=await API.news.get(); }catch(e){ S.news=S.news||{}; }
 }
 async function loadAdmin(){
   try{ S.resources=normRes(await API.resources.listAll()); }catch(e){}
@@ -727,6 +743,8 @@ async function loadAdmin(){
   try{ S.branding=await API.branding.get(); }catch(e){ S.branding=S.branding||{}; }
   try{ S.gaps=await API.gaps.get(); }catch(e){ S.gaps=S.gaps||[]; }
   try{ S.featured=await API.featured.get(); }catch(e){ S.featured=S.featured||{}; }
+  try{ S.faq=await API.faq.get(); }catch(e){ S.faq=S.faq||[]; }
+  try{ S.news=await API.news.get(); }catch(e){ S.news=S.news||{}; }
   try{ S.users=await API.users.list(); }catch(e){ S.users=[]; }
   try{ S.analytics=await API.stats.get(); }catch(e){ S.analytics={}; }
   try{ S.audit=await API.audit(); }catch(e){ S.audit=[]; }
@@ -1552,6 +1570,27 @@ function featuredBlock(){
     +'<div class="ps-shift">'+list.map(resCard).join('')+'</div>'
     +'</div></section>';
 }
+// "Novedad de la semana": aviso destacado editable, descartable por dispositivo.
+function newsSig(n){ return (n.titulo||'')+'|'+(n.texto||''); }
+function newsBlock(){
+  const n=S.news||{};
+  if(!n.activo||!((n.texto||'').trim()||(n.titulo||'').trim()))return '';
+  let dis=''; try{ dis=localStorage.getItem('nex_news_x')||''; }catch(e){}
+  if(dis && dis===newsSig(n))return '';
+  const link=n.enlace?(' <a href="'+encodeURI(n.enlace)+'" target="_blank" rel="noopener" class="nw-link">Ver más →</a>'):'';
+  return '<div class="pub-news"><div class="pub-news-in"><span class="nw-badge">📣 Novedad de la semana</span><span class="nw-txt">'+(n.titulo?('<b>'+esc(n.titulo)+'.</b> '):'')+esc(n.texto||'')+link+'</span><button class="nw-x" onclick="newsDismiss()" aria-label="Ocultar aviso">✕</button></div></div>';
+}
+window.newsDismiss=()=>{ try{ localStorage.setItem('nex_news_x',newsSig(S.news||{})); }catch(e){} renderPublic(); };
+// "Preguntas frecuentes clínicas": acordeón editable.
+function faqBlock(){
+  const items=((S.faq)||[]);
+  if(!items.length)return '';
+  return '<section class="ps-sec alt" style="--sec:var(--violeta)"><div class="ps-in">'
+    +secHead('Preguntas frecuentes','Dudas clínicas del equipo, resueltas','Respuestas breves a las preguntas que más se repiten en el turno.')
+    +'<div class="ps-faq">'+items.map(f=>'<div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span>'+esc(f.pregunta||'')+'</span><span class="faq-ar">＋</span></button><div class="faq-a"><p>'+esc(f.respuesta||'')+'</p></div></div>').join('')+'</div>'
+    +'</div></section>';
+}
+window.faqToggle=btn=>{ const it=btn.closest('.faq-item'); if(it)it.classList.toggle('open'); };
 
 function renderPublic(){
   const B=document.getElementById('pubBody'); if(!B)return;
@@ -1567,7 +1606,7 @@ function renderPublic(){
 
   // 1) Accesos rápidos
   const acc=[['saber','Necesito saber','Encontrar evidencia y respuestas confiables.','aprender','var(--azul)'],['hacer','Necesito hacer','Aplicar procedimientos y listas de verificación.','aplicar','var(--turquesa)'],['ensenar','Necesito enseñar','Capacitar al equipo con material listo para usar.','ensenar','var(--coral)']];
-  let html='<section class="ps-sec" style="--sec:var(--brand)"><div class="ps-in">'
+  let html=newsBlock()+'<section class="ps-sec" style="--sec:var(--brand)"><div class="ps-in">'
     +secHead('Tres accesos rápidos','¿Cómo quieres empezar hoy?','Elige un punto de partida y te llevamos directo a los recursos.')
     +'<div class="ps-access">'+acc.map(i=>'<button class="ps-acc" onclick="pubSetRoute(\''+i[3]+'\')"><span class="ai" style="background:linear-gradient(135deg,'+i[4]+',color-mix(in srgb,'+i[4]+' 60%,#fff))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">'+ACC_ICON[i[0]]+'</svg></span><span><h3>'+i[1]+'</h3><p>'+i[2]+'</p></span><span class="ar">→</span></button>').join('')+'</div></div></section>';
 
@@ -1609,6 +1648,9 @@ function renderPublic(){
   // 7) De la evidencia a la práctica
   const js=[['1','Necesidad clínica','Identifica el problema real del paciente o del equipo en el turno.'],['2','Recurso','Accede a la evidencia, guía o herramienta que responde a esa necesidad.'],['3','Aplicación práctica','Lleva la recomendación a la acción con procedimientos y checklists.'],['4','Evaluación','Mide el resultado con auditorías e indicadores y cierra la brecha.']];
   html+='<section class="ps-sec" style="--sec:var(--brand)"><div class="ps-in"><div class="ps-journey"><span class="ps-eyebrow">De la evidencia a la práctica</span><h2>Un recorrido claro, de la necesidad al resultado</h2><p>'+T('practica','Cada recurso sigue el mismo camino para que el conocimiento se transforme en cuidado seguro y medible.')+'</p><div class="ps-jsteps">'+js.map(x=>'<div class="ps-jstep"><div class="num">'+x[0]+'</div><h4>'+x[1]+'</h4><p>'+x[2]+'</p></div>').join('')+'</div></div></div></section>';
+
+  // 7b) Preguntas frecuentes clínicas (editables; se oculta si no hay)
+  html+=faqBlock();
 
   // 8) Oportunidades de mejora (editables desde Administración; se oculta si no hay)
   const gaps=(S.gaps||[]);

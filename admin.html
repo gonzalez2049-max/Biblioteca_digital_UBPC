@@ -401,6 +401,20 @@ select,option{color:var(--ink);background:var(--surface)}
 .ps-essential{background:linear-gradient(180deg,color-mix(in srgb,var(--brand) 9%,transparent),transparent)}
 .ps-essential .ps-eyebrow{color:var(--brand)}
 .ps-essential h2{color:var(--ink)}
+.pub-news{background:linear-gradient(90deg,color-mix(in srgb,var(--ambar) 26%,var(--surface)),var(--surface));border-bottom:1px solid var(--line)}
+.pub-news-in{max-width:1200px;margin:0 auto;padding:11px clamp(16px,4vw,40px);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.nw-badge{background:var(--ambar);color:#3a2a05;font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.nw-txt{color:var(--ink);font-size:.95rem;flex:1;min-width:200px;line-height:1.5}
+.nw-link{color:var(--brand);font-weight:700;text-decoration:none;white-space:nowrap}
+.nw-x{background:transparent;border:0;color:var(--ink-3);font-size:1.05rem;cursor:pointer;padding:2px 6px;line-height:1;flex:none}
+.ps-faq{display:grid;gap:10px;max-width:900px}
+.faq-item{border:1px solid var(--line);border-radius:13px;background:var(--surface);overflow:hidden}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;background:transparent;border:0;padding:15px 18px;text-align:left;font-weight:700;font-size:1rem;color:var(--ink);cursor:pointer}
+.faq-ar{font-size:1.35rem;color:var(--brand);flex:none;transition:transform .2s;line-height:1}
+.faq-item.open .faq-ar{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .28s ease,padding .28s ease;padding:0 18px}
+.faq-a p{margin:0;color:var(--ink-2);line-height:1.6}
+.faq-item.open .faq-a{max-height:700px;padding:0 18px 16px}
 .pub-wrap{max-width:1600px;margin:0 auto;padding:clamp(26px,4vw,46px) clamp(16px,4vw,40px)}
 .pub-filter{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:22px}
 .pub-chip{border:1.5px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:9px 15px;font-weight:700;font-size:.86rem;display:inline-flex;align-items:center;gap:8px;transition:.15s}
@@ -719,6 +733,8 @@ async function loadPublic(){
   try{ S.branding=await API.branding.get(); }catch(e){ S.branding=S.branding||{}; }
   try{ S.gaps=await API.gaps.get(); }catch(e){ S.gaps=S.gaps||[]; }
   try{ S.featured=await API.featured.get(); }catch(e){ S.featured=S.featured||{}; }
+  try{ S.faq=await API.faq.get(); }catch(e){ S.faq=S.faq||[]; }
+  try{ S.news=await API.news.get(); }catch(e){ S.news=S.news||{}; }
 }
 async function loadAdmin(){
   try{ S.resources=normRes(await API.resources.listAll()); }catch(e){}
@@ -727,6 +743,8 @@ async function loadAdmin(){
   try{ S.branding=await API.branding.get(); }catch(e){ S.branding=S.branding||{}; }
   try{ S.gaps=await API.gaps.get(); }catch(e){ S.gaps=S.gaps||[]; }
   try{ S.featured=await API.featured.get(); }catch(e){ S.featured=S.featured||{}; }
+  try{ S.faq=await API.faq.get(); }catch(e){ S.faq=S.faq||[]; }
+  try{ S.news=await API.news.get(); }catch(e){ S.news=S.news||{}; }
   try{ S.users=await API.users.list(); }catch(e){ S.users=[]; }
   try{ S.analytics=await API.stats.get(); }catch(e){ S.analytics={}; }
   try{ S.audit=await API.audit(); }catch(e){ S.audit=[]; }
@@ -1307,6 +1325,7 @@ window.wkEdit=id=>{ if(!requirePerm('content'))return; const wd=weeklyNorm(DB.ge
 function viewExperience(){
   const exp=DB.get('experience',{});
   const br=DB.get('branding',{});
+  const nw=DB.get('news',{})||{};
   const brIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5L5 20" stroke-linecap="round"/></svg>';
   const brandingPanel=can('content')?`
     <div class="panel" style="margin-bottom:18px">
@@ -1346,6 +1365,22 @@ function viewExperience(){
       <div style="margin-top:14px"><button class="btn btn-primary" id="feat-save"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg> Guardar “Lo esencial”</button></div>
     </div>`:''}
     ${can('content')?`<div class="panel" style="margin-top:18px">
+      <div class="panel-head"><h3>📣 Novedad de la semana</h3></div>
+      <p class="note" style="margin:6px 0 12px">Un aviso breve que aparece arriba de la portada. Actívalo para mostrarlo; desactívalo para ocultarlo.</p>
+      <label style="display:flex;align-items:center;gap:10px;margin-bottom:14px;font-weight:700;cursor:pointer"><input type="checkbox" id="nw-activo" ${nw.activo?'checked':''} style="width:18px;height:18px;accent-color:var(--brand)"> Mostrar la novedad en la portada</label>
+      <div class="form-grid">
+        <div class="field col-2"><label>Título (opcional)</label><input class="input" id="nw-titulo" value="${esc(nw.titulo||'')}" placeholder="Ej: Nuevo protocolo de LPP"></div>
+        <div class="field col-2"><label>Texto del aviso</label><textarea class="textarea" id="nw-texto" placeholder="Ej: Esta semana actualizamos la escala de Braden. Revísala en Aplicar.">${esc(nw.texto||'')}</textarea></div>
+        <div class="field col-2"><label>Enlace (opcional)</label><input class="input" id="nw-enlace" value="${esc(nw.enlace||'')}" placeholder="https://…"></div>
+      </div>
+      <div style="margin-top:14px"><button class="btn btn-primary" id="nw-save"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg> Guardar novedad</button></div>
+    </div>`:''}
+    ${can('content')?`<div class="panel" style="margin-top:18px">
+      <div class="panel-head" style="display:flex;align-items:center;gap:10px"><h3>Preguntas frecuentes clínicas</h3><button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="faqEdit(null)">+ Agregar pregunta</button></div>
+      <p class="note" style="margin:6px 0 12px">Aparecen en la portada como acordeón. Si no hay ninguna, la sección no se muestra.</p>
+      <div id="faqList">${faqListHtml()}</div>
+    </div>`:''}
+    ${can('content')?`<div class="panel" style="margin-top:18px">
       <div class="panel-head" style="display:flex;align-items:center;gap:10px"><h3>Oportunidades de mejora (brechas)</h3><button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="gapEdit(null)">+ Agregar brecha</button></div>
       <p class="note" style="margin:6px 0 12px">Estas tarjetas aparecen en la portada. Si no hay ninguna, la sección no se muestra.</p>
       <div id="gapList">${gapListHtml()}</div>
@@ -1362,7 +1397,25 @@ function viewExperience(){
   if($('#br-eviDel'))$('#br-eviDel').onclick=async()=>{ await saveBranding({eviImage:null}); navigate('experience'); };
   document.querySelectorAll('.feat-cb').forEach(cb=>cb.addEventListener('change',()=>{ if(document.querySelectorAll('.feat-cb:checked').length>4){ cb.checked=false; toast('Puedes destacar hasta 4 recursos','warn'); } }));
   if($('#feat-save'))$('#feat-save').onclick=featSave;
+  if($('#nw-save'))$('#nw-save').onclick=newsSave;
 }
+window.newsSave=async()=>{ if(!requirePerm('content'))return;
+  const n={ activo:!!($('#nw-activo')&&$('#nw-activo').checked), titulo:($('#nw-titulo')?$('#nw-titulo').value.trim():''), texto:($('#nw-texto')?$('#nw-texto').value.trim():''), enlace:($('#nw-enlace')?$('#nw-enlace').value.trim():'') };
+  try{ await API.news.set(n); S.news=n; syncPortal(); toast('Novedad de la semana guardada','ok'); }catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); }
+};
+function faqListHtml(){ const items=DB.get('faq',[]);
+  if(!items.length) return '<div class="note">Aún no hay preguntas. Pulsa “+ Agregar pregunta” para crear la primera.</div>';
+  return '<div class="mini-list">'+items.map((f,i)=>'<div class="mini-row"><span class="mrank">?</span><b style="min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(f.pregunta||'(sin pregunta)')+'</b><button class="iact" title="Editar" onclick="faqEdit('+i+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z" stroke-linejoin="round"/></svg></button><button class="iact danger" title="Eliminar" onclick="faqDel('+i+')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M6 6l1 14a2 2 0 002 2h6a2 2 0 002-2l1-14" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>').join('')+'</div>'; }
+async function saveFaq(items){ try{ await API.faq.set(items); S.faq=items; syncPortal(); const el=document.getElementById('faqList'); if(el)el.innerHTML=faqListHtml(); toast('Preguntas frecuentes actualizadas','ok'); }catch(e){ toast((e&&e.message)||'No se pudo guardar','crit'); } }
+window.faqDel=i=>{ if(!requirePerm('content'))return; confirmModal({icon:'crit',color:'var(--crit)',title:'Eliminar pregunta',body:'<p style="color:var(--ink-2)">¿Eliminar esta pregunta frecuente de la portada?</p>',okLabel:'Eliminar',okClass:'btn-crit',onOk:()=>{ const f=DB.get('faq',[]).slice(); f.splice(i,1); saveFaq(f); }}); };
+window.faqEdit=i=>{ if(!requirePerm('content'))return; const items=DB.get('faq',[]); const nuevo=(i===null||i===undefined); const f=nuevo?{pregunta:'',respuesta:''}:items[i];
+  modal({title:nuevo?'Agregar pregunta frecuente':'Editar pregunta',wide:true,body:`
+    <div class="field" style="margin-bottom:12px"><label>Pregunta</label><input class="input" id="fq-preg" value="${esc(f.pregunta||'')}" placeholder="Ej: ¿Cada cuánto se reevalúa el riesgo de LPP?"></div>
+    <div class="field"><label>Respuesta</label><textarea class="textarea" id="fq-resp" placeholder="Respuesta breve y clara…">${esc(f.respuesta||'')}</textarea></div>`,
+    foot:`<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn btn-primary" id="fq-save">Guardar</button>`});
+  $('#fq-save').onclick=()=>{ const nf={pregunta:$('#fq-preg').value.trim(),respuesta:$('#fq-resp').value.trim()};
+    if(!nf.pregunta){toast('Falta la pregunta','warn');return;}
+    const f2=DB.get('faq',[]).slice(); if(nuevo)f2.push(nf); else f2[i]=nf; closeModal(); saveFaq(f2); }; };
 function featListHtml(){
   const ids=((S.featured&&S.featured.ids)||[]); const pub=pubPublished();
   if(!pub.length) return '<div class="note">No hay recursos publicados todavía. Publica recursos para poder destacarlos.</div>';
@@ -1578,6 +1631,27 @@ function featuredBlock(){
     +'<div class="ps-shift">'+list.map(resCard).join('')+'</div>'
     +'</div></section>';
 }
+// "Novedad de la semana": aviso destacado editable, descartable por dispositivo.
+function newsSig(n){ return (n.titulo||'')+'|'+(n.texto||''); }
+function newsBlock(){
+  const n=S.news||{};
+  if(!n.activo||!((n.texto||'').trim()||(n.titulo||'').trim()))return '';
+  let dis=''; try{ dis=localStorage.getItem('nex_news_x')||''; }catch(e){}
+  if(dis && dis===newsSig(n))return '';
+  const link=n.enlace?(' <a href="'+encodeURI(n.enlace)+'" target="_blank" rel="noopener" class="nw-link">Ver más →</a>'):'';
+  return '<div class="pub-news"><div class="pub-news-in"><span class="nw-badge">📣 Novedad de la semana</span><span class="nw-txt">'+(n.titulo?('<b>'+esc(n.titulo)+'.</b> '):'')+esc(n.texto||'')+link+'</span><button class="nw-x" onclick="newsDismiss()" aria-label="Ocultar aviso">✕</button></div></div>';
+}
+window.newsDismiss=()=>{ try{ localStorage.setItem('nex_news_x',newsSig(S.news||{})); }catch(e){} renderPublic(); };
+// "Preguntas frecuentes clínicas": acordeón editable.
+function faqBlock(){
+  const items=((S.faq)||[]);
+  if(!items.length)return '';
+  return '<section class="ps-sec alt" style="--sec:var(--violeta)"><div class="ps-in">'
+    +secHead('Preguntas frecuentes','Dudas clínicas del equipo, resueltas','Respuestas breves a las preguntas que más se repiten en el turno.')
+    +'<div class="ps-faq">'+items.map(f=>'<div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span>'+esc(f.pregunta||'')+'</span><span class="faq-ar">＋</span></button><div class="faq-a"><p>'+esc(f.respuesta||'')+'</p></div></div>').join('')+'</div>'
+    +'</div></section>';
+}
+window.faqToggle=btn=>{ const it=btn.closest('.faq-item'); if(it)it.classList.toggle('open'); };
 
 function renderPublic(){
   const B=document.getElementById('pubBody'); if(!B)return;
@@ -1593,7 +1667,7 @@ function renderPublic(){
 
   // 1) Accesos rápidos
   const acc=[['saber','Necesito saber','Encontrar evidencia y respuestas confiables.','aprender','var(--azul)'],['hacer','Necesito hacer','Aplicar procedimientos y listas de verificación.','aplicar','var(--turquesa)'],['ensenar','Necesito enseñar','Capacitar al equipo con material listo para usar.','ensenar','var(--coral)']];
-  let html='<section class="ps-sec" style="--sec:var(--brand)"><div class="ps-in">'
+  let html=newsBlock()+'<section class="ps-sec" style="--sec:var(--brand)"><div class="ps-in">'
     +secHead('Tres accesos rápidos','¿Cómo quieres empezar hoy?','Elige un punto de partida y te llevamos directo a los recursos.')
     +'<div class="ps-access">'+acc.map(i=>'<button class="ps-acc" onclick="pubSetRoute(\''+i[3]+'\')"><span class="ai" style="background:linear-gradient(135deg,'+i[4]+',color-mix(in srgb,'+i[4]+' 60%,#fff))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">'+ACC_ICON[i[0]]+'</svg></span><span><h3>'+i[1]+'</h3><p>'+i[2]+'</p></span><span class="ar">→</span></button>').join('')+'</div></div></section>';
 
@@ -1635,6 +1709,9 @@ function renderPublic(){
   // 7) De la evidencia a la práctica
   const js=[['1','Necesidad clínica','Identifica el problema real del paciente o del equipo en el turno.'],['2','Recurso','Accede a la evidencia, guía o herramienta que responde a esa necesidad.'],['3','Aplicación práctica','Lleva la recomendación a la acción con procedimientos y checklists.'],['4','Evaluación','Mide el resultado con auditorías e indicadores y cierra la brecha.']];
   html+='<section class="ps-sec" style="--sec:var(--brand)"><div class="ps-in"><div class="ps-journey"><span class="ps-eyebrow">De la evidencia a la práctica</span><h2>Un recorrido claro, de la necesidad al resultado</h2><p>'+T('practica','Cada recurso sigue el mismo camino para que el conocimiento se transforme en cuidado seguro y medible.')+'</p><div class="ps-jsteps">'+js.map(x=>'<div class="ps-jstep"><div class="num">'+x[0]+'</div><h4>'+x[1]+'</h4><p>'+x[2]+'</p></div>').join('')+'</div></div></div></section>';
+
+  // 7b) Preguntas frecuentes clínicas (editables; se oculta si no hay)
+  html+=faqBlock();
 
   // 8) Oportunidades de mejora (editables desde Administración; se oculta si no hay)
   const gaps=(S.gaps||[]);
